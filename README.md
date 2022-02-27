@@ -1,2 +1,2 @@
-# Flask-file-manager
+# Flask File Manager
 File Manager using Python Flask
