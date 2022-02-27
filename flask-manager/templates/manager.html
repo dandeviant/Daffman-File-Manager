@@ -5,13 +5,16 @@
 <body>
     <div align="center">
         <h1>Flask Web File Manager </h1>
-        <h2>Current Directory: {{ current_dir }}</h2>
     </div>
+        <h2>Current Directory: {{ current_dir }}</h2>
+    <br>
     <ul>
         <li><a href="/cd?path=.."> .. (Go back)</a></li>
         {% for item in files[0: -1] %}
             {% if '.' not in item %}
                 <li><a href="/cd?path={{current_dir + '/' + item}}">{{item + '/'}}</a></li>
+            {% elif '.txt' in item or '.py' in item or '.html' in item %}
+                <li><a href="/view?file={{current_dir + '/' + item}}">{{item}}</a></li>
             {% else %}
                 <li>{{item}}</li>
             {% endif %}
