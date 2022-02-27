@@ -31,7 +31,7 @@ def view():
     <a href="/cd?path=.."><strong>Go Back</strong></a> <br><br><br>
     ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
 
-# handle cd command
+# handle mkdir command
 @app.route('/md') # Flask decorator
 def md():
     # run cd command
