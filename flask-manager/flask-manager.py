@@ -1,8 +1,8 @@
-#Python Flask File Manager
-
-from flask import Flask, redirect, url_for, render_template, request
 #!/usr/bin/env python3
 
+#Python Flask File Manager
+
+from flask import Flask, redirect, url_for, render_template, request, render_template_string
 import os
 import subprocess
 
@@ -19,12 +19,18 @@ def index():
 # handle cd command
 @app.route('/cd') # Flask decorator
 def cd():
-
     # run cd command
     os.chdir(request.args.get('path'))
-
     #redirect to file manager
     return redirect('/')
+
+# handle cat command
+@app.route('/view') # Flask decorator
+def view():
+    return render_template_string('''
+    <a href="/cd?path=.."><strong>Go Back</strong></a> <br><br><br>
+    ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
+
 
 # run HTTP server
 if(__name__ == '__main__'):
