@@ -1,6 +1,6 @@
 # Flask File Manager
 File Manager using Python Flask\
-This project actually started as my side timeklller during COVID lockdown\
+This project actually started as my side timekiller during COVID lockdown\
 Now I've improved this project for my final year project
 
 Run app\
