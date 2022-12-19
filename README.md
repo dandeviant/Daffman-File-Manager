@@ -28,5 +28,5 @@ $ flask --app flask-manager.py run
 
 ## Extra Requirements:
 
-1. MySQL database
+1. MySQL database for user profiling
 
