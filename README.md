@@ -11,10 +11,10 @@ $ flask --app flask-manager.py run
 
 ## Added/Planned features:
 
-1. File download/upload\ (completed)
+1. File download/upload (completed)
 2. User profiling with session login (incomplete)
 3. MD5 file deduplication  (incomplete)
-4. AES ecnryption using Python modules(incomplete)
+4. AES ecnryption using Python modules (incomplete)
 
 ---
 
