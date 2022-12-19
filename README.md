@@ -29,5 +29,5 @@ $ flask --app flask-manager.py run
 ## Extra Requirements:
 
 1. MySQL database for user profiling
-2. Bootstrap CSS framework for UI
+2. Bootstrap CSS framework for UI (config files in folder 'static'). DO NOT TOUCH THAT FOLDER
 
