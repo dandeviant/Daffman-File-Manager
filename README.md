@@ -7,21 +7,26 @@ Run app\
 $ python3 flask-manager.py\
 $ flask --app flask-manager.py run 
 
+---
 
-Added/Planned features:
+## Added/Planned features:
 
 1. File download/upload\ (completed)
 2. User profiling with session login (incomplete)
 3. MD5 file deduplication  (incomplete)
 4. AES ecnryption using Python modules(incomplete)
 
-Python Modules:
+---
+
+## Python Modules:
 
 1. Python Flask framework
 2. werkzeug.utils (secure_filename)
 3. hashlib
 
-Extra Requirements:
+---
+
+## Extra Requirements:
 
 1. MySQL database
 
