@@ -3,9 +3,11 @@
 #Python Flask File Manager
 
 from flask import Flask, send_file, send_from_directory, redirect, url_for, render_template, request, render_template_string
+from werkzeug.utils import secure_filename
 import os
 import subprocess
 import hashlib
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
@@ -67,8 +69,12 @@ def download():
     file = request.args.get('file')
     return send_file(file, as_attachment=True)
 
-
-def
+@app.route('/upload', methods = ['GET', 'POST'])
+def upload_file():
+   if request.method == 'POST':
+      f = request.files['file']
+      f.save(secure_filename(f.filename))
+      return redirect('/')
 
 
 # run HTTP server
