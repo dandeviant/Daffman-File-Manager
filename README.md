@@ -14,7 +14,7 @@ $ flask --app flask-manager.py run
 1. File download/upload (completed)
 2. User profiling with session login (incomplete)
 3. MD5 file deduplication  (incomplete)
-4. AES ecnryption using Python modules (incomplete)
+4. AES encryption using Python modules (incomplete)
 
 ---
 
