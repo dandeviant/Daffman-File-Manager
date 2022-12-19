@@ -12,12 +12,12 @@ Added/Planned features:
 
 1. File download/upload\ (completed)
 2. User profiling with session login (incomplete)
-3. MD5 file deduplication  (incomplete)\
-4. AES ecnryption using Python modules(incomplete)\
+3. MD5 file deduplication  (incomplete)
+4. AES ecnryption using Python modules(incomplete)
 
 Python Modules:
 
-1. Python Flask framework\
+1. Python Flask framework
 2. werkzeug.utils (secure_filename)
 3. hashlib
 
