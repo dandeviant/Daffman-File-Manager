@@ -18,7 +18,7 @@ $ flask --app flask-manager.py run
 
 ---
 
-## Python Modules:
+## Python Modules (installed thru pip3):
 
 1. Python Flask framework
 2. werkzeug.utils (secure_filename)
