@@ -2,11 +2,23 @@
 
 #Python Flask File Manager
 
-from flask import Flask, redirect, url_for, render_template, request, render_template_string
+from flask import Flask, send_file, send_from_directory, redirect, url_for, render_template, request, render_template_string
 import os
 import subprocess
+import hashlib
 
 app = Flask(__name__)
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
+
+# @app.route('/', methods=['GET', 'POST'])
+# def login():
+#     error = None
+#     if request.method == 'POST':
+#         if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+#             error = 'Invalid Credentials. Please try again.'
+#         else:
+#             return redirect(url_for('home'))
+#     return render_template('login.html', error=error)
 
 # handle root route
 @app.route('/') # Flask decorator
@@ -38,6 +50,26 @@ def md():
     os.mkdir(request.args.get('folder'))
     #redirect to file manager
     return redirect('/')
+
+@app.route('/download', methods=['GET'])
+def download():
+    # """Download a file."""
+    # logging.info('Downloading file= [%s]', filename)
+    # logging.info(app.root_path)
+    # full_path = os.path.join(app.root_path, UPLOAD_FOLDER)
+    # logging.info(full_path)
+    
+    # path = "sample.txt"
+
+    if request.method == 'GET':
+        print("")
+
+    file = request.args.get('file')
+    return send_file(file, as_attachment=True)
+
+
+def
+
 
 # run HTTP server
 if(__name__ == '__main__'):
