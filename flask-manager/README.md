@@ -1,5 +1,5 @@
 # Flask File Manager
-File Manager using Python Flask\
+File Manager using Python Flask<br>
 This project actually started as my side timekiller during COVID lockdown\
 Now I've improved this project for my final year project
 
