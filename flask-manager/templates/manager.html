@@ -61,10 +61,20 @@
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
       }
+
+      .form-control {
+          color: #fff;
+      }
+
+      .form-control:focus {
+          color: #fff;
+      }
+
+
     </style>
     <link href="navbar-top-fixed.css" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #212121; color: white;">
     
 
     <!-- As a link -->
@@ -102,7 +112,7 @@
           </nav>
             <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-                <h2>Directory: {{ path }}</h2><br>
+                <h3>Directory: {{ path }}</h3><br>
 
               <ul>
                   <form action="/md">
@@ -117,12 +127,13 @@
                   </form>
                   <br><br>
                 <div class="table-responsive">
-                  <table class="table table-striped table-sm">
+                  <h3><u>Folders and Directories</u></h3><br>
+                  <table class="table table-dark">
                     <thead>
                       <th scope="col">File</th>
-                      <th scope="col">md5</th>
-                      <th scope="col">1</th>
-                      <th scope="col">2</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
                     </thead>
                     {% if current_dir != '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
                     <tr>
@@ -163,6 +174,53 @@
                         <!-- check if it's text file for view URL-->
                         {% elif item.endswith(('.txt', '.md')) %}
                           {% if item == 'README.md' %}
+                            <!-- <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
+                            <td></td>
+                            <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
+                            <td></td> -->
+                          {% else %}
+                            <!-- <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
+                            <td></td>
+                            <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
+                            <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td> -->
+                          {% endif %}
+                        <!-- unreadable file for download only -->
+                        <!-- unreadable file for download only -->
+                        {% else %}
+                        <td>{{item}}</td>
+                        <td></td>
+                        <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
+                        <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
+                        {% endif %}
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+                  </table>
+
+                  <br><br>
+                  <hr size="10">
+                  <h3><u>Files</u></h3><br>
+                  <table class="table table-dark">
+                    <thead>
+                      <th scope="col">File</th>
+                      <th scope="col">md5</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                    </thead>
+                {% for item in files[0: -1] %}
+                    <tr>
+                    {% if '.' not in item  %}
+                        
+                    {% else %}
+                        <!-- prohibit .py and .html for now -->
+                        {% if item.endswith(('.html', '.py')) %}
+                        <!-- <td>{{item}}</td>{
+                        <td></td>
+                        <td></td>
+                        <td><p color="red">System File (No Access)</p></td> -->
+                        <!-- check if it's text file for view URL-->
+                        {% elif item.endswith(('.txt', '.md')) %}
+                          {% if item == 'README.md' %}
                             <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
                             <td></td>
                             <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
@@ -187,6 +245,8 @@
                   </table>
                   <p>{{ numfiles }}</p>
                 </div>
+                <br><br>
+                <h3>==== README.md ====</h3>
                 <hr>
                   {{ note|markdown }}
                   <hr>
