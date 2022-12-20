@@ -102,7 +102,9 @@
           </nav>
             <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-              <h2>Current Directory: {{ current_dir }}</h2><br> 
+              
+                <h2>Directory: {{ current_dir }}</h2><br>
+
               <ul>
                   <form action="/md">
                       <input type="text" name="folder" placeholder="Enter folder name..."/>
@@ -123,20 +125,29 @@
                       <th scope="col">1</th>
                       <th scope="col">2</th>
                     </thead>
+                    {% if current_dir != '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
                     <tr>
                       <td><a href="/cd?path=.."> .. (Go back)</a></td>
                       <td></td>
                       <td></td>
                       <td></td>
                     </tr>
+                    {% endif %}
                 {% for item in files[0: -1] %}
                     <tr>
-                    {% if '.' not in item %}
+                    {% if '.' not in item  %}
+                      {% if item == 'static' or item == 'templates' or item == '__pycache__' %}
+                        <td><a href="/cd?path={{current_dir + '/' + item}}">{{item + '/'}}</a></td>
+                        <td></td>
+                        <td></td>
+                        <td>System Directory</td>
+                        {% else %}
                         <td><a href="/cd?path={{current_dir + '/' + item}}">{{item + '/'}}</a></td>
                         <td></td>
                         <td></td>
                         <td><a href="/delete_dir?dir={{current_dir + '/' + item}}">Remove Directory</a></td>
-                        {% else %}
+                        {% endif %}
+                    {% else %}
                         <td>{{item}}</td>
                         <td></td>
                         <td><a href="/download?file={{current_dir + '/' + item}}"> Download </a></td>
