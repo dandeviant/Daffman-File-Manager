@@ -7,6 +7,8 @@ Run app\
 $ python3 flask-manager.py\
 $ flask --app flask-manager.py run 
 
+Looking into gunicorn to deploy this app locally from my RasPi server
+
 ---
 
 ## Added/Planned features:
