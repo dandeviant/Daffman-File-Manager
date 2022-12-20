@@ -4,6 +4,7 @@
 
 from flask import Flask, send_file, send_from_directory, redirect, url_for, render_template, request, render_template_string
 from werkzeug.utils import secure_filename
+from flaskext.markdown import Markdown
 import os
 import subprocess
 import hashlib
@@ -11,6 +12,7 @@ import shutil
 
 
 app = Flask(__name__)
+Markdown(app)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 
 # @app.route('/', methods=['GET', 'POST'])
@@ -50,17 +52,33 @@ def cd():
     return redirect('/')
 
 
+@app.route('/viewfile') # Flask decorator
+def viewfile():
+    current_dir = os.getcwd()
+    path = current_dir.replace("/home/daniel/Desktop/Flask-file-manager/flask-manager", ".")
+    output = subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
+    return render_template('view.html',
+    path = path,
+    output = output
+    )
+
+
 
 # handle cat command
 @app.route('/view') # Flask decorator
 def view():
-    return render_template_string('''
-    <a href="/"><strong>Go Back</strong></a> <br><br><br>
-    ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
-    
-
-
-
+    # return render_template_string('''
+    # <a href="/"><strong>Go Back</strong></a> <br><br><br>
+    # ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
+    current_dir = os.getcwd()
+    file = request.args.get('file')
+    output = subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
+    filename = request.args.get('item')
+    return render_template('view.html',
+    file = file,
+    output = output,
+    filename = filename
+    )
 
 
 # handle cd command
@@ -70,6 +88,7 @@ def md():
     os.mkdir(request.args.get('folder'))
     #redirect to file manager
     return redirect('/')
+
 
 # download file from server
 @app.route('/download', methods=['GET'])

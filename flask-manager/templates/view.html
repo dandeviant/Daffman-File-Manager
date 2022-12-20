@@ -102,79 +102,18 @@
           </nav>
             <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-                <h2>Directory: {{ path }}</h2><br>
-
-              <ul>
-                  <form action="/md">
-                      <input type="text" name="folder" placeholder="Enter folder name..."/>
-                      <input type="submit" value="New Folder"/>
-                  </form>
-                  <br>
-                  <form action="/upload" method="POST" enctype = "multipart/form-data">
-                    <input type="file" name="file" value="Choose File"/>
-                    <input type = "submit" value="Upload New File"/>
-                    <input type="reset" value="Clear Selection">
-                  </form>
-                  <br><br>
-                <div class="table-responsive">
-                  <table class="table table-striped table-sm">
-                    <thead>
-                      <th scope="col">File</th>
-                      <th scope="col">md5</th>
-                      <th scope="col">1</th>
-                      <th scope="col">2</th>
-                    </thead>
-                    {% if current_dir != '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
-                    <tr>
-                      <td><a href="/cd?path=.."><p>.. (Go back)</p></a></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    {% endif %}
-                {% for item in files[0: -1] %}
-                    <tr>
-                    {% if '.' not in item  %}
-                      {% if item == 'static' or item == 'templates' or item == '__pycache__' %}
-                        <!-- <td><p>{{item + '/'}}</p></td>
-                        <td></td>
-                        <td></td>
-                        <td>System Directory (No Access)</td> -->
-                        {% else %}
-                        <td><a href="/cd?path={{current_dir + '/' + item}}"><p>{{item + '/'}}</p></a></td>
-                        <td></td>
-                        <td></td>
-                        <td><a href="/delete_dir?dir={{current_dir + '/' + item}}">Remove Directory</a></td>
-                        {% endif %}
-                    {% else %}
-
-                        <!-- prohibit .py and .html for now -->
-                        {% if item.endswith(('.html', '.py')) %}
-                        <!-- <td>{{item}}</td>{
-                        <td></td>
-                        <td></td>
-                        <td><p color="red">System File (No Access)</p></td> -->
-
-                        <!-- check if it's text file for view URL-->
-                        {% elif item.endswith(('.txt', '.md')) %}
-                        <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
-                        <td></td>
-                        <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
-                        <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
-                        <!-- unreadable file for download only -->
-                        {% else %}
-                        <td>{{item}}</td>
-                        <td></td>
-                        <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
-                        <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
-                        {% endif %}
-                    {% endif %}
-                    </tr>
-                {% endfor %}
-                  </table>
-                  <p>{{ numfiles }}</p>
-                </div>
+                <a href="/">
+                  <button class="btn btn-danger" type="submit" fill="red">
+                    Return
+                  </button>
+                  <br><br><br>
+                </a>
+                <h3>File Name: <u>{{ filename }}</u></h3><br>
+                <hr>
+                
+                  
                 <footer>
+                  {{ output|markdown }}
                   <br><br><br><br>
                   <p>2023 &copy; Muhammad Danial</p>
                 </footer> 
