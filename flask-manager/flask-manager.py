@@ -26,9 +26,14 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 # handle root route
 @app.route('/') # Flask decorator
 def index():
-    return render_template("manager.html",
-    current_dir = os.getcwd(), 
+    current_dir = os.getcwd()
+    path = current_dir.replace("/home/daniel/Desktop/Flask-file-manager/flask-manager", ".")
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
+
+    return render_template("manager.html",
+    current_dir = current_dir,
+    path = path,
+    files = files
     )
     
 
