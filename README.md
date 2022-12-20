@@ -1,7 +1,7 @@
 # Flask File Manager
 
 <br>GitHub repository: https://github.com/dandeviant/Flask-file-manager
-<br><br>
+
 File Manager using Python Flask<br>
 This project actually started as my side timekiller during COVID lockdown<br>
 Now I've improved this project for my final year project<br>
