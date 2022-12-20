@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 import os
 import subprocess
 import hashlib
+import shutil
 
 
 app = Flask(__name__)
@@ -53,22 +54,16 @@ def md():
     #redirect to file manager
     return redirect('/')
 
+# download file from server
 @app.route('/download', methods=['GET'])
 def download():
-    # """Download a file."""
-    # logging.info('Downloading file= [%s]', filename)
-    # logging.info(app.root_path)
-    # full_path = os.path.join(app.root_path, UPLOAD_FOLDER)
-    # logging.info(full_path)
-    
-    # path = "sample.txt"
-
     if request.method == 'GET':
         print("")
 
     file = request.args.get('file')
     return send_file(file, as_attachment=True)
 
+# upload files from filesystem
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
    if request.method == 'POST':
@@ -76,12 +71,26 @@ def upload_file():
       f.save(secure_filename(f.filename))
       return redirect('/')
 
+#delete files from the server directory
 @app.route('/delete', methods = ['GET'])
 def delete_file():
     file = request.args.get('file')
     os.remove(file)
     return redirect('/')
 
+@app.route('/delete_dir', methods = ['GET'])
+def delete_dir():
+    dir = request.args.get('dir')
+    content = os.listdir(dir)
+    if len(content) == 0:
+        os.rmdir(dir)
+    else:
+        shutil.rmtree(dir, ignore_errors=True)
+    #redirect to file manager
+    return redirect('/')
+
+# ====================================================================
+# ====================================================================
 
 # run HTTP server
 if(__name__ == '__main__'):
