@@ -47,11 +47,12 @@ def cd():
 
 
 # handle cat command
-# @app.route('/view') # Flask decorator
-# def view():
-#     return render_template_string('''
-#     <a href="/cd?path=.."><strong>Go Back</strong></a> <br><br><br>
-#     ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
+@app.route('/view') # Flask decorator
+def view():
+    return render_template_string('''
+    <a href="/"><strong>Go Back</strong></a> <br><br><br>
+    ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
+    
 
 
 

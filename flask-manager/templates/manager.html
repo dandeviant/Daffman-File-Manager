@@ -127,7 +127,7 @@
                     </thead>
                     {% if current_dir != '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
                     <tr>
-                      <td><a href="/cd?path=.."> .. (Go back)</a></td>
+                      <td><a href="/cd?path=.."><p>.. (Go back)</p></a></td>
                       <td></td>
                       <td></td>
                       <td></td>
@@ -137,21 +137,33 @@
                     <tr>
                     {% if '.' not in item  %}
                       {% if item == 'static' or item == 'templates' or item == '__pycache__' %}
-                        <td><a href="/cd?path={{current_dir + '/' + item}}">{{item + '/'}}</a></td>
+                        <!-- <td><p>{{item + '/'}}</p></td>
                         <td></td>
                         <td></td>
-                        <td>System Directory</td>
+                        <td>System Directory (No Access)</td> -->
                         {% else %}
-                        <td><a href="/cd?path={{current_dir + '/' + item}}">{{item + '/'}}</a></td>
+                        <td><a href="/cd?path={{current_dir + '/' + item}}"><p>{{item + '/'}}</p></a></td>
                         <td></td>
                         <td></td>
                         <td><a href="/delete_dir?dir={{current_dir + '/' + item}}">Remove Directory</a></td>
                         {% endif %}
                     {% else %}
+                        {% if item.endswith(('.html', '.py')) %}
+                        <!-- <td>{{item}}</td>{
+                        <td></td>
+                        <td></td>
+                        <td><p color="red">System File (No Access)</p></td> -->
+                        {% elif item.endswith(('.txt', '.md')) %}
+                        <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}">(View File)</a></td>
+                        <td></td>
+                        <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
+                        <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
+                        {% else %}
                         <td>{{item}}</td>
                         <td></td>
-                        <td><a href="/download?file={{current_dir + '/' + item}}"> Download </a></td>
-                        <td><a href="/delete?file={{current_dir + '/' + item}}">Delete</a></td>
+                        <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
+                        <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
+                        {% endif %}
                     {% endif %}
                     </tr>
                 {% endfor %}
