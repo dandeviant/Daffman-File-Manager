@@ -112,28 +112,23 @@
           </nav>
             <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-                <h3>Directory: {{ path }}</h3><br>
-
-              <ul>
-                  <form action="/md">
-                      <input type="text" name="folder" placeholder="Enter folder name..."/>
-                      <input type="submit" value="New Folder"/>
-                  </form>
+                <h3>Path: {{ path }}</h3>
+                  <hr>
                   <br>
-                  <form action="/upload" method="POST" enctype = "multipart/form-data">
-                    <input type="file" name="file" value="Choose File"/>
-                    <input type = "submit" value="Upload New File"/>
-                    <input type="reset" value="Clear Selection">
-                  </form>
-                  <br><br>
                 <div class="table-responsive">
                   <h3><u>Folders and Directories</u></h3><br>
+                  {% if current_dir != '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
+                    <form action="/md">
+                      <input type="text" name="folder" placeholder="Enter folder name..."/>
+                      <input type="submit" value="New Folder"/>
+                    </form><br>
+                  {% else %}
+                    <h3>File uploads not allowed here...</h3>
+                  {% endif %}
                   <table class="table table-dark">
                     <thead>
                       <th scope="col">File</th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
+                      <th scope="col">Actions</th>
                     </thead>
                     {% if current_dir != '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
                     <tr>
@@ -145,106 +140,130 @@
                           </a>
                       </td>
                       <td></td>
-                      <td></td>
-                      <td></td>
                     </tr>
                     {% endif %}
                 {% for item in files[0: -1] %}
                     <tr>
                     {% if '.' not in item  %}
-                      {% if item == 'static' or item == 'templates' or item == '__pycache__' %}
+                        {% if item == 'static' or item == 'templates' or item == '__pycache__' %}
                         <!-- <td><p>{{item + '/'}}</p></td>
-                        <td></td>
-                        <td></td>
                         <td>System Directory (No Access)</td> -->
+                        {% elif item == 'uploads' %}
+                        <td><a href="/cd?path={{current_dir + '/' + item}}"><p>{{item + '/'}}</p></a></td>
+                        <td>System Directory</td>
                         {% else %}
                         <td><a href="/cd?path={{current_dir + '/' + item}}"><p>{{item + '/'}}</p></a></td>
-                        <td></td>
-                        <td></td>
-                        <td><a href="/delete_dir?dir={{current_dir + '/' + item}}">Remove Directory</a></td>
+                        <td><a href="/delete_dir?dir={{current_dir + '/' + item}}">
+                          <button class="btn btn-danger" type="submit" fill="red">
+                          Remove Directory
+                          </button></a></td>
                         {% endif %}
-                    {% else %}
-                        <!-- prohibit .py and .html for now -->
-                        {% if item.endswith(('.html', '.py')) %}
-                        <!-- <td>{{item}}</td>{
-                        <td></td>
-                        <td></td>
-                        <td><p color="red">System File (No Access)</p></td> -->
-
-                        <!-- check if it's text file for view URL-->
-                        {% elif item.endswith(('.txt', '.md')) %}
-                          {% if item == 'README.md' %}
-                            <!-- <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
-                            <td></td>
-                            <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
-                            <td></td> -->
-                          {% else %}
-                            <!-- <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
-                            <td></td>
-                            <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
-                            <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td> -->
-                          {% endif %}
-                        <!-- unreadable file for download only -->
-                        <!-- unreadable file for download only -->
-                        {% else %}
-                        <td>{{item}}</td>
-                        <td></td>
-                        <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
-                        <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
-                        {% endif %}
+                    
                     {% endif %}
                     </tr>
                 {% endfor %}
                   </table>
+                  <p> {{ numfolder }} entries found </p>
+
+<!-- ------------------------------   -->
+
 
                   <br><br>
                   <hr size="10">
                   <h3><u>Files</u></h3><br>
+                  <form action="/upload" method="POST" enctype = "multipart/form-data">
+                    <input type="file" name="file" value="Choose File"/>
+                    <input type = "submit" value="Upload New File"/>
+                    <input type="reset" value="Clear Selection">
+                  </form><br>
                   <table class="table table-dark">
                     <thead>
                       <th scope="col">File</th>
-                      <th scope="col">md5</th>
-                      <th scope="col"></th>
+                      <th scope="col">Checksum</th>
+                      <th scope="col">Actions</th>
                       <th scope="col"></th>
                     </thead>
                 {% for item in files[0: -1] %}
-                    <tr>
                     {% if '.' not in item  %}
-                        
                     {% else %}
                         <!-- prohibit .py and .html for now -->
-                        {% if item.endswith(('.html', '.py')) %}
-                        <!-- <td>{{item}}</td>{
-                        <td></td>
-                        <td></td>
-                        <td><p color="red">System File (No Access)</p></td> -->
-                        <!-- check if it's text file for view URL-->
-                        {% elif item.endswith(('.txt', '.md')) %}
-                          {% if item == 'README.md' %}
-                            <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
-                            <td></td>
-                            <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
-                            <td></td>
+                          {% if item.endswith(('.html', '.py')) %}
+                            {% if current_dir == '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
+                              <td>{{ item }}</td>{
+                              <td></td>
+                              <td><p color="red">System File (Action prohibited)</p></td>
+                              <td></td>
+                            {% else %}
+                              <td>{{ item }}</td>{
+                              <td></td>
+                              <td><a href="/download?file={{ current_dir + '/' + item }}">
+                                <button class="btn btn-primary" type="submit">
+                                  Download
+                                </button></a>
+                              </td>
+                              <td><a href="/delete?file={{current_dir + '/' + item}}">
+                                <button class="btn btn-danger" type="submit" fill="red">
+                                  Delete
+                                </button></a>
+                              </td>
+                            {% endif %}
+                          <!-- check if it's text file for view URL -->
+                          {% elif item.endswith(('.txt', '.md')) %}
+                            
+                            {% if item == 'README.md' %}
+                              <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
+                              <td></td>
+                              <td><a href="/download?file={{current_dir + '/' + item}}">
+                                <button class="btn btn-primary" type="submit">
+                                  Download
+                                </button></a>
+                              </td>
+                              {% if current_dir == '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
+                                <td>Delete Not Permitted</td>
+                              {% else %}
+                              <td><a href="/delete?file={{current_dir + '/' + item}}">
+                                <button class="btn btn-danger" type="submit" fill="red">
+                                  Delete
+                                  </button></a>
+                              </td>
+                              {% endif %}
+                            {% else %}
+                              <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
+                              <td></td>
+                              <td><a href="/download?file={{current_dir + '/' + item}}">
+                                <button class="btn btn-primary" type="submit">
+                                  Download
+                                  </button></a>
+                                </td>
+                              <td><a href="/delete?file={{current_dir + '/' + item}}">
+                                <button class="btn btn-danger" type="submit" fill="red">
+                                  Delete
+                                  </button></a>
+                              </td>
+                            {% endif %}
+                          <!-- unreadable file for download only -->
+                          <!-- unreadable file for download only -->
                           {% else %}
-                            <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
-                            <td></td>
-                            <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
-                            <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
+                          <td>{{item}}</td>
+                          <td></td>
+                          <td><a href="/download?file={{current_dir + '/' + item}}">
+                            <button class="btn btn-primary" type="submit">
+                            Download
+                            </button></a>
+                          </td>
+                          <td><a href="/delete?file={{current_dir + '/' + item}}">
+                            <button class="btn btn-danger" type="submit" fill="red">
+                              Delete
+                              </button></a>
+                            </td>
                           {% endif %}
-                        <!-- unreadable file for download only -->
-                        <!-- unreadable file for download only -->
-                        {% else %}
-                        <td>{{item}}</td>
-                        <td></td>
-                        <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
-                        <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
-                        {% endif %}
                     {% endif %}
                     </tr>
                 {% endfor %}
                   </table>
-                  <p>{{ numfiles }}</p>
+                  <p>{{ numfiles }} entries found</p>
                 </div>
+                <br><br><br><br>
                 <br><br>
                 <h3>==== README.md ====</h3>
                 <hr>

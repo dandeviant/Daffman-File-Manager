@@ -31,13 +31,32 @@ def index():
     current_dir = os.getcwd()
     path = current_dir.replace("/home/daniel/Desktop/Flask-file-manager/flask-manager", ".")
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
+    numfiles = 0
+    for item in files[0: -1]:
+        if '.' not in item:
+            numfiles = numfiles
+        else:
+            numfiles += 1
+
+    numfolder = 0
+    for item in files[0: -1]:
+        if '.' not in item:
+            if item != '__pycache__' and item != 'static' and item != 'templates' :
+                numfolder += 1
+            else:
+                numfolder = numfolder
+        else:
+            numfolder = numfolder
+
     notepath = '/home/daniel/Desktop/Flask-file-manager/README.md'
     note = subprocess.check_output(('cat ' + notepath), shell=True).decode('utf-8')
     return render_template("manager.html",
     current_dir = current_dir,
     path = path,
     files = files,
-    note = note
+    note = note,
+    numfiles = numfiles,
+    numfolder = numfolder
     )
     
 
