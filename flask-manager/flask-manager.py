@@ -5,6 +5,7 @@
 from flask import Flask, send_file, send_from_directory, redirect, url_for, render_template, request, render_template_string
 from werkzeug.utils import secure_filename
 from flaskext.markdown import Markdown
+from array import *
 import os
 import subprocess
 import hashlib
@@ -48,6 +49,25 @@ def index():
         else:
             numfolder = numfolder
 
+    # >>> array = [['h']*2] * 2
+    # >>> print(array)
+    # [['h', 'h'], ['h', 'h']]
+    
+    arrayhash = [['h'] * 2] * numfiles
+    x = 0
+    for item in files[0: -1]:
+        if '.' not in item:
+            x = x
+        else:
+            # col 1 is item, col 2 is hash, x is files
+            hash = hashlib.md5(open(item,'rb').read()).hexdigest()
+            print(item)
+            arrayhash[x][0] = item
+            arrayhash[x][1] = hash
+            print(hash)
+            x += 1
+
+
     notepath = '/home/daniel/Desktop/Flask-file-manager/README.md'
     note = subprocess.check_output(('cat ' + notepath), shell=True).decode('utf-8')
     return render_template("manager.html",
@@ -56,7 +76,8 @@ def index():
     files = files,
     note = note,
     numfiles = numfiles,
-    numfolder = numfolder
+    numfolder = numfolder,
+    arrayhash = arrayhash
     )
     
 
@@ -73,17 +94,6 @@ def cd():
     return redirect('/')
 
 
-@app.route('/viewfile') # Flask decorator
-def viewfile():
-    current_dir = os.getcwd()
-    path = current_dir.replace("/home/daniel/Desktop/Flask-file-manager/flask-manager", ".")
-    output = subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
-    return render_template('view.html',
-    path = path,
-    output = output
-    )
-
-
 
 # handle cat command
 @app.route('/view') # Flask decorator
@@ -91,14 +101,17 @@ def view():
     # return render_template_string('''
     # <a href="/"><strong>Go Back</strong></a> <br><br><br>
     # ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
-    current_dir = os.getcwd()
     file = request.args.get('file')
     output = subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
     filename = request.args.get('item')
+    
+    filehash = hashlib.md5(open(file,'rb').read()).hexdigest()
+    
     return render_template('view.html',
     file = file,
     output = output,
-    filename = filename
+    filename = filename,
+    filehash = filehash
     )
 
 

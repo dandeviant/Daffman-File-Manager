@@ -108,9 +108,21 @@
                   </button>
                   <br><br><br>
                 </a>
-                <h3>File Name: <u>{{ filename }}</u></h3><br>
-                <hr>
-                
+                <table class="table table-dark">
+                  <tr>
+                    <td>File name</td>
+                    <td>{{ filename }}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      md5
+                    </td>
+                    <td>
+                      {{ filehash }}
+                    </td>
+                  </tr>
+                </table>
+                <br><hr>
                   
                 <footer>
                   {{ output|markdown }}
