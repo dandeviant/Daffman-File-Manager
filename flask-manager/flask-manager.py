@@ -74,6 +74,7 @@ def view():
     file = request.args.get('file')
     output = subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
     filename = request.args.get('item')
+    error = error
     return render_template('view.html',
     file = file,
     output = output,
@@ -85,7 +86,9 @@ def view():
 @app.route('/md') # Flask decorator
 def md():
     # run cd command
-    os.mkdir(request.args.get('folder'))
+    foldername = request.args.get('folder')
+    if foldername != '':
+        os.mkdir(request.args.get('folder'))
     #redirect to file manager
     return redirect('/')
 
@@ -101,10 +104,13 @@ def download():
 # upload files from filesystem
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
-   if request.method == 'POST':
-      f = request.files['file']
-      f.save(secure_filename(f.filename))
-      return redirect('/')
+    if request.method == 'POST':
+        f = request.files['file']
+        if f.filename == '':
+            pass
+        else:
+            f.save(secure_filename(f.filename))
+        return redirect('/')
 
 #delete files from the server directory
 @app.route('/delete', methods = ['GET'])
