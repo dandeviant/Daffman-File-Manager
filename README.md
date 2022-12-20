@@ -1,11 +1,11 @@
 # Flask File Manager
-File Manager using Python Flask\
-This project actually started as my side timekiller during COVID lockdown\
+File Manager using Python Flask<br>
+This project actually started as my side timekiller during COVID lockdown<br>
 Now I've improved this project for my final year project
 
-Run app\
-$ python3 flask-manager.py\
-$ flask --app flask-manager.py run 
+Run app
+<br> $ python3 flask-manager.py
+<br> $ flask --app flask-manager.py run 
 
 Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 
