@@ -31,11 +31,13 @@ def index():
     current_dir = os.getcwd()
     path = current_dir.replace("/home/daniel/Desktop/Flask-file-manager/flask-manager", ".")
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
-
+    notepath = '/home/daniel/Desktop/Flask-file-manager/README.md'
+    note = subprocess.check_output(('cat ' + notepath), shell=True).decode('utf-8')
     return render_template("manager.html",
     current_dir = current_dir,
     path = path,
-    files = files
+    files = files,
+    note = note
     )
     
 
@@ -74,7 +76,6 @@ def view():
     file = request.args.get('file')
     output = subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
     filename = request.args.get('item')
-    error = error
     return render_template('view.html',
     file = file,
     output = output,

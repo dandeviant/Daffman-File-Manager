@@ -126,7 +126,13 @@
                     </thead>
                     {% if current_dir != '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
                     <tr>
-                      <td><a href="/cd?path=.."><p>.. (Go back)</p></a></td>
+                      <td>
+                          <a href="/cd?path=..">
+                            <button class="btn btn-primary" type="submit" fill="red">
+                              .. (Parent Folder)
+                            </button>
+                          </a>
+                      </td>
                       <td></td>
                       <td></td>
                       <td></td>
@@ -147,7 +153,6 @@
                         <td><a href="/delete_dir?dir={{current_dir + '/' + item}}">Remove Directory</a></td>
                         {% endif %}
                     {% else %}
-
                         <!-- prohibit .py and .html for now -->
                         {% if item.endswith(('.html', '.py')) %}
                         <!-- <td>{{item}}</td>{
@@ -157,10 +162,18 @@
 
                         <!-- check if it's text file for view URL-->
                         {% elif item.endswith(('.txt', '.md')) %}
-                        <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
-                        <td></td>
-                        <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
-                        <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
+                          {% if item == 'README.md' %}
+                            <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
+                            <td></td>
+                            <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
+                            <td></td>
+                          {% else %}
+                            <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
+                            <td></td>
+                            <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
+                            <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
+                          {% endif %}
+                        <!-- unreadable file for download only -->
                         <!-- unreadable file for download only -->
                         {% else %}
                         <td>{{item}}</td>
@@ -174,9 +187,12 @@
                   </table>
                   <p>{{ numfiles }}</p>
                 </div>
+                <hr>
+                  {{ note|markdown }}
+                  <hr>
+                  <br>
                 <footer>
-                  <br><br><br><br>
-                  <p>2023 &copy; Muhammad Danial</p>
+                  <p>2023 &copy; Muhammad Danial. <br>Built for CS255 Final Year Project 2022/2023</p>
                 </footer> 
               <canvas class="my-4 w-100" id="myChart" width="300" height="100"></canvas>
             </main>
