@@ -32,8 +32,9 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 ## Python Modules (installed thru pip3):
 
 1. Python Flask framework
-2. werkzeug.utils (secure_filename)
-3. hashlib
+2. Flask Markdown
+3. werkzeug.utils (secure_filename)
+4. hashlib
 
 ---
 
