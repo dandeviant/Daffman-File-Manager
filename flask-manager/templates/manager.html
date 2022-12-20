@@ -148,16 +148,21 @@
                         <td><a href="/delete_dir?dir={{current_dir + '/' + item}}">Remove Directory</a></td>
                         {% endif %}
                     {% else %}
+
+                        <!-- prohibit .py and .html for now -->
                         {% if item.endswith(('.html', '.py')) %}
                         <!-- <td>{{item}}</td>{
                         <td></td>
                         <td></td>
                         <td><p color="red">System File (No Access)</p></td> -->
+
+                        <!-- check if it's text file for view URL-->
                         {% elif item.endswith(('.txt', '.md')) %}
                         <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}">(View File)</a></td>
                         <td></td>
                         <td><a href="/download?file={{current_dir + '/' + item}}"><p>Download</p></a></td>
                         <td><a href="/delete?file={{current_dir + '/' + item}}"><p>Delete</p></a></td>
+                        <!-- unreadable file for download only -->
                         {% else %}
                         <td>{{item}}</td>
                         <td></td>
