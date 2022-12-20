@@ -76,6 +76,12 @@ def upload_file():
       f.save(secure_filename(f.filename))
       return redirect('/')
 
+@app.route('/delete', methods = ['GET'])
+def delete_file():
+    file = request.args.get('file')
+    os.remove(file)
+    return redirect('/')
+
 
 # run HTTP server
 if(__name__ == '__main__'):
