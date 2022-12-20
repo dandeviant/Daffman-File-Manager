@@ -66,6 +66,7 @@ def index():
             arrayhash[x][1] = hash
             print(hash)
             x += 1
+            # use MySQL for hash checking
 
 
     notepath = '/home/daniel/Desktop/Flask-file-manager/README.md'

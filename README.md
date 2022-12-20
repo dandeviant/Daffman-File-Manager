@@ -40,6 +40,6 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 
 ### Extra Requirements:
 
-1. MySQL database for user profiling
+1. MySQL database for user profiling and hash checking
 2. Bootstrap CSS framework for UI (config files in folder 'static'). DO NOT TOUCH THAT FOLDER
 
