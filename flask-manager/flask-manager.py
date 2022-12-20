@@ -30,6 +30,11 @@ def index():
     current_dir = os.getcwd(), 
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
     )
+    
+
+# def hash(files):
+#     for item in files:
+#         print("")
 
 # handle cd command
 @app.route('/cd') # Flask decorator
@@ -39,12 +44,18 @@ def cd():
     #redirect to file manager
     return redirect('/')
 
+
+
 # handle cat command
-@app.route('/view') # Flask decorator
-def view():
-    return render_template_string('''
-    <a href="/cd?path=.."><strong>Go Back</strong></a> <br><br><br>
-    ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
+# @app.route('/view') # Flask decorator
+# def view():
+#     return render_template_string('''
+#     <a href="/cd?path=.."><strong>Go Back</strong></a> <br><br><br>
+#     ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
+
+
+
+
 
 # handle cd command
 @app.route('/md') # Flask decorator
@@ -59,7 +70,6 @@ def md():
 def download():
     if request.method == 'GET':
         print("")
-
     file = request.args.get('file')
     return send_file(file, as_attachment=True)
 
