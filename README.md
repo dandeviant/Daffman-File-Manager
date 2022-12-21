@@ -2,6 +2,12 @@
 
 GitHub repository: https://github.com/dandeviant/Flask-file-manager
 
+Progress Reminder:<br>
+- Find a way to send tuples of md5 hash to the templates.<br>
+- Use for loop and mysql queries to display one by one based on file names
+- Find out how to extract data from tuples to a variable. Should be easy
+
+
 ---
 
 File Manager using Python Flask<br>
