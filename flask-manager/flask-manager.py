@@ -18,6 +18,7 @@ db = mysql.connector.connect(
   password="Dane@1710",
   database="flaskmanager"
 )
+
 dbcursor = db.cursor()
 
 app = Flask(__name__)
@@ -37,9 +38,18 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 # handle root route
 @app.route('/') # Flask decorator
 def index():
+    rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
+    current_dir = os.getcwd()
+    if current_dir == '/home/daniel/Desktop/Flask-file-manager/flask-manager':
+        os.chdir(rootpath)
+    
     current_dir = os.getcwd()
     path = current_dir.replace("/home/daniel/Desktop/Flask-file-manager/flask-manager", ".")
+    # create tuple named file
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
+    
+
+
     numfiles = 0
     for item in files[0: -1]:
         if '.' not in item:
@@ -56,29 +66,43 @@ def index():
                 numfolder = numfolder
         else:
             numfolder = numfolder
+        
 
     # >>> array = [['h']*2] * 2
     # >>> print(array)
     # [['h', 'h'], ['h', 'h']]
     
-    arrayhash = [['h'] * 2] * numfiles
-    x = 0
-    for item in files[0: -1]:
-        if '.' not in item:
-            x = x
-        else:
-            # col 1 is item, col 2 is hash, x is files
-            hash = hashlib.md5(open(item,'rb').read()).hexdigest()
-            print(item)
-            arrayhash[x][0] = item
-            arrayhash[x][1] = hash
-            print(hash)
-            x += 1
-            # use MySQL for hash checking
+    # use MySQL for hash checking
 
-
+    query = "SELECT * FROM hash"
+    dbcursor.execute(query)
+    result = dbcursor.fetchall()
+    print("Result: ", end="")
+    print(result)
+    print("Files: ", end="")
+    print(files)
     notepath = '/home/daniel/Desktop/Flask-file-manager/README.md'
     note = subprocess.check_output(('cat ' + notepath), shell=True).decode('utf-8')
+
+
+     # scan for md5 of each file
+    hash_list = []
+    for item in files[0: -1]:
+            if '.' in item:
+                namefile = current_dir + '/' + item
+                query = "select md5 from hash where filename = '%s' ; " % (namefile)
+                dbcursor.execute(query)
+                result = dbcursor.fetchall()
+                print("Query result: ", end="")
+                for x in result:
+                    print(x[0])
+                    hash = x[0]
+                hash_list.append((item, hash))
+                print("hash_list = ", end="")
+                print(hash_list)
+
+
+
     return render_template("manager.html",
     current_dir = current_dir,
     path = path,
@@ -86,7 +110,7 @@ def index():
     note = note,
     numfiles = numfiles,
     numfolder = numfolder,
-    arrayhash = arrayhash
+    hash_list = hash_list
     )
     
 
@@ -113,10 +137,10 @@ def view():
     file = request.args.get('file')
     output = subprocess.check_output('more ' + request.args.get('file'), shell=True).decode('utf-8')
     filename = request.args.get('item')
-    query = 'SELECT md5 FROM hash WHERE filename = %s '
-
-    dbcursor.execute(query, [filename])
-    result = dbcursor.fetchall()
+    print("item: " + file)
+    query = "SELECT md5 FROM hash WHERE filename = '%s' " % (file)
+    dbcursor.execute(query)
+    result = dbcursor.fetchone()
     rows = dbcursor.rowcount
     
     if rows == 0:
@@ -165,13 +189,31 @@ def upload_file():
             pass
         else:
             f.save(secure_filename(f.filename))
+            dir = os.getcwd()
+            file = "%s/%s" % (dir,f.filename)
+            hash = hashlib.md5(open(f.filename,'rb').read()).hexdigest()
+            query = "select md5 from hash where filename='%s'; " % (file)
+            dbcursor.execute(query)
+            result = dbcursor.fetchall()
+            rows = dbcursor.rowcount
+            print("Success")
+            if rows == 0:
+                query = "insert into hash(filename, md5) values ('%s', '%s')" % (file, hash)
+                dbcursor.execute(query)
+                db.commit()
+            else:
+                print("File already exists")
         return redirect('/')
 
 #delete files from the server directory
 @app.route('/delete', methods = ['GET'])
 def delete_file():
     file = request.args.get('file')
+    query = "DELETE FROM hash WHERE filename='%s' " % (file)
+    dbcursor.execute(query)
+    db.commit()
     os.remove(file)
+
     return redirect('/')
 
 @app.route('/delete_dir', methods = ['GET'])

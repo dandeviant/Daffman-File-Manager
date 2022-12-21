@@ -1,7 +1,7 @@
 import hashlib
 
-def getmd5(filename):
-    return m.hexdigest()
+# def getmd5(filename):
+#     return m.hexdigest()
 
 file = "/home/daniel/Desktop/Flask-file-manager/flask-manager/readme.txt"
 
