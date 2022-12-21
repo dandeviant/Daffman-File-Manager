@@ -183,49 +183,49 @@
                       <th scope="col">Actions</th>
                       <th scope="col"></th>
                     </thead>
-                {% for item in files[0: -1] %}
-                    {% if '.' not in item  %}
+                {% for item in hash_list %}
+                    {% if '.' not in item[0]  %}
                     
                     {% else %}
                             <!-- prohibit .py and .html for now -->
-                            {% if item.endswith(('.html', '.py')) %}
-                                  <td>{{ item }}&nbsp;&nbsp;
-                                    <a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a>
+                            {% if item[0].endswith(('.html', '.py')) %}
+                                  <td>{{ item[0] }}&nbsp;&nbsp;
+                                    <a href="/view?file={{current_dir + '/' + item[0]}}&item={{item[0]}}">(View File)</a>
                                   </td>
-                                  <td></td>
-                                  <td><a href="/download?file={{ current_dir + '/' + item }}">
+                                  <td>{{ item[1] }}</td>
+                                  <td><a href="/download?file={{ current_dir + '/' + item[0] }}">
                                     <button class="btn btn-primary" type="submit">
                                       Download
                                     </button></a>
                                   </td>
-                                  <td><a href="/delete?file={{current_dir + '/' + item}}">
+                                  <td><a href="/delete?file={{current_dir + '/' + item[0] }}">
                                     <button class="btn btn-danger" type="submit" fill="red">
                                       Delete
                                     </button></a>
                                   </td>
                             <!-- check if it's text file for view URL -->
-                            {% elif item.endswith(('.txt', '.md')) %}
-                                  <td>{{item}}&nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a></td>
-                                  <td></td>
-                                  <td><a href="/download?file={{current_dir + '/' + item}}">
+                            {% elif item[0].endswith(('.txt', '.md')) %}
+                                  <td>{{ item[0] }}&nbsp;&nbsp;<a href="/view?file={{ current_dir + '/' + item[0] }}&item={{ item[0] }}">(View File)</a></td>
+                                  <td>{{ item[1] }}</td>
+                                  <td><a href="/download?file={{current_dir + '/' + item[0]}}">
                                     <button class="btn btn-primary" type="submit">
                                       Download
                                     </button></a>
                                   </td>
-                                  <td><a href="/delete?file={{current_dir + '/' + item}}">
+                                  <td><a href="/delete?file={{current_dir + '/' + item[0]}}">
                                     <button class="btn btn-danger" type="submit" fill="red">
                                       Delete
                                       </button></a>
                                   </td>
                             {% else %}
-                                  <td>{{item}}</td>
-                                  <td></td>
-                                  <td><a href="/download?file={{current_dir + '/' + item}}">
+                                  <td>{{ item[0] }}</td>
+                                  <td>{{ item[1] }}</td>
+                                  <td><a href="/download?file={{current_dir + '/' + item[0]}}">
                                     <button class="btn btn-primary" type="submit">
                                       Download
                                       </button></a>
                                     </td>
-                                  <td><a href="/delete?file={{current_dir + '/' + item}}">
+                                  <td><a href="/delete?file={{current_dir + '/' + item[0]}}">
                                     <button class="btn btn-danger" type="submit" fill="red">
                                       Delete
                                       </button></a>
