@@ -123,7 +123,7 @@ def view():
         hash = "No hash found" 
     else:
         for x in result:
-            hash = '%s' % (x['filename']) 
+            hash = '%s' % (x) 
             print(hash)
     # filehash = hashlib.md5(open(file,'rb').read()).hexdigest()
 
