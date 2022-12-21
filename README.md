@@ -3,9 +3,13 @@
 GitHub repository: https://github.com/dandeviant/Flask-file-manager
 
 Progress Reminder:<br>
-- Find a way to send tuples of md5 hash to the templates.<br>
-- Use for loop and mysql queries to display one by one based on file names
-- Find out how to extract data from tuples to a variable. Should be easy
+Next task:<br>
+- Achieve objective 1: Prevent data deduplication<br>
+- check the md5 of new file with the ones in database<br>
+- if matches found, abort upload<br>
+- if not, continue with upload<br>
+<br>
+- Later: encrypt file with AES-256 using python module 
 
 
 ---
