@@ -189,12 +189,14 @@
                         <!-- prohibit .py and .html for now -->
                           {% if item.endswith(('.html', '.py')) %}
                             {% if current_dir == '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
-                              <td>{{ arrayhash[0][0] }}</td>{
-                              <td>{{ arrayhash[0][1] }}</td>
+                              <td>{{ item }}
+                                &nbsp;&nbsp;<a href="/view?file={{current_dir + '/' + item}}&item={{item}}">(View File)</a>
+                              </td>
+                              <td></td>
                               <td><p color="red">System File (Action prohibited)</p></td>
                               <td></td>
                             {% else %}
-                              <td>{{ item }}</td>{
+                              <td>{{ item }}</td>
                               <td></td>
                               <td><a href="/download?file={{ current_dir + '/' + item }}">
                                 <button class="btn btn-primary" type="submit">

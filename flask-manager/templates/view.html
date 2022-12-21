@@ -118,14 +118,23 @@
                       md5
                     </td>
                     <td>
-                      {{ filehash }}
+                      {{ hash }}
                     </td>
                   </tr>
                 </table>
                 <br><hr>
                   
                 <footer>
-                  {{ output|markdown }}
+                  {% if filename.endswith('.md') %}
+                    {{ output|markdown }}
+                  {% else %}
+                  <pre>
+                    <code style="color: white;">
+                      <br>{{ output }}
+                    </code></pre>
+                  {% endif %}
+                  
+                  
                   <br><br><br><br>
                   <p>2023 &copy; Muhammad Danial</p>
                 </footer> 

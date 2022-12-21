@@ -35,10 +35,11 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 2. Flask Markdown
 3. werkzeug.utils (secure_filename)
 4. hashlib
+5. mysql-connector-python (import mysql.connector)
 
 ---
 
-### Extra Requirements:
+### Other Requirements:
 
 1. MySQL database for user profiling and hash checking
 2. Bootstrap CSS framework for UI (config files in folder 'static'). DO NOT TOUCH THAT FOLDER

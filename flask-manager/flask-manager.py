@@ -10,7 +10,15 @@ import os
 import subprocess
 import hashlib
 import shutil
+import mysql.connector
 
+db = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="Dane@1710",
+  database="flaskmanager"
+)
+dbcursor = db.cursor()
 
 app = Flask(__name__)
 Markdown(app)
@@ -103,16 +111,29 @@ def view():
     # <a href="/"><strong>Go Back</strong></a> <br><br><br>
     # ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
     file = request.args.get('file')
-    output = subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
+    output = subprocess.check_output('more ' + request.args.get('file'), shell=True).decode('utf-8')
     filename = request.args.get('item')
+    query = 'SELECT md5 FROM hash WHERE filename = %s '
+
+    dbcursor.execute(query, [filename])
+    result = dbcursor.fetchall()
+    rows = dbcursor.rowcount
     
-    filehash = hashlib.md5(open(file,'rb').read()).hexdigest()
+    if rows == 0:
+        hash = "No hash found" 
+    else:
+        for x in result:
+            hash = '%s' % (x) 
+            print(hash)
+    # filehash = hashlib.md5(open(file,'rb').read()).hexdigest()
+
+
     
     return render_template('view.html',
     file = file,
     output = output,
     filename = filename,
-    filehash = filehash
+    hash = hash
     )
 
 
