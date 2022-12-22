@@ -1,5 +1,10 @@
 # DAFFMAN: a Python-based Debian File Manager
-#### (short for Daniel's Flask File Manager)
+
+(short for 
+<a style="color: aqua;">Da</a>niel's
+<a style="color: aqua;">F</a>lask 
+<a style="color: aqua;">F</a>ile 
+<a style="color: aqua;">Man</a>ager)
 
 ---
 
