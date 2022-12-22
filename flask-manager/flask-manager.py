@@ -36,6 +36,11 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 #     return render_template('login.html', error=error)
 
 # handle root route
+
+
+# Declaring global variables
+fileexist = False
+
 @app.route('/')
 def base():
     return redirect('/browser')
@@ -109,7 +114,7 @@ def index():
                 # print("hash_list = ", end="")
                 # print(hash_list)
 
-
+    global fileexist
 
     return render_template("manager.html",
     current_dir = current_dir,
@@ -118,7 +123,8 @@ def index():
     note = note,
     numfiles = numfiles,
     numfolder = numfolder,
-    hash_list = hash_list
+    hash_list = hash_list,
+    fileexist = fileexist
     )
     
 
@@ -219,6 +225,8 @@ def upload_file():
                 print("File uploaded")
             else:
                 print("File already exists")
+                global fileexist
+                fileexist = True
 
         return redirect('/browser')
 

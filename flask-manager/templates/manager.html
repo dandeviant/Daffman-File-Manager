@@ -127,7 +127,7 @@
                   {% endif %}
                   <table class="table table-dark">
                     <thead>
-                      <th scope="col">File</th>
+                      <th scope="col">Folder</th>
                       <th scope="col">Actions</th>
                     </thead>
                     {% if current_dir != '/home/daniel/Desktop/Flask-file-manager/flask-manager' %}
@@ -177,6 +177,9 @@
                       <input type = "submit" value="Upload New File"/>
                       <input type="reset" value="Clear Selection">
                     </form><br>
+                    {% if fileexist == True %}
+                      <p class="alert alert-danger">File Already Exists</p>
+                    {% endif %}
                     <table class="table table-dark">
                       <thead>
                         <th scope="col">File</th>
