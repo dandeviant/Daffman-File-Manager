@@ -21,7 +21,7 @@ Later:<br>
 - User profiling and login system
 - User Dashboard 
 - Do not allow files with same contents for storage, even for files with different names.
-- SELECT * FROM hash where md5='' - to list all files with same content
+- SELECT * FROM hash where md5=" " - to list all files with same content
 - In the error message box, list out all files with similar contents if found
 
 ---
