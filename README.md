@@ -7,16 +7,19 @@
 GitHub repository: https://github.com/dandeviant/Flask-file-manager
 
 Progress Reminder:<br>
+- Data deduplication is completed via Python MD5, but client-side process is not possible.<br>
+- For now, every process is server-side only.<br>
+<br>
+
 Next task:<br>
-- Achieve objective 1: Prevent data deduplication<br>
-- check the md5 of new file with the ones in database<br>
-- if matches found, abort upload<br>
-- if not, continue with upload<br>
+- Add a login page only as a start, no serious codes needed
+- Write the code for AES encryption using PyAesCrypt
+- Extension used is .enc or .aes
 <br>
 
 Later:<br>
-- encrypt file with AES-256 using python module<br>
-- remote directory management via Flask
+- User profiling and login system
+- User Dashboard 
 
 
 ---
