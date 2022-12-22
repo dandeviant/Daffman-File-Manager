@@ -36,7 +36,11 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 #     return render_template('login.html', error=error)
 
 # handle root route
-@app.route('/dashboard') # Flask decorator
+@app.route('/')
+def base():
+    return redirect('/browser')
+
+@app.route('/browser') # Flask decorator
 def index():
     rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
     current_dir = os.getcwd()
@@ -77,10 +81,10 @@ def index():
     query = "SELECT * FROM hash"
     dbcursor.execute(query)
     result = dbcursor.fetchall()
-    print("Result: ", end="")
-    print(result)
-    print("Files: ", end="")
-    print(files)
+    # print("Result: ", end="")
+    # print(result)
+    # print("Files: ", end="")
+    # print(files)
     notepath = '/home/daniel/Desktop/Flask-file-manager/README.md'
     note = subprocess.check_output(('cat ' + notepath), shell=True).decode('utf-8')
 
@@ -93,13 +97,13 @@ def index():
                 query = "select md5 from hash where filename = '%s' ; " % (namefile)
                 dbcursor.execute(query)
                 result = dbcursor.fetchall()
-                print("Query result: ", end="")
+                # print("Query result: ", end="")
                 for x in result:
-                    print(x[0])
+                    # print(x[0])
                     hash = x[0]
                 hash_list.append((item, hash))
-                print("hash_list = ", end="")
-                print(hash_list)
+                # print("hash_list = ", end="")
+                # print(hash_list)
 
 
 
@@ -120,7 +124,7 @@ def cd():
     # run cd command
     os.chdir(request.args.get('path'))
     #redirect to file manager
-    return redirect('/dashboard')
+    return redirect('/browser')
 
 
 
@@ -164,7 +168,7 @@ def md():
     if foldername != '':
         os.mkdir(request.args.get('folder'))
     #redirect to file manager
-    return redirect('/dashboard')
+    return redirect('/browser')
 
 
 # download file from server
@@ -178,6 +182,7 @@ def download():
 # upload files from filesystem
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
+    error = True
     if request.method == 'POST':
         f = request.files['file']
         if f.filename == '':
@@ -187,18 +192,22 @@ def upload_file():
             dir = os.getcwd()
             file = "%s/%s" % (dir,f.filename)
             hash = hashlib.md5(open(f.filename,'rb').read()).hexdigest()
-            query = "select md5 from hash where filename='%s'; " % (file)
+            query = "select * from hash where filename='%s' and md5='%s'; " % (file, hash)
+            print("\n\nUploaded File: " + file)
+            print("Uploaded Hash: "+ hash) 
             dbcursor.execute(query)
             result = dbcursor.fetchall()
             rows = dbcursor.rowcount
-            print("Success")
+
             if rows == 0:
                 query = "insert into hash(filename, md5) values ('%s', '%s')" % (file, hash)
                 dbcursor.execute(query)
                 db.commit()
+                print("File uploaded")
             else:
                 print("File already exists")
-        return redirect('/dashboard')
+
+        return redirect('/browser')
 
 #delete files from the server directory
 @app.route('/delete', methods = ['GET'])
@@ -209,7 +218,7 @@ def delete_file():
     db.commit()
     os.remove(file)
 
-    return redirect('/dashboard')
+    return redirect('/browser')
 
 @app.route('/delete_dir', methods = ['GET'])
 def delete_dir():
@@ -220,7 +229,7 @@ def delete_dir():
     else:
         shutil.rmtree(dir, ignore_errors=True)
     #redirect to file manager
-    return redirect('/dashboard')
+    return redirect('/browser')
 
 # ====================================================================
 # ====================================================================

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>DAFFMAN - Dashboard</title>
+    <title>DAFFMAN - File Browser</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -88,7 +88,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <a href="dashboard.php">
+            <a href="/browser">
               <button class="btn btn-primary" type="submit">
                 Dashboard
               </button>
@@ -167,10 +167,10 @@
 
 <!-- ------------------------------   -->
 
-
+              <a id="files"></a>
                   <br><br>
                   <hr size="10">
-                <a id="files">
+                
                     <h3><u>Files</u></h3><br>
                     <form action="/upload" method="POST" enctype = "multipart/form-data">
                       <input type="file" name="file" value="Choose File"/>
