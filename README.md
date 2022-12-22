@@ -49,7 +49,7 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 
 1. File download/upload (completed)
 2. User profiling with session login (incomplete)
-3. MD5 file deduplication  (incomplete)
+3. MD5 file deduplication  (completed || server-side only)
 4. AES encryption using Python modules (incomplete)
 
 ---
