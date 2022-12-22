@@ -35,9 +35,10 @@ The system is fully Linux Debian-based. <b>DO NOT RUN ON ANY OTHER OPERATING SYS
 
 ---
 
-### System Preview
+### System Preview Image
 
-file:///home/daniel/Pictures/Screenshots/Screenshot%20from%202022-12-23%2004-34-17.png![image](https://user-images.githubusercontent.com/68473358/209221421-21207100-dbda-4cc0-b917-b3b7886692d7.png)
+File Browser Page
+![File Browser Preview][https://github.com/dandeviant/Daffman-File-Manager/blob/main/images/browser-preview.png]
 
 
 ---
