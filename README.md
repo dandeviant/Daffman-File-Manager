@@ -38,7 +38,7 @@ The system is fully Linux Debian-based. <b>DO NOT RUN ON ANY OTHER OPERATING SYS
 ### System Preview Image
 
 File Browser Page
-![File Browser Preview][https://github.com/dandeviant/Daffman-File-Manager/blob/main/images/browser-preview.png]
+/home/daniel/Desktop/Flask-file-manager/images/browser-preview.png
 
 
 ---
