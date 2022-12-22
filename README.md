@@ -37,9 +37,11 @@ The system is fully Linux Debian-based. <b>DO NOT RUN ON ANY OTHER OPERATING SYS
 
 ### System Preview Image
 
-File Browser Page
-/home/daniel/Desktop/Flask-file-manager/images/browser-preview.png
+File Browser Page - Folder Section
+![browser-preview](https://user-images.githubusercontent.com/68473358/209222789-4dc5b62a-fab2-41e2-9a2f-f3595fc62485.png)
 
+File Browser Page - File Section
+![browser-preview2](https://user-images.githubusercontent.com/68473358/209222849-b7df5633-e66b-4147-8257-9832d63d6e67.png)
 
 ---
 
