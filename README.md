@@ -1,5 +1,5 @@
 # DAFFMAN: a Python-based Debian File Manager
-#### <u>Da</u>niel's Flask File Manager
+#### (short for Daniel's Flask File Manager)
 
 ---
 
@@ -29,8 +29,9 @@ The system is fully Linux Debian-based. <b>DO NOT RUN ON ANY OTHER OPERATING SYS
 
 
 ### How to run the app in development env
-$ python3 flask-manager.py
-<br> $ flask --app flask-manager.py run 
+<code>$ python3 flask-manager.py</code><br>
+<b>OR</b><br>
+<code>$ flask --app flask-manager.py run</code>
 
 Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 
