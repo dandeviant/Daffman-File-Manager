@@ -21,8 +21,10 @@ Later:<br>
 - User profiling and login system
 - User Dashboard 
 - Do not allow files with same contents for storage, even for files with different names.
+- The process happens during upload process
+- If file has different name, but same contents with files in database, ABORT UPLOAD and display error message.
 - SELECT * FROM hash where md5=" " - to list all files with same content
-- In the error message box, list out all files with similar contents if found
+- In the error message box, list out all file names with similar contents if found
 
 ---
 
