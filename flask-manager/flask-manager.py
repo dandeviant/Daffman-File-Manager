@@ -43,8 +43,9 @@ def base():
 @app.route('/browser') # Flask decorator
 def index():
     rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
+    forbidden = '/home/daniel/Desktop/Flask-file-manager/flask-manager'
     current_dir = os.getcwd()
-    if current_dir == '/home/daniel/Desktop/Flask-file-manager/flask-manager':
+    if current_dir == forbidden:
         os.chdir(rootpath)
     
     current_dir = os.getcwd()

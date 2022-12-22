@@ -54,6 +54,8 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 3. werkzeug.utils (secure_filename)
 4. hashlib
 5. mysql-connector-python (import mysql.connector)
+6. pycrypto
+6. Crypto (for AES)
 
 ---
 
