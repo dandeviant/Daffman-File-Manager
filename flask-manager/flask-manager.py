@@ -36,7 +36,7 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 #     return render_template('login.html', error=error)
 
 # handle root route
-@app.route('/') # Flask decorator
+@app.route('/dashboard') # Flask decorator
 def index():
     rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
     current_dir = os.getcwd()
@@ -120,7 +120,7 @@ def cd():
     # run cd command
     os.chdir(request.args.get('path'))
     #redirect to file manager
-    return redirect('/')
+    return redirect('/dashboard')
 
 
 
@@ -164,7 +164,7 @@ def md():
     if foldername != '':
         os.mkdir(request.args.get('folder'))
     #redirect to file manager
-    return redirect('/')
+    return redirect('/dashboard')
 
 
 # download file from server
@@ -198,7 +198,7 @@ def upload_file():
                 db.commit()
             else:
                 print("File already exists")
-        return redirect('/')
+        return redirect('/dashboard')
 
 #delete files from the server directory
 @app.route('/delete', methods = ['GET'])
@@ -209,7 +209,7 @@ def delete_file():
     db.commit()
     os.remove(file)
 
-    return redirect('/')
+    return redirect('/dashboard')
 
 @app.route('/delete_dir', methods = ['GET'])
 def delete_dir():
@@ -220,7 +220,7 @@ def delete_dir():
     else:
         shutil.rmtree(dir, ignore_errors=True)
     #redirect to file manager
-    return redirect('/')
+    return redirect('/dashboard')
 
 # ====================================================================
 # ====================================================================
