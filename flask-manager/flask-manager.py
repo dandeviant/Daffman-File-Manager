@@ -114,10 +114,6 @@ def index():
     )
     
 
-# def hash(files):
-#     for item in files:
-#         print("")
-
 # handle cd command
 @app.route('/cd') # Flask decorator
 def cd():
@@ -149,7 +145,6 @@ def view():
         for x in result:
             hash = '%s' % (x) 
             print(hash)
-    # filehash = hashlib.md5(open(file,'rb').read()).hexdigest()
 
 
     
