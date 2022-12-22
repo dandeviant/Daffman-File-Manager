@@ -38,11 +38,15 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 # handle root route
 
 
-# Declaring global variables
+# Declaring global variables for messages
 fileexist = False
 filemissing = False
+filesuccess = False
+fileuploaded = ''
 folderexist = False
 foldermissing = False
+foldersuccess = False
+foldercreated = ''
 
 @app.route('/')
 def base():
@@ -132,8 +136,12 @@ def index():
     hash_list = hash_list,
     fileexist = fileexist,
     filemissing = filemissing,
+    filesuccess = filesuccess,
+    fileuploaded = fileuploaded,
     folderexist = folderexist,
-    foldermissing = foldermissing
+    foldermissing = foldermissing,
+    foldersuccess = foldersuccess,
+    foldercreated = foldercreated
     )
     
 
@@ -185,6 +193,15 @@ def md():
 
     global folderexist
     global foldermissing
+    global foldersuccess
+    global foldercreated
+    global filemissing
+    global fileexist
+    global filesuccess
+
+    filemissing = False
+    fileexist = False
+    filesuccess = False
     #get folder name from HTML form
     foldername = request.args.get('folder')
 
@@ -192,8 +209,9 @@ def md():
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
     for item in files[0: -1]:
         if foldername == item:
-            
             folderexist = True
+            foldermissing = False
+            foldersuccess = False
             return redirect('/')
         else:
             folderexist = False
@@ -202,10 +220,12 @@ def md():
     
     if foldername != '':
         os.mkdir(request.args.get('folder'))
-        
         foldermissing = False
+        foldersuccess = True
+        foldercreated = request.args.get('folder')
     else:
         foldermissing = True
+        foldersuccess = False
     #redirect to file manager
     return redirect('/browser')
 
@@ -213,6 +233,22 @@ def md():
 # download file from server
 @app.route('/download', methods=['GET'])
 def download():
+    global folderexist
+    global foldermissing
+    global foldersuccess
+    global foldercreated
+    global filemissing
+    global fileexist
+    global filesuccess
+    fileexist = False
+    filemissing = False
+    filesuccess = False
+    fileuploaded = ''
+    folderexist = False
+    foldermissing = False
+    foldersuccess = False
+    foldercreated = ''
+
     if request.method == 'GET':
         print("")
     file = request.args.get('file')
@@ -223,13 +259,24 @@ def download():
 def upload_file():
     global filemissing
     global fileexist
+    global filesuccess
+    global fileuploaded
+    global folderexist
+    global foldermissing
+    global foldersuccess
+
+    folderexist = False
+    foldermissing = False
+    foldersuccess = False
 
     if request.method == 'POST':
         f = request.files['file']
         if f.filename == '':
             filemissing = True
+            filesuccess = False
         else:
             filemissing = False
+            filesuccess = True
             f.save(secure_filename(f.filename))
             dir = os.getcwd()
             file = "%s/%s" % (dir,f.filename)
@@ -256,25 +303,59 @@ def upload_file():
                 db.commit()
                 print("File uploaded")
                 fileexist = False
+                filesuccess = True
+                fileuploaded = f.filename
             else:
                 print("File already exists")
                 fileexist = True
+                filesuccess = False
+                fileuploaded = ''
+
 
         return redirect('/browser')
 
 #delete files from the server directory
 @app.route('/delete', methods = ['GET'])
 def delete_file():
+    global folderexist
+    global foldermissing
+    global foldersuccess
+    global foldercreated
+    global filemissing
+    global fileexist
+    global filesuccess
+    fileexist = False
+    filemissing = False
+    filesuccess = False
+    fileuploaded = ''
+    folderexist = False
+    foldermissing = False
+    foldersuccess = False
+    foldercreated = ''
     file = request.args.get('file')
     query = "DELETE FROM hash WHERE filename='%s' " % (file)
     dbcursor.execute(query)
     db.commit()
     os.remove(file)
-
     return redirect('/browser')
 
 @app.route('/delete_dir', methods = ['GET'])
 def delete_dir():
+    global folderexist
+    global foldermissing
+    global foldersuccess
+    global foldercreated
+    global filemissing
+    global fileexist
+    global filesuccess
+    fileexist = False
+    filemissing = False
+    filesuccess = False
+    fileuploaded = ''
+    folderexist = False
+    foldermissing = False
+    foldersuccess = False
+    foldercreated = ''
     dir = request.args.get('dir')
     content = os.listdir(dir)
     if len(content) == 0:

@@ -125,6 +125,20 @@
                   {% else %}
                     <h3>File uploads not allowed here...</h3>
                   {% endif %}
+                  {% if folderexist == True %}
+                      <p class="alert alert-danger">Folder Already Exists<br>
+                        Note: Similar folder name
+                      </p>
+                    {% endif %}
+                    {% if foldermissing == True %}
+                      <p class="alert alert-danger">No folder name entered<br>
+                      </p>
+                    {% endif %}
+                    {% if foldersuccess == True %}
+                      <p class="alert alert-success">Folder Successfully Created<br>
+                        Folder created: {{ foldercreated }}
+                      </p>
+                    {% endif %}
                   <table class="table table-dark">
                     <thead>
                       <th scope="col">Folder</th>
@@ -182,6 +196,15 @@
                         Note: Similar file name and MD5 found 
                       </p>
                     {% endif %}
+                    {% if filemissing == True %}
+                      <p class="alert alert-danger">No file selected<br>
+                      </p>
+                    {% endif %}
+                    {% if filesuccess == True %}
+                      <p class="alert alert-success">File Successfully Uploaded<br>
+                        File Uploaded: {{ fileuploaded }} <br>
+                      </p>
+                    {% endif %}
                     <table class="table table-dark">
                       <thead>
                         <th scope="col">File</th>
@@ -199,7 +222,7 @@
                                     <!-- file name -->
                                     <td>{{ item[0] }}&nbsp;&nbsp; 
                                       <a href="/view?file={{current_dir + '/' + item[0]}}&item={{item[0]}}">(View File)</a>
-                                    </td> file name
+                                    </td>
                                     <!-- file size -->
                                     <td> {{ item[1] }} KB</td> 
                                     <!-- file hash --> 
