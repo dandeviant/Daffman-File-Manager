@@ -35,6 +35,12 @@ The system is fully Linux Debian-based. <b>DO NOT RUN ON ANY OTHER OPERATING SYS
 
 ---
 
+### System Preview
+
+file:///home/daniel/Pictures/Screenshots/Screenshot%20from%202022-12-23%2004-34-17.png![image](https://user-images.githubusercontent.com/68473358/209221421-21207100-dbda-4cc0-b917-b3b7886692d7.png)
+
+
+---
 
 ### How to run the app in development env
 <code>$ python3 flask-manager.py</code><br>
