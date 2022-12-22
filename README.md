@@ -1,4 +1,7 @@
-# DAFFMAN - Daniel's Flask File Manager
+# DAFFMAN: a Python-based Debian File Manager
+#### <u>Da</u>niel's Flask File Manager
+
+---
 
 GitHub repository: https://github.com/dandeviant/Flask-file-manager
 
