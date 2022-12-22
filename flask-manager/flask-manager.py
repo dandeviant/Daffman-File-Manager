@@ -48,15 +48,24 @@ foldermissing = False
 foldersuccess = False
 foldercreated = ''
 
+rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
+rootfolder= 'uploads'
+
 @app.route('/')
 def base():
     return redirect('/browser')
 
+# for Home button, return to root folder 'uploads'
+@app.route('/reset')
+def reset():
+    global rootpath
+    os.chdir(rootpath)
+    return redirect('/browser')
+
 @app.route('/browser') # Flask decorator
 def index():
-    rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
-    rootfolder= 'uploads'
-    forbidden = '/home/daniel/Desktop/Flask-file-manager/flask-manager'
+    global rootpath
+    global rootfolder
     current_dir = os.getcwd()
     if rootfolder not in current_dir:
         os.chdir(rootpath)
