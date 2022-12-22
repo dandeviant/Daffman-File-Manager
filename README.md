@@ -9,7 +9,10 @@ Next task:<br>
 - if matches found, abort upload<br>
 - if not, continue with upload<br>
 <br>
-- Later: encrypt file with AES-256 using python module 
+
+Later:<br>
+- encrypt file with AES-256 using python module<br>
+- remote directory management via Flask
 
 
 ---
