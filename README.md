@@ -1,4 +1,4 @@
-# Flask File Manager
+# DAFFMAN - Daniel's Flask File Manager
 
 GitHub repository: https://github.com/dandeviant/Flask-file-manager
 
