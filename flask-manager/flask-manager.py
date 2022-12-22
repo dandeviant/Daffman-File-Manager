@@ -40,6 +40,9 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 
 # Declaring global variables
 fileexist = False
+filemissing = False
+folderexist = False
+foldermissing = False
 
 @app.route('/')
 def base():
@@ -115,6 +118,9 @@ def index():
                 # print(hash_list)
 
     global fileexist
+    global filemissing
+    global folderexist
+    global foldermissing
 
     return render_template("manager.html",
     current_dir = current_dir,
@@ -124,7 +130,10 @@ def index():
     numfiles = numfiles,
     numfolder = numfolder,
     hash_list = hash_list,
-    fileexist = fileexist
+    fileexist = fileexist,
+    filemissing = filemissing,
+    folderexist = folderexist,
+    foldermissing = foldermissing
     )
     
 
@@ -173,10 +182,30 @@ def view():
 # handle cd command
 @app.route('/md') # Flask decorator
 def md():
-    # run cd command
+
+    global folderexist
+    global foldermissing
+    #get folder name from HTML form
     foldername = request.args.get('folder')
+
+    #scan for all folders
+    files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
+    for item in files[0: -1]:
+        if foldername == item:
+            
+            folderexist = True
+            return redirect('/')
+        else:
+            folderexist = False
+
+    # run cd command
+    
     if foldername != '':
         os.mkdir(request.args.get('folder'))
+        
+        foldermissing = False
+    else:
+        foldermissing = True
     #redirect to file manager
     return redirect('/browser')
 
@@ -192,12 +221,15 @@ def download():
 # upload files from filesystem
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
-    error = True
+    global filemissing
+    global fileexist
+
     if request.method == 'POST':
         f = request.files['file']
         if f.filename == '':
-            pass
+            filemissing = True
         else:
+            filemissing = False
             f.save(secure_filename(f.filename))
             dir = os.getcwd()
             file = "%s/%s" % (dir,f.filename)
@@ -223,9 +255,9 @@ def upload_file():
                 dbcursor.execute(query)
                 db.commit()
                 print("File uploaded")
+                fileexist = False
             else:
                 print("File already exists")
-                global fileexist
                 fileexist = True
 
         return redirect('/browser')
