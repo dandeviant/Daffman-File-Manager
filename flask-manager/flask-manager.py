@@ -148,6 +148,22 @@ def index():
 # handle cd command
 @app.route('/cd') # Flask decorator
 def cd():
+    global folderexist
+    global foldermissing
+    global foldersuccess
+    global foldercreated
+    global filemissing
+    global fileexist
+    global filesuccess
+    fileexist = False
+    filemissing = False
+    filesuccess = False
+    fileuploaded = ''
+    folderexist = False
+    foldermissing = False
+    foldersuccess = False
+    foldercreated = ''
+
     # run cd command
     os.chdir(request.args.get('path'))
     #redirect to file manager
@@ -158,6 +174,22 @@ def cd():
 # handle cat command
 @app.route('/view') # Flask decorator
 def view():
+    global folderexist
+    global foldermissing
+    global foldersuccess
+    global foldercreated
+    global filemissing
+    global fileexist
+    global filesuccess
+    fileexist = False
+    filemissing = False
+    filesuccess = False
+    fileuploaded = ''
+    folderexist = False
+    foldermissing = False
+    foldersuccess = False
+    foldercreated = ''
+    
     # return render_template_string('''
     # <a href="/"><strong>Go Back</strong></a> <br><br><br>
     # ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
