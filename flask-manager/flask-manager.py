@@ -43,9 +43,10 @@ def base():
 @app.route('/browser') # Flask decorator
 def index():
     rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
+    rootfolder= 'uploads'
     forbidden = '/home/daniel/Desktop/Flask-file-manager/flask-manager'
     current_dir = os.getcwd()
-    if current_dir == forbidden:
+    if rootfolder not in current_dir:
         os.chdir(rootpath)
     
     current_dir = os.getcwd()
@@ -90,19 +91,21 @@ def index():
     note = subprocess.check_output(('cat ' + notepath), shell=True).decode('utf-8')
 
 
-     # scan for md5 of each file
+     # scan for md5 and file size of each file
     hash_list = []
     for item in files[0: -1]:
             if '.' in item:
                 namefile = current_dir + '/' + item
-                query = "select md5 from hash where filename = '%s' ; " % (namefile)
+                query = "select md5, filesize from hash where filename = '%s' ; " % (namefile)
                 dbcursor.execute(query)
                 result = dbcursor.fetchall()
                 # print("Query result: ", end="")
+                print("Result: " + str(result))
                 for x in result:
                     # print(x[0])
                     hash = x[0]
-                hash_list.append((item, hash))
+                    filesize = x[1]
+                hash_list.append((item, filesize, hash))
                 # print("hash_list = ", end="")
                 # print(hash_list)
 
@@ -192,16 +195,25 @@ def upload_file():
             f.save(secure_filename(f.filename))
             dir = os.getcwd()
             file = "%s/%s" % (dir,f.filename)
+            filestat = os.stat(f.filename)
+
+            # print(f'File Size in MegaBytes is {file_stats.st_size / (1024 * 1024)}')
+
+            
             hash = hashlib.md5(open(f.filename,'rb').read()).hexdigest()
-            query = "select * from hash where filename='%s' and md5='%s'; " % (file, hash)
+            filesize = round(filestat.st_size / (1024), 1)
+            roundedsize = str(filesize)
             print("\n\nUploaded File: " + file)
-            print("Uploaded Hash: "+ hash) 
+            print("File Size = " + roundedsize + "MB")
+            print("Uploaded Hash: "+ hash)
+
+            query = "select * from hash where filename='%s' and md5='%s'; " % (file, hash)
             dbcursor.execute(query)
             result = dbcursor.fetchall()
             rows = dbcursor.rowcount
 
             if rows == 0:
-                query = "insert into hash(filename, md5) values ('%s', '%s')" % (file, hash)
+                query = "insert into hash(filename, md5, filesize) values ('%s', '%s', '%s')" % (file, hash, filesize)
                 dbcursor.execute(query)
                 db.commit()
                 print("File uploaded")

@@ -55,7 +55,8 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 4. hashlib
 5. mysql-connector-python (import mysql.connector)
 6. pycrypto
-6. Crypto (for AES)
+7. Crypto (for AES)
+8. pyaescrypt - PyAesCrypt
 
 ---
 
