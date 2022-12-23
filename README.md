@@ -30,6 +30,8 @@ Later:<br>
 - Display errors of fileexist in the page, not in browser page
 ---
 
+### About
+
 File Manager using Python Flask<br>
 This project actually started as my side timekiller during COVID lockdown<br>
 Now I've improved this project for my final year project<br>
