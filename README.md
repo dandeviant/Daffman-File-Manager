@@ -35,7 +35,7 @@ Later:<br>
 DAFFMAN is a NAS file manager built on Python and built for Debian Linux system running Bash/ZSH shell<br>
 This project actually started as my side timekiller during COVID lockdown<br>
 Now I've improved this project for my final year project<br>
-The system is fully Linux Debian-based. <b>DO NOT RUN ON ANY OTHER OPERATING SYSTEM UNLESS YOU KNOW WHAT YOU'RE DOING</b>
+The system is fully Debian-based. <b>DO NOT RUN ON ANY OTHER OPERATING SYSTEM UNLESS YOU KNOW WHAT YOU'RE DOING</b>
 
 ---
 
