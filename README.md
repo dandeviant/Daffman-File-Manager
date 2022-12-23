@@ -38,6 +38,7 @@ Later:<br>
 - Make it pretty
 - If possible, create file navigation system thru these Path Display
 - Something like this
+<br>
 ![image](https://user-images.githubusercontent.com/68473358/209269212-316af5da-d6dc-4a9e-ba27-c144ef9fdd66.png)
 
 ---
