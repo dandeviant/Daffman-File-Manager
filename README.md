@@ -26,6 +26,8 @@ Later:<br>
 - SELECT * FROM hash where md5=" " - to list all files with same content
 - In the error message box, list out all file names with similar contents if found
 
+- If you are to use client-side MD5 checking, create another page for file upload
+- Display errors of fileexist in the page, not in browser page
 ---
 
 File Manager using Python Flask<br>
