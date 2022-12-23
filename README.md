@@ -20,6 +20,7 @@ Next task:<br>
 Later:<br>
 - User profiling and login system
 - User Dashboard 
+
 - Do not allow files with same contents for storage, even for files with different names.
 - The process happens during upload process
 - If file has different name, but same contents with files in database, ABORT UPLOAD and display error message.
@@ -28,6 +29,10 @@ Later:<br>
 
 - If you are to use client-side MD5 checking, create another page for file upload
 - Display errors of fileexist in the page, not in browser page
+
+- For Path Display, separate the output by folder name
+- Display the path in separate words, not in one line as in 'pwd' output
+- Make it pretty
 ---
 
 ### About
