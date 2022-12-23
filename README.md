@@ -20,16 +20,16 @@ Next task:<br>
 Later:<br>
 - User profiling and login system
 - User Dashboard 
-
+<br>
 - Do not allow files with same contents for storage, even for files with different names.
 - The process happens during upload process
 - If file has different name, but same contents with files in database, ABORT UPLOAD and display error message.
 - SELECT * FROM hash where md5=" " - to list all files with same content
 - In the error message box, list out all file names with similar contents if found
-
+<br>
 - If you are to use client-side MD5 checking, create another page for file upload
 - Display errors of fileexist in the page, not in browser page
-
+<br>
 - For Path Display, separate the output by folder name
 - Display the path in separate words, not in one line as in 'pwd' output
 - Make it pretty
