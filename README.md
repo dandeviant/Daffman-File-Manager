@@ -36,6 +36,7 @@ Later:<br>
 - For Path Display, separate the output by folder name
 - Display the path in separate words, not in one line as in 'pwd' output
 - Make it pretty
+- - If possible, create file navigation system thru these Path Display
 ---
 
 ### About
