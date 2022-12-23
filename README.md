@@ -20,26 +20,44 @@ Next task:<br>
 Later:<br>
 - User profiling and login system
 - User Dashboard 
+<br>
+
 - Do not allow files with same contents for storage, even for files with different names.
 - The process happens during upload process
 - If file has different name, but same contents with files in database, ABORT UPLOAD and display error message.
 - SELECT * FROM hash where md5=" " - to list all files with same content
 - In the error message box, list out all file names with similar contents if found
+<br>
+
+- If you are to use client-side MD5 checking, create another page for file upload
+- Display errors of fileexist in the page, not in browser page
+<br>
+
+- For Path Display, separate the output by folder name
+- Display the path in separate words, not in one line as in 'pwd' output
+- Make it pretty
+- If possible, create file navigation system thru these Path Display
+- Something like this<br>
+![image](https://user-images.githubusercontent.com/68473358/209269212-316af5da-d6dc-4a9e-ba27-c144ef9fdd66.png)
 
 ---
 
-File Manager using Python Flask<br>
+### About
+
+DAFFMAN is a NAS file manager built on Python and built for Debian Linux system running Bash/ZSH shell<br>
 This project actually started as my side timekiller during COVID lockdown<br>
 Now I've improved this project for my final year project<br>
-The system is fully Linux Debian-based. <b>DO NOT RUN ON ANY OTHER OPERATING SYSTEM UNLESS YOU KNOW WHAT YOU'RE DOING</b>
+The system is fully Debian-based. <b>DO NOT RUN ON ANY OTHER OPERATING SYSTEM UNLESS YOU KNOW WHAT YOU'RE DOING</b>
 
 ---
 
 ### System Preview Image
 
-File Browser Page
-![File Browser Preview][https://github.com/dandeviant/Daffman-File-Manager/blob/main/images/browser-preview.png]
+File Browser Page - Folder Section
+![browser-preview](https://user-images.githubusercontent.com/68473358/209222789-4dc5b62a-fab2-41e2-9a2f-f3595fc62485.png)
 
+File Browser Page - File Section
+![browser-preview2](https://user-images.githubusercontent.com/68473358/209222849-b7df5633-e66b-4147-8257-9832d63d6e67.png)
 
 ---
 
