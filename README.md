@@ -36,7 +36,10 @@ Later:<br>
 - For Path Display, separate the output by folder name
 - Display the path in separate words, not in one line as in 'pwd' output
 - Make it pretty
-- - If possible, create file navigation system thru these Path Display
+- If possible, create file navigation system thru these Path Display
+- Something like this
+![image](https://user-images.githubusercontent.com/68473358/209269212-316af5da-d6dc-4a9e-ba27-c144ef9fdd66.png)
+
 ---
 
 ### About
