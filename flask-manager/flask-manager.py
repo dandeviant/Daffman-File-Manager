@@ -2,7 +2,7 @@
 
 #Python Flask File Manager
 
-from flask import Flask, send_file, send_from_directory, redirect, url_for, render_template, request, render_template_string
+from flask import Flask, send_file, send_from_directory, redirect, url_for, render_template, request, render_template_string, Response
 from werkzeug.utils import secure_filename
 from flaskext.markdown import Markdown
 from array import *
@@ -72,6 +72,10 @@ def index():
     
     current_dir = os.getcwd()
     path = current_dir.replace("/home/daniel/Desktop/Flask-file-manager/flask-manager", ".")
+    listdir = path.split("/")
+    numdir = len(listdir)
+    # for x in range(len(listdir)):
+
     # create tuple named file
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
     
@@ -129,13 +133,19 @@ def index():
                 hash_list.append((item, filesize, hash))
                 # print("hash_list = ", end="")
                 # print(hash_list)
+    # assets = '../'            
+    # picfolder = os.path.join(assets, 'folder.svg')
+    picfolder = '/home/daniel/Desktop/Flask-file-manager/flask-manager/folder.svg'
+    # svg = open(picfolder).read()
 
     global fileexist
     global filemissing
     global folderexist
     global foldermissing
 
+
     return render_template("manager.html",
+    mimetype='image/svg+xml',
     current_dir = current_dir,
     path = path,
     files = files,
@@ -143,6 +153,10 @@ def index():
     numfiles = numfiles,
     numfolder = numfolder,
     hash_list = hash_list,
+    numdir = numdir,
+    listdir = listdir,
+    # svg = svg,
+    picfolder = picfolder,
     fileexist = fileexist,
     filemissing = filemissing,
     filesuccess = filesuccess,
