@@ -96,4 +96,5 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 
 1. MySQL database for user profiling and hash checking
 2. Bootstrap CSS framework for UI (config files in folder 'static'). DO NOT TOUCH THAT FOLDER
+3. SVG Source: <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>
 

@@ -166,7 +166,11 @@ def index():
     foldersuccess = foldersuccess,
     foldercreated = foldercreated
     )
-    
+
+
+@app.route('/login') # Flask decorator
+def login():
+    return render_template("login.html")
 
 # handle cd command
 @app.route('/cd') # Flask decorator
