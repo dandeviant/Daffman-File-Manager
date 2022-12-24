@@ -53,9 +53,12 @@ foldercreated = ''
 rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
 rootfolder= 'uploads'
 
+
+session_user = ''
+
 @app.route('/')
 def base():
-    return redirect('/browser')
+    return redirect('/login')
 
 # for Home button, return to root folder 'uploads'
 @app.route('/reset')
@@ -68,6 +71,7 @@ def reset():
 def index():
     global rootpath
     global rootfolder
+    global session_user
     current_dir = os.getcwd()
     if rootfolder not in current_dir:
         os.chdir(rootpath)
@@ -166,13 +170,23 @@ def index():
     folderexist = folderexist,
     foldermissing = foldermissing,
     foldersuccess = foldersuccess,
-    foldercreated = foldercreated
+    foldercreated = foldercreated,
+    session_user = session_user
     )
 
 
-@app.route('/login') # Flask decorator
+ # Flask decorator
+@app.route('/login')
 def login():
     return render_template("login.html")
+
+@app.route('/verifylogin', methods=['POST'])
+def verifylogin():
+    global session_user
+    username = request.form['username']
+    print("User log: " + username)
+    session_user = username
+    return redirect("/browser")
 
 # handle cd command
 @app.route('/cd') # Flask decorator
