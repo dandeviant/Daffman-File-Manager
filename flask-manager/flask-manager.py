@@ -3,6 +3,7 @@
 #Python Flask File Manager
 
 from flask import Flask, send_file, send_from_directory, redirect, url_for, render_template, request, render_template_string, Response
+from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from flaskext.markdown import Markdown
 from array import *
@@ -23,6 +24,7 @@ dbcursor = db.cursor()
 
 app = Flask(__name__)
 Markdown(app)
+Bootstrap(app)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 
 # @app.route('/', methods=['GET', 'POST'])
@@ -62,7 +64,7 @@ def reset():
     os.chdir(rootpath)
     return redirect('/browser')
 
-@app.route('/browser') # Flask decorator
+@app.route('/browser', methods=['GET', 'POST']) # Flask decorator
 def index():
     global rootpath
     global rootfolder
