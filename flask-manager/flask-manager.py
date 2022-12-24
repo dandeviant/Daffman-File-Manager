@@ -2,7 +2,7 @@
 
 #Python Flask File Manager
 
-from flask import Flask, send_file, send_from_directory, redirect, url_for, render_template, request, render_template_string, Response
+from flask import Flask, send_file, session, send_from_directory, redirect, url_for, render_template, request, render_template_string, Response, escape, request
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from flaskext.markdown import Markdown
@@ -23,6 +23,7 @@ db = mysql.connector.connect(
 dbcursor = db.cursor()
 
 app = Flask(__name__)
+app.secret_key = 'any random string'
 Markdown(app)
 Bootstrap(app)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
@@ -58,7 +59,24 @@ session_user = ''
 
 @app.route('/')
 def base():
+    global session_user
+    session_user = ''
     return redirect('/login')
+
+# Flask decorator
+@app.route('/login')
+def login():
+    return render_template("login.html")
+
+@app.route('/verifylogin', methods=['POST'])
+def verifylogin():
+    global session_user
+    username = request.form['username']
+    session['username'] = username
+    print("Sesion user: " + session['username'])
+    
+    return redirect("/browser")
+
 
 # for Home button, return to root folder 'uploads'
 @app.route('/reset')
@@ -171,22 +189,9 @@ def index():
     foldermissing = foldermissing,
     foldersuccess = foldersuccess,
     foldercreated = foldercreated,
-    session_user = session_user
+    session_user = session_user,
+    session = session
     )
-
-
- # Flask decorator
-@app.route('/login')
-def login():
-    return render_template("login.html")
-
-@app.route('/verifylogin', methods=['POST'])
-def verifylogin():
-    global session_user
-    username = request.form['username']
-    print("User log: " + username)
-    session_user = username
-    return redirect("/browser")
 
 # handle cd command
 @app.route('/cd') # Flask decorator
@@ -224,6 +229,7 @@ def view():
     global filemissing
     global fileexist
     global filesuccess
+
     fileexist = False
     filemissing = False
     filesuccess = False
@@ -233,6 +239,11 @@ def view():
     foldersuccess = False
     foldercreated = ''
     
+    global session_user
+    if session_user == '':
+        return redirect('/login')
+
+
     # return render_template_string('''
     # <a href="/"><strong>Go Back</strong></a> <br><br><br>
     # ''') + subprocess.check_output('cat ' + request.args.get('file'), shell=True).decode('utf-8')
@@ -265,6 +276,9 @@ def view():
 # handle cd command
 @app.route('/md') # Flask decorator
 def md():
+    global session_user
+    if session_user == '':
+        return redirect('/login')
 
     global folderexist
     global foldermissing
@@ -308,6 +322,10 @@ def md():
 # download file from server
 @app.route('/download', methods=['GET'])
 def download():
+    global session_user
+    if session_user == '':
+        return redirect('/login')
+
     global folderexist
     global foldermissing
     global foldersuccess
@@ -332,6 +350,11 @@ def download():
 # upload files from filesystem
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
+
+    global session_user
+    if session_user == '':
+        return redirect('/login')
+
     global filemissing
     global fileexist
     global filesuccess
@@ -392,6 +415,11 @@ def upload_file():
 #delete files from the server directory
 @app.route('/delete', methods = ['GET'])
 def delete_file():
+
+    global session_user
+    if session_user == '':
+        return redirect('/login')
+
     global folderexist
     global foldermissing
     global foldersuccess
@@ -416,6 +444,11 @@ def delete_file():
 
 @app.route('/delete_dir', methods = ['GET'])
 def delete_dir():
+
+    global session_user
+    if session_user == '':
+        return redirect('/login')
+
     global folderexist
     global foldermissing
     global foldersuccess
