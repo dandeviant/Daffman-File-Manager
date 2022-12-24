@@ -18,7 +18,7 @@ Next task:<br>
 <br>
 
 Later:<br>
-- User profiling and login system
+- User profiling and login system - use session module
 - User Dashboard 
 <br>
 
@@ -32,13 +32,6 @@ Later:<br>
 - If you are to use client-side MD5 checking, create another page for file upload
 - Display errors of fileexist in the page, not in browser page
 <br>
-
-- For Path Display, separate the output by folder name
-- Display the path in separate words, not in one line as in 'pwd' output
-- Make it pretty
-- If possible, create file navigation system thru these Path Display
-- Something like this<br>
-![image](https://user-images.githubusercontent.com/68473358/209269212-316af5da-d6dc-4a9e-ba27-c144ef9fdd66.png)
 
 ---
 
