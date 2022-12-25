@@ -103,7 +103,9 @@ def verifylogin():
             wrongpass = True
             return redirect('/login')
         else:
-        # print("Session user: " + session['username'])
+            # print("Session user: " + session['username'])
+            session['foldermissing'] = False
+
             session['username'] = account[1]
             print("Session username : " + session['username'])
             return redirect("/browser")
@@ -135,9 +137,11 @@ def reset():
 
 @app.route('/browser', methods=['GET', 'POST']) # Flask decorator
 def index():
+    # if session['username'] is None:
+    #     return redirect(url_for('/logout'))
+
     global rootpath
     global rootfolder
-    global session_user
     current_dir = os.getcwd()
     if rootfolder not in current_dir:
         os.chdir(rootpath)
@@ -286,9 +290,8 @@ def view():
     foldersuccess = False
     foldercreated = ''
     
-    global session_user
-    if session_user == '':
-        return redirect('/login')
+    if session['username']:
+        return redirect('/logout')
 
 
     # return render_template_string('''
@@ -323,9 +326,6 @@ def view():
 # handle cd command
 @app.route('/md') # Flask decorator
 def md():
-    global session_user
-    if session_user == '':
-        return redirect('/login')
 
     global folderexist
     global foldermissing
@@ -348,12 +348,10 @@ def md():
             folderexist = True
             foldermissing = False
             foldersuccess = False
-            return redirect('/')
+            return redirect('/browser')
         else:
             folderexist = False
-
     # run cd command
-    
     if foldername != '':
         os.mkdir(request.args.get('folder'))
         foldermissing = False
@@ -369,9 +367,6 @@ def md():
 # download file from server
 @app.route('/download', methods=['GET'])
 def download():
-    global session_user
-    if session_user == '':
-        return redirect('/login')
 
     global folderexist
     global foldermissing
@@ -397,10 +392,6 @@ def download():
 # upload files from filesystem
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
-
-    global session_user
-    if session_user == '':
-        return redirect('/login')
 
     global filemissing
     global fileexist
@@ -463,10 +454,6 @@ def upload_file():
 @app.route('/delete', methods = ['GET'])
 def delete_file():
 
-    global session_user
-    if session['username'] == '':
-        return redirect('/login')
-
     global folderexist
     global foldermissing
     global foldersuccess
@@ -492,10 +479,6 @@ def delete_file():
 @app.route('/delete_dir', methods = ['GET'])
 def delete_dir():
 
-    global session_user
-    if session.usern == '':
-        return redirect('/login')
-
     global folderexist
     global foldermissing
     global foldersuccess
@@ -519,6 +502,11 @@ def delete_dir():
         shutil.rmtree(dir, ignore_errors=True)
     #redirect to file manager
     return redirect('/browser')
+
+@app.route('/profile')
+def profile():
+    return render_template("profile.html")
+
 
 # ====================================================================
 # ====================================================================
