@@ -87,7 +87,14 @@
                 <p style="font-size: 30px; color: white;"> DAFFMAN<br>
                 Daniel's Flask File Manager</p>
               <p></p>
-            
+              {% if wrongcred == True %}
+              <p class="alert alert-danger">Error: User Not Found<br>
+              </p>
+              {% endif %}
+              {% if wrongpass == True %}
+              <p class="alert alert-danger">Error: Incorrect Password<br>
+              </p>
+              {% endif %}
               <div class="form-floating mb-3 form-control-md">
                   <input type="text" style="background-color: #303030; color: white;" class="form-control" id="username" name="username" placeholder="Username">
                   <label for="floatingInput" style="color: white;" id="username">Username</label>

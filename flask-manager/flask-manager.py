@@ -54,28 +54,76 @@ foldercreated = ''
 rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
 rootfolder= 'uploads'
 
-
-session_user = ''
+wrongcred = False
+wrongpass = False
 
 @app.route('/')
 def base():
-    global session_user
-    session_user = ''
+    # reset session
+    session.clear()
     return redirect('/login')
 
 # Flask decorator
 @app.route('/login')
 def login():
-    return render_template("login.html")
+    #initiate login page 
 
+    global wrongcred
+    global wrongpass
+
+    return render_template("login.html",
+    wrongcred = wrongcred,
+    wrongpass = wrongpass
+    )
+
+#check login creds
 @app.route('/verifylogin', methods=['POST'])
 def verifylogin():
-    global session_user
-    username = request.form['username']
-    session['username'] = username
-    print("Sesion user: " + session['username'])
     
-    return redirect("/browser")
+    global wrongcred
+    global wrongpass
+
+    wrongcred = False
+    username = request.form['username']
+    inputpass = request.form['password']
+    print("Entered name: " + username)
+    
+    
+    query = 'select * from user where user_name="%s"; ' % (username)
+    dbcursor.execute(query)
+    account = dbcursor.fetchone()
+    print("Account : " + str(account))
+    if account:
+        print("Account : " + str(account[1]))
+        print("Password : " + str(account[2]))
+        password = account[2]
+        # session['password'] = password
+        if inputpass != password:
+            wrongcred = False
+            wrongpass = True
+            return redirect('/login')
+        else:
+        # print("Session user: " + session['username'])
+            session['username'] = account[1]
+            print("Session username : " + session['username'])
+            return redirect("/browser")
+    else:
+        wrongcred = True
+        wrongpass = False
+        print("No user found")
+        return redirect('/login')
+
+
+@app.route('/logout')
+def logout():
+    #initiate login page 
+
+    global wrongcred
+    global wrongpass
+    wrongcred, wrongpass = False, False
+    session.clear()
+    
+    return redirect("/login")
 
 
 # for Home button, return to root folder 'uploads'
@@ -189,7 +237,6 @@ def index():
     foldermissing = foldermissing,
     foldersuccess = foldersuccess,
     foldercreated = foldercreated,
-    session_user = session_user,
     session = session
     )
 
@@ -417,7 +464,7 @@ def upload_file():
 def delete_file():
 
     global session_user
-    if session_user == '':
+    if session['username'] == '':
         return redirect('/login')
 
     global folderexist
@@ -446,7 +493,7 @@ def delete_file():
 def delete_dir():
 
     global session_user
-    if session_user == '':
+    if session.usern == '':
         return redirect('/login')
 
     global folderexist
