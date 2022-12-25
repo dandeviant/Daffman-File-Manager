@@ -21,8 +21,11 @@ db = mysql.connector.connect(
 )
 
 dbcursor = db.cursor()
+static_url_path='',
+app = Flask(__name__,
+static_folder='web/static',
 
-app = Flask(__name__)
+)
 app.secret_key = 'any random string'
 Markdown(app)
 Bootstrap(app)
