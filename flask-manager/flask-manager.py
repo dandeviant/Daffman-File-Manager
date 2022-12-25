@@ -20,12 +20,14 @@ db = mysql.connector.connect(
   database="flaskmanager"
 )
 
-dbcursor = db.cursor()
-static_url_path='',
-app = Flask(__name__,
-static_folder='web/static',
+here = os.getcwd()
 
+dbcursor = db.cursor()
+static_url_path='sa',
+app = Flask(__name__,
+static_folder = here + '/static'
 )
+
 app.secret_key = 'any random string'
 Markdown(app)
 Bootstrap(app)
@@ -108,8 +110,9 @@ def verifylogin():
         else:
             # print("Session user: " + session['username'])
             session['foldermissing'] = False
-
             session['username'] = account[1]
+            session['password'] = account[2]
+            session['fullname'] = account[3]
             print("Session username : " + session['username'])
             return redirect("/browser")
     else:
