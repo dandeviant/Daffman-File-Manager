@@ -11,20 +11,21 @@ Progress so far...<br>
 - For now, every process is server-side only.<br>
 - Login and profiling 70% done
 - Users are not allowed to modify or upload in folder not belong to them, except admin
+- folders for new users will be created upon registration
 <br>
 
 Next task:<br>
-- Write the code for AES encryption using PyAesCrypt
-- Extension used is .enc or .aes
+
 - Add change password features for all user
 - Add owner id to file hash sql table and display ownership
-<br>
-
-Later:<br>
-- add change password features
 - for admin, add new user page in Administration section
 <br>
 
+Later:<br>
+- Write the code for AES encryption using PyAesCrypt
+- Extension used is .enc or .aes
+
+<br>
 - Do not allow files with same contents for storage, even for files with different names.
 - The process happens during upload process
 - If file has different name, but same contents with files in database, ABORT UPLOAD and display error message.

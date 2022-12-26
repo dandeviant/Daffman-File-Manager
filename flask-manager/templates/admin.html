@@ -139,18 +139,18 @@
                 <div class="row">
                   <div class="col">
                     Registered Name
-                    <input type="text" class="form-control" placeholder="{{ session['fullname'] }}" style="color: black;" readonly>
+                    <input type="text" class="form-control" id="newfullname" name="newfullname" placeholder="{{ session['fullname'] }}" style="color: black;">
                   </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col">
                         User Name
-                        <input type="text" class="form-control" placeholder="{{ session['username'] }}" style="color: black;" readonly>
+                        <input type="text" class="form-control" id="newusername" name="newusername" placeholder="{{ session['username'] }}" style="color: black;">
                     </div>
                     <div class="col">
                         Password
-                        <input type="password" class="form-control" placeholder="{{ session['password'] }}" style="color: black;">
+                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="{{ session['password'] }}" style="color: black;">
                   </div>
                 </div><br><Br>
                 <button class="btn btn-primary" type="submit">

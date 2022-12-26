@@ -227,11 +227,13 @@
                   <hr size="10">
                 
                     <h3><u>Files</u></h3><br>
-                    <form action="/upload" method="POST" enctype = "multipart/form-data">
-                      <input type="file" name="file" value="Choose File"/>
-                      <input type = "submit" value="Upload New File"/>
-                      <input type="reset" value="Clear Selection">
-                    </form><br>
+                    {% if session['editpermit'] == True %}
+                      <form action="/upload" method="POST" enctype = "multipart/form-data">
+                        <input type="file" name="file" value="Choose File"/>
+                        <input type = "submit" value="Upload New File"/>
+                        <input type="reset" value="Clear Selection">
+                      </form><br>
+                    {% endif %}
                     {% if fileexist == True %}
                       <p class="alert alert-danger">File Already Exists<br>
                         Note: Similar file name and MD5 found 

@@ -33,19 +33,6 @@ Markdown(app)
 Bootstrap(app)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 
-# @app.route('/', methods=['GET', 'POST'])
-# def login():
-#     error = None
-#     if request.method == 'POST':
-#         if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-#             error = 'Invalid Credentials. Please try again.'
-#         else:
-#             return redirect(url_for('home'))
-#     return render_template('login.html', error=error)
-
-# handle root route
-
-
 # Declaring global variables for messages
 fileexist = False
 filemissing = False
@@ -686,8 +673,28 @@ def changepass():
 def admin():
     return render_template("admin.html")
 
-@app.route('/newprofile')
+@app.route('/newprofile', methods = ['POST'])
 def newprofile():
+    newusername = request.form['newusername']
+    newpassword = request.form['newusername']
+    newfullname = request.form['newfullname']
+    print("New Fullname : " + newfullname)
+    print("New Username : " + newusername)
+    print("New Password : " + newpassword)
+
+    try:
+        query = ''' INSERT INTO `flaskmanager`.`user` 
+        (`user_id`, `user_name`, `password`, `full_name`) 
+        VALUES (default, '%s', '%s', '%s'); ''' % (newusername, newpassword, newfullname)
+        dbcursor.execute(query)
+        db.commit()
+        print("User " + newusername + " inserted successfully")
+        os.mkdir(rootpath + "/" + newusername)
+
+    except mysql.connector.Error as error:
+        print("Failed to insert record into user table {}".format(error))
+
+
     return render_template("admin.html")
 
 
@@ -697,3 +704,4 @@ def newprofile():
 # run HTTP server
 if(__name__ == '__main__'):
     app.run(debug=True, threaded=True)
+    # app.run('192.168.0.18')
