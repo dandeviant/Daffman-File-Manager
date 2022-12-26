@@ -6,7 +6,7 @@
 
 GitHub repository: https://github.com/dandeviant/Flask-file-manager
 
-Progress Reminder:<br>
+Progress so far...<br>
 - Data deduplication is completed via Python MD5, but client-side process is not possible.<br>
 - For now, every process is server-side only.<br>
 - Login and profiling 70% done
@@ -16,8 +16,8 @@ Progress Reminder:<br>
 Next task:<br>
 - Write the code for AES encryption using PyAesCrypt
 - Extension used is .enc or .aes
-- Add change password
-- Add
+- Add change password features for all user
+- Add owner id to file hash sql table and display ownership
 <br>
 
 Later:<br>
