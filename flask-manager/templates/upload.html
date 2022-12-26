@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>DAFFMAN - User Profile</title>
+    <title>DAFFMAN - File Upload</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -126,42 +126,7 @@
             </div>
           </nav>
             <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4" height="10000">
-              <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-              <a href="/browser">
-                <button class="btn btn-primary" type="submit">
-                  Return to File Browser
-                </button>                
-              </a>
-              <hr style="color: white;">
-              <form method="POST" action="/changepass">
-                <div class="row">
-                  <div class="col">
-                    Registered Name
-                    <input type="text" class="form-control" placeholder="{{ session['fullname'] }}" style="color: black;" readonly>
-                  </div>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col">
-                    User Name
-                    <input type="text" class="form-control" placeholder="{{ session['username'] }}" style="color: black;" readonly>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col col-xs-4">
-                    Password
-                    <input type="password" class="form-control" placeholder="{{ session['password'] }}" style="color: black;">
-                  </div>
-                </div><br><Br>
-                <button class="btn btn-danger" type="submit">
-                  Change Password
-                </button>
-                <button class="btn btn-secondary" type="reset">
-                  Clear Input
-                </button>
-                <!-- Modal -->
-                <!-- end Modal -->
-              </form>
+              
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
             </main>
         </div>

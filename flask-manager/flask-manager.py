@@ -44,6 +44,7 @@ foldersuccess = False
 foldercreated = ''
 
 rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
+forbidpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager'
 rootfolder= 'uploads'
 
 os.chdir(rootpath)
@@ -157,6 +158,7 @@ def index():
     #     return redirect(url_for('/logout'))
 
     global rootpath
+    global forbidpath
     global rootfolder
     current_dir = os.getcwd()
     if rootfolder not in current_dir:
@@ -187,7 +189,7 @@ def index():
 
 
     print("Browser session: " + session['username'])
-    path = current_dir.replace("/home/daniel/Desktop/Flask-file-manager/flask-manager", ".")
+    path = current_dir.replace(forbidpath, ".")
     listdir = path.split("/")
     numdir = len(listdir)
     # for x in range(len(listdir)):
@@ -259,6 +261,7 @@ def index():
     print("Check editpermit: " + str(session['editpermit']))
     return render_template("manager.html",
     rootpath = rootpath,
+    forbidpath = forbidpath,
     mimetype='image/svg+xml',
     current_dir = current_dir,
     path = path,
@@ -546,13 +549,24 @@ def upload_file():
             print("File Size = " + roundedsize + "MB")
             print("Uploaded Hash: "+ hash)
 
+            # Get user id for db update
+            query = "select user_id from user where user_name = '%s'; " % (session['username'])
+            print("Query: " + query)
+            dbcursor.execute(query)
+            result = dbcursor.fetchone()
+            user_id = result[0]
+            print('User ID: ' + str(result[0]))
+
+
+
             query = "select * from hash where filename='%s' and md5='%s'; " % (file, hash)
+            print("Query: " + query)
             dbcursor.execute(query)
             result = dbcursor.fetchall()
             rows = dbcursor.rowcount
 
             if rows == 0:
-                query = "insert into hash(filename, md5, filesize) values ('%s', '%s', '%s')" % (file, hash, filesize)
+                query = "insert into hash(filename, md5, filesize, user_id) values ('%s', '%s', '%s', %d)" % (file, hash, filesize, user_id)
                 dbcursor.execute(query)
                 db.commit()
                 print("File uploaded")
@@ -669,33 +683,80 @@ def profile():
 def changepass():
     return render_template("profile.html")
 
+@app.route('/adminstart')
+def adminstart():
+    session['nousername'] = False
+    session['passmatch'] = True
+    return redirect("/admin")
+
 @app.route('/admin')
 def admin():
-    return render_template("admin.html")
+    query = "select * from user;"
+    dbcursor.execute(query)
+    result = dbcursor.fetchall() 
+    return render_template("admin.html", result=result)
 
 @app.route('/newprofile', methods = ['POST'])
 def newprofile():
+    
     newusername = request.form['newusername']
     newpassword = request.form['newusername']
     newfullname = request.form['newfullname']
+    passmatch = request.form['passmatch']
     print("New Fullname : " + newfullname)
     print("New Username : " + newusername)
     print("New Password : " + newpassword)
+    print("Confirm Password : " + passmatch)
 
-    try:
-        query = ''' INSERT INTO `flaskmanager`.`user` 
-        (`user_id`, `user_name`, `password`, `full_name`) 
-        VALUES (default, '%s', '%s', '%s'); ''' % (newusername, newpassword, newfullname)
-        dbcursor.execute(query)
-        db.commit()
-        print("User " + newusername + " inserted successfully")
-        os.mkdir(rootpath + "/" + newusername)
+    if newusername == '':
+        session['nousername'] = True
+        print("No username")
+        return redirect("/admin")
+    else:
+        session['nousername'] = False
+        if passmatch == newpassword:
+            try:
+                query = ''' INSERT INTO `flaskmanager`.`user` 
+                (`user_id`, `user_name`, `password`, `full_name`) 
+                VALUES (default, '%s', '%s', '%s'); ''' % (newusername, newpassword, newfullname)
+                dbcursor.execute(query)
+                db.commit()
+                print("User " + newusername + " inserted successfully")
+                os.mkdir(rootpath + "/" + newusername)
+                session['passmatch'] = True
+            except mysql.connector.Error as error:
+                print("Failed to insert record into user table {}".format(error))
+        else:
+            session['passmatch'] = False
+            session['nousername'] = False
+    return redirect("/admin")
 
-    except mysql.connector.Error as error:
-        print("Failed to insert record into user table {}".format(error))
+@app.route('/deleteuser')
+def deleteuser():
+    
+    session['passmatch'] = True
+    id = request.args.get('id')
+    username = request.args.get('username')
+    print("Deleted ID = " + str(id))
+    query = "delete from user where user_id=%s ;" % (id)
+    dbcursor.execute(query)
+    target = rootpath + "/" + username
+    shutil.rmtree(target)
+    return redirect('/admin')
 
+@app.route('/newupload')
+def newupload():
 
-    return render_template("admin.html")
+    current_dir = os.getcwd()
+    path = current_dir.replace(fprbidpath, ".")
+    listdir = path.split("/")
+    numdir = len(listdir)
+    # for x in range(len(listdir)):
+
+    # create tuple named file
+    files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
+    return render_template('upload.html')
+
 
 
 # ====================================================================

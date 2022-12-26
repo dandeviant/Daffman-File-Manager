@@ -107,7 +107,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
                   {% if session['username'] == 'admin' %}
-                  <a class="dropdown-item" href="/admin">Administration</a>
+                  <a class="dropdown-item" href="/adminstart">Administration</a>
                   <hr>
                   {% endif %}
                   <a class="dropdown-item" href="/profile">Profile</a>
@@ -135,22 +135,41 @@
               <hr style="color: white;">
               <h3> Add New User </h3>
               <hr style="color: white;">
+              For debugging: Passmatch = {{ session['passmatch'] }}
+              {% if session['passmatch'] == False %}
+                  <p class="alert alert-danger">Error: Password does not match<br>
+                    Please re-enter password
+                  </p>
+              {% endif %}<br>
+              For debugging: nousername = {{ session['nousername'] }}
+              {% if session['nousername'] == True %}
+              <p class="alert alert-danger">
+                No username entered
+              </p>
+              {% endif %}
               <form method="POST" action="/newprofile">
                 <div class="row">
                   <div class="col">
                     Registered Name
-                    <input type="text" class="form-control" id="newfullname" name="newfullname" placeholder="{{ session['fullname'] }}" style="color: black;">
+                    <input type="text" class="form-control" id="newfullname" name="newfullname" placeholder="" style="color: black;">
                   </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col">
                         User Name
-                        <input type="text" class="form-control" id="newusername" name="newusername" placeholder="{{ session['username'] }}" style="color: black;">
+                        <input type="text" class="form-control" id="newusername" name="newusername" placeholder="" style="color: black;">
                     </div>
+                </div>
+                <br>
+                <div class="row">
                     <div class="col">
                         Password
-                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="{{ session['password'] }}" style="color: black;">
+                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter password" style="color: black;">
+                    </div>
+                    <div class="col">
+                      Confirm Password
+                      <input type="password" class="form-control" id="passmatch" name="passmatch" placeholder="Re-enter password" style="color: black;">
                   </div>
                 </div><br><Br>
                 <button class="btn btn-primary" type="submit">
@@ -162,6 +181,34 @@
                 <!-- Modal -->
                 <!-- end Modal -->
               </form>
+              <hr>
+              <h3 class="alert alert-danger">
+                DANGER ZONE
+              </h3>
+              <br><br><br>
+              <h4>Delete User and Files </h4>
+                <table class="table table-dark">
+                  <thead>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Action</th>
+                  </thead>
+                  {% for items in result %}
+                    <tr>
+                      <td>{{ items[0] }}</td>
+                      <td>{{ items[1] }}</td>
+                      <td>{{ items[3] }}</td>
+                      <td>
+                        <a href="/deleteuser?id={{ items[0] }}&username={{ items[1] }}">
+                          <button class="btn btn-danger" type="submit" fill="red">
+                          Remove User
+                          </button>
+                        </a>
+                      </td>
+                    </tr>
+                  {% endfor%}
+                </table>
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
             </main>
         </div>

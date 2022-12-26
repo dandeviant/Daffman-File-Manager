@@ -18,7 +18,7 @@ Next task:<br>
 
 - Add change password features for all user
 - Add owner id to file hash sql table and display ownership
-- for admin, add new user page in Administration section
+- when delete user, delete their folders and its contents too
 <br>
 
 Later:<br>

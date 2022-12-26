@@ -1,0 +1,2 @@
+rootpath : /home/daniel/Desktop/Flask-file-manager/flask-manager/uploads
+forbidpath : /home/daniel/Desktop/Flask-file-manager/flask-manager
