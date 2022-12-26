@@ -17,8 +17,7 @@ Progress so far...<br>
 Next task:<br>
 
 - Add change password features for all user
-- Add owner id to file hash sql table and display ownership
-- when delete user, delete their folders and its contents too
+- Complete upload page
 <br>
 
 Later:<br>

@@ -196,7 +196,7 @@ def index():
 
     # create tuple named file
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
-    
+    print("Files = " + str(files))
 
 
     numfiles = 0
@@ -239,7 +239,7 @@ def index():
     for item in files[0: -1]:
             if '.' in item:
                 namefile = current_dir + '/' + item
-                query = "select md5, filesize from hash where filename = '%s' ; " % (namefile)
+                query = "select md5, filesize, user_id from hash where filename = '%s' ; " % (namefile)
                 dbcursor.execute(query)
                 result = dbcursor.fetchall()
                 # print("Query result: ", end="")
@@ -248,7 +248,8 @@ def index():
                     # print(x[0])
                     hash = x[0]
                     filesize = x[1]
-                hash_list.append((item, filesize, hash))
+                    id = x[2]
+                hash_list.append((item, filesize, hash, id))
                 # print("hash_list = ", end="")
                 # print(hash_list)
     # assets = '../'            
@@ -747,15 +748,19 @@ def deleteuser():
 @app.route('/newupload')
 def newupload():
 
+    os.chdir(rootpath + "/daniel/testdaniel")
     current_dir = os.getcwd()
-    path = current_dir.replace(fprbidpath, ".")
+    path = current_dir.replace(forbidpath, ".")
     listdir = path.split("/")
     numdir = len(listdir)
     # for x in range(len(listdir)):
 
     # create tuple named file
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
-    return render_template('upload.html')
+    return render_template('upload.html',
+        listdir = listdir,
+        numdir = numdir
+    )
 
 
 

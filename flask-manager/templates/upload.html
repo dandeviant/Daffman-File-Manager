@@ -89,7 +89,7 @@
                 xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <path id="SVGRepoEditor" data-name="Path 102" d="M35.5,16h-11A2.5,2.5,0,0,1,22,13.5v-8A2.5,2.5,0,0,1,24.5,3h4A2.5,2.5,0,0,1,31,5.5V6h4.5A2.5,2.5,0,0,1,38,8.5v5A2.5,2.5,0,0,1,35.5,16ZM24.5,4A1.5,1.5,0,0,0,23,5.5v8A1.5,1.5,0,0,0,24.5,15h11A1.5,1.5,0,0,0,37,13.5v-5A1.5,1.5,0,0,0,35.5,7h-5a.5.5,0,0,1-.5-.5v-1A1.5,1.5,0,0,0,28.5,4Z" transform="translate(-22 -3)">
                 </path> </svg>
-              <span class="fs-4">DAFFMAN&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;User Profile</span>
+              <span class="fs-4">DAFFMAN&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;Upload Page</span>
           </a>
           <hr>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,16 @@
             </div>
           </nav>
             <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4" height="10000">
-              
+            <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
+            Target Directory<br>
+            {% for x in range(1, numdir): %} 
+                <svg fill="#ffffff" width="20px" height="25px" viewBox="0 0 16 16" id="SVGRepoEditor" 
+                xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <path id="SVGRepoEditor" data-name="Path 102" d="M35.5,16h-11A2.5,2.5,0,0,1,22,13.5v-8A2.5,2.5,0,0,1,24.5,3h4A2.5,2.5,0,0,1,31,5.5V6h4.5A2.5,2.5,0,0,1,38,8.5v5A2.5,2.5,0,0,1,35.5,16ZM24.5,4A1.5,1.5,0,0,0,23,5.5v8A1.5,1.5,0,0,0,24.5,15h11A1.5,1.5,0,0,0,37,13.5v-5A1.5,1.5,0,0,0,35.5,7h-5a.5.5,0,0,1-.5-.5v-1A1.5,1.5,0,0,0,28.5,4Z" transform="translate(-22 -3)">
+                </path> </svg>&nbsp;&nbsp;
+                {{ listdir[x] }}&nbsp;&nbsp;&nbsp;/ &nbsp;
+            {% endfor %}
+
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
             </main>
         </div>
