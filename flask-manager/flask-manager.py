@@ -59,6 +59,8 @@ foldercreated = ''
 rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
 rootfolder= 'uploads'
 
+os.chdir(rootpath)
+
 wrongcred = False
 wrongpass = False
 
@@ -75,7 +77,7 @@ def login():
 
     global wrongcred
     global wrongpass
-
+    session['editpermit'] = False
     return render_template("login.html",
     wrongcred = wrongcred,
     wrongpass = wrongpass
@@ -87,12 +89,11 @@ def verifylogin():
     
     global wrongcred
     global wrongpass
-
+    
     wrongcred = False
     username = request.form['username']
     inputpass = request.form['password']
     print("Entered name: " + username)
-    
     
     query = 'select * from user where user_name="%s"; ' % (username)
     dbcursor.execute(query)
@@ -114,11 +115,19 @@ def verifylogin():
             session['password'] = account[2]
             session['fullname'] = account[3]
             print("Session username : " + session['username'])
+            if session['username'] == "admin":
+                session['admin'] = True
+            else:
+                session['admin'] = False
+                session['editpermit'] = False
+            os.chdir(rootpath)
+            print("Check editpermit: " + str(session['editpermit']))
             return redirect("/browser")
     else:
         wrongcred = True
         wrongpass = False
         print("No user found")
+        print("Check editpermit: " + str(session['editpermit']))
         return redirect('/login')
 
 
@@ -128,7 +137,21 @@ def logout():
 
     global wrongcred
     global wrongpass
+    global fileexist
+    global filemissing
+    global filesuccess
+    global folderexist
+    global foldermissing
+    global foldersuccess
+    
     wrongcred, wrongpass = False, False
+    fileexist = False
+    filemissing = False
+    filesuccess = False
+    folderexist = False
+    foldermissing = False
+    foldersuccess = False
+
     session.clear()
     
     return redirect("/login")
@@ -151,8 +174,32 @@ def index():
     current_dir = os.getcwd()
     if rootfolder not in current_dir:
         os.chdir(rootpath)
-    
+
+    # session['editpermit'] = True
     current_dir = os.getcwd()
+    compare = rootfolder + "/" + session['username']
+    print("Compare : " + compare)
+    usercd = session['username']
+    print("Dir : " + current_dir)
+    print("Usercd : " + usercd)
+
+    if session['username'] == "admin":
+        session['admin'] = True
+    else:
+        session['admin'] = False
+
+    if session['admin'] == False:
+        if compare not in current_dir:
+            print("Upload not allowed")
+            session['folderpermit'] = False
+        else:
+            session['editpermit'] = True
+    else:
+        session['editpermit'] = True
+
+
+
+    print("Browser session: " + session['username'])
     path = current_dir.replace("/home/daniel/Desktop/Flask-file-manager/flask-manager", ".")
     listdir = path.split("/")
     numdir = len(listdir)
@@ -216,17 +263,15 @@ def index():
                 # print("hash_list = ", end="")
                 # print(hash_list)
     # assets = '../'            
-    # picfolder = os.path.join(assets, 'folder.svg')
-    picfolder = '/home/daniel/Desktop/Flask-file-manager/flask-manager/folder.svg'
-    # svg = open(picfolder).read()
 
     global fileexist
     global filemissing
     global folderexist
     global foldermissing
 
-
+    print("Check editpermit: " + str(session['editpermit']))
     return render_template("manager.html",
+    rootpath = rootpath,
     mimetype='image/svg+xml',
     current_dir = current_dir,
     path = path,
@@ -238,7 +283,6 @@ def index():
     numdir = numdir,
     listdir = listdir,
     # svg = svg,
-    picfolder = picfolder,
     fileexist = fileexist,
     filemissing = filemissing,
     filesuccess = filesuccess,
@@ -263,14 +307,42 @@ def cd():
     fileexist = False
     filemissing = False
     filesuccess = False
-    fileuploaded = ''
     folderexist = False
     foldermissing = False
-    foldersuccess = False
-    foldercreated = ''
+    foldersuccess = False   
+
+
+    session['editpermit'] = False
+    target_dir = request.args.get('path')
+    print("Target dir: " + target_dir)
+
+    os.chdir(request.args.get('path'))
+
+    current_dir = request.args.get('path')
+    compare = rootfolder + "/" + session['username']
+    print("Compare : " + compare)
+    usercd = session['username']
+    print("Requested Dir : " + current_dir)
+    print("Usercd : " + usercd)
+
+    # if session['username'] == "admin":
+    #     session['admin'] = True
+    # else:
+    #     session['admin'] = False
+
+    if session['admin'] == False:
+        if compare not in current_dir:
+            print("Upload not allowed")
+            session['editpermit'] = False
+        else:
+            session['editpermit'] = True
+    else:
+        session['editpermit'] = True
+
+    print("Check editpermit: " + str(session['editpermit']))
 
     # run cd command
-    os.chdir(request.args.get('path'))
+    
     #redirect to file manager
     return redirect('/browser')
 
@@ -344,6 +416,30 @@ def md():
     filemissing = False
     fileexist = False
     filesuccess = False
+
+    current_dir = os.getcwd()
+    compare = rootfolder + "/" + session['username']
+    print("Compare : " + compare)
+    usercd = session['username']
+    print("Dir : " + current_dir)
+    print("Usercd : " + usercd)
+
+    if session['username'] == "admin":
+        session['admin'] = True
+    else:
+        session['admin'] = False
+
+    if session['admin'] == False:
+        if compare not in current_dir:
+            print("Upload not allowed")
+            session['editpermit'] = False
+        else:
+            session['editpermit'] = True
+    else:
+        session['editpermit'] = True
+        print("resultcheck : " + str(session['editpermit']))
+
+
     #get folder name from HTML form
     foldername = request.args.get('folder')
 
@@ -399,6 +495,7 @@ def download():
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
 
+
     global filemissing
     global fileexist
     global filesuccess
@@ -411,11 +508,39 @@ def upload_file():
     foldermissing = False
     foldersuccess = False
 
+    session['editpermit'] = True
+
+    current_dir = os.getcwd()
+    compare = rootfolder + "/" + session['username']
+    print("Compare : " + compare)
+    usercd = session['username']
+    print("Dir : " + current_dir)
+    print("Usercd : " + usercd)
+
+    if session['username'] == "admin":
+        session['admin'] = True
+    else:
+        session['admin'] = False
+
+    if session['admin'] == False:
+        if compare not in current_dir:
+            print("Upload not allowed")
+            session['editpermit'] = False
+            return redirect('/browser')
+        else:
+            session['editpermit'] = True
+    else:
+        session['editpermit'] = True
+    
+    print("resultcheck : " + str(session['editpermit']))
+
+        
     if request.method == 'POST':
         f = request.files['file']
         if f.filename == '':
             filemissing = True
             filesuccess = False
+            
         else:
             filemissing = False
             filesuccess = True
@@ -452,9 +577,7 @@ def upload_file():
                 fileexist = True
                 filesuccess = False
                 fileuploaded = ''
-
-
-        return redirect('/browser')
+    return redirect('/browser')
 
 #delete files from the server directory
 @app.route('/delete', methods = ['GET'])
@@ -475,6 +598,27 @@ def delete_file():
     foldermissing = False
     foldersuccess = False
     foldercreated = ''
+
+    session['deletepermit'] = True
+
+    current_dir = os.getcwd()
+    compare = rootfolder + "/" + session['username']
+    print("Compare : " + compare)
+    usercd = session['username']
+    print("Dir : " + current_dir)
+    print("Usercd : " + usercd)
+    if session['username'] == "admin":
+        session['admin'] = True
+    if session['admin'] == False:
+        if compare not in current_dir:
+            print("Delete not allowed")
+            session['editpermit'] = False
+            return redirect('/browser')
+        else:
+            session['editpermit'] = True
+    
+
+    print("resultcheck : " + str(session['deletepermit']))
     file = request.args.get('file')
     query = "DELETE FROM hash WHERE filename='%s' " % (file)
     dbcursor.execute(query)
@@ -500,6 +644,27 @@ def delete_dir():
     foldermissing = False
     foldersuccess = False
     foldercreated = ''
+
+    current_dir = os.getcwd()
+    compare = rootfolder + "/" + session['username']
+    print("Compare : " + compare)
+    usercd = session['username']
+    print("Dir : " + current_dir)
+    print("Usercd : " + usercd)
+    if session['username'] == "admin":
+        session['admin'] = True
+    if session['admin'] == False:
+        if compare not in current_dir:
+            print("Delete not allowed")
+            session['editpermit'] = False
+            return redirect('/browser')
+        else:
+            session['editpermit'] = True
+    
+
+    print("resultcheck : " + str(session['editpermit']))
+
+
     dir = request.args.get('dir')
     content = os.listdir(dir)
     if len(content) == 0:
@@ -512,6 +677,18 @@ def delete_dir():
 @app.route('/profile')
 def profile():
     return render_template("profile.html")
+
+@app.route('/changepass')
+def changepass():
+    return render_template("profile.html")
+
+@app.route('/admin')
+def admin():
+    return render_template("admin.html")
+
+@app.route('/newprofile')
+def newprofile():
+    return render_template("admin.html")
 
 
 # ====================================================================

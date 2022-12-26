@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>DAFFMAN - User Profile</title>
+    <title>DAFFMAN - Admin</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -89,7 +89,7 @@
                 xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <path id="SVGRepoEditor" data-name="Path 102" d="M35.5,16h-11A2.5,2.5,0,0,1,22,13.5v-8A2.5,2.5,0,0,1,24.5,3h4A2.5,2.5,0,0,1,31,5.5V6h4.5A2.5,2.5,0,0,1,38,8.5v5A2.5,2.5,0,0,1,35.5,16ZM24.5,4A1.5,1.5,0,0,0,23,5.5v8A1.5,1.5,0,0,0,24.5,15h11A1.5,1.5,0,0,0,37,13.5v-5A1.5,1.5,0,0,0,35.5,7h-5a.5.5,0,0,1-.5-.5v-1A1.5,1.5,0,0,0,28.5,4Z" transform="translate(-22 -3)">
                 </path> </svg>
-              <span class="fs-4">DAFFMAN&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;User Profile</span>
+              <span class="fs-4">DAFFMAN&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;Administration</span>
           </a>
           <hr>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,22 +99,22 @@
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
             </ul>
             <div class="dropdown show">
-              <button class="btn btn-dark dropdown-toggle btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <svg fill="#ffffff" width="28px" height="32px" 
-                viewBox="0 1.5 30.586 30.586" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g transform="translate(-546.269 -195.397)"><path d="M572.138,221.245a15.738,15.738,0,0,0-21.065-.253l-1.322-1.5a17.738,17.738,0,0,1,23.741.28Z"></path><path d="M561.464,204.152a4.96,4.96,0,1,1-4.96,4.96,4.966,4.966,0,0,1,4.96-4.96m0-2a6.96,6.96,0,1,0,6.96,6.96,6.96,6.96,0,0,0-6.96-6.96Z"></path><path d="M561.562,197.4a13.293,13.293,0,1,1-13.293,13.293A13.308,13.308,0,0,1,561.562,197.4m0-2a15.293,15.293,0,1,0,15.293,15.293A15.293,15.293,0,0,0,561.562,195.4Z"></path></g></svg>
-                {{ session['username'] }}
-              </button>
-              <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
-                {% if session['username'] == 'admin' %}
-                <a class="dropdown-item" href="/admin">Administration</a>
-                <hr>
-                {% endif %}
-                <a class="dropdown-item" href="/profile">Profile</a>
-                <a class="dropdown-item" href="/logout">Sign Out</a>
-                
+                <button class="btn btn-dark dropdown-toggle btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <svg fill="#ffffff" width="28px" height="32px" 
+                  viewBox="0 1.5 30.586 30.586" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g transform="translate(-546.269 -195.397)"><path d="M572.138,221.245a15.738,15.738,0,0,0-21.065-.253l-1.322-1.5a17.738,17.738,0,0,1,23.741.28Z"></path><path d="M561.464,204.152a4.96,4.96,0,1,1-4.96,4.96,4.966,4.966,0,0,1,4.96-4.96m0-2a6.96,6.96,0,1,0,6.96,6.96,6.96,6.96,0,0,0-6.96-6.96Z"></path><path d="M561.562,197.4a13.293,13.293,0,1,1-13.293,13.293A13.308,13.308,0,0,1,561.562,197.4m0-2a15.293,15.293,0,1,0,15.293,15.293A15.293,15.293,0,0,0,561.562,195.4Z"></path></g></svg>
+                  {{ session['username'] }}
+                </button>
+                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
+                  {% if session['username'] == 'admin' %}
+                  <a class="dropdown-item" href="/admin">Administration</a>
+                  <hr>
+                  {% endif %}
+                  <a class="dropdown-item" href="/profile">Profile</a>
+                  <a class="dropdown-item" href="/logout">Sign Out</a>
+                  
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </header>
@@ -131,9 +131,11 @@
                 <button class="btn btn-primary" type="submit">
                   Return to File Browser
                 </button>                
-              </a>
+              </a>            
               <hr style="color: white;">
-              <form method="POST" action="/changepass">
+              <h3> Add New User </h3>
+              <hr style="color: white;">
+              <form method="POST" action="/newprofile">
                 <div class="row">
                   <div class="col">
                     Registered Name
@@ -142,20 +144,20 @@
                 </div>
                 <br>
                 <div class="row">
-                  <div class="col">
-                    User Name
-                    <input type="text" class="form-control" placeholder="{{ session['username'] }}" style="color: black;" readonly>
-                  </div>
-                  <div class="col col-xs-4">
-                    Password
-                    <input type="password" class="form-control" placeholder="{{ session['password'] }}" style="color: black;">
+                    <div class="col">
+                        User Name
+                        <input type="text" class="form-control" placeholder="{{ session['username'] }}" style="color: black;" readonly>
+                    </div>
+                    <div class="col">
+                        Password
+                        <input type="password" class="form-control" placeholder="{{ session['password'] }}" style="color: black;">
                   </div>
                 </div><br><Br>
-                <button class="btn btn-danger" type="submit">
-                  Change Password
+                <button class="btn btn-primary" type="submit">
+                  Create User
                 </button>
                 <button class="btn btn-secondary" type="reset">
-                  Clear Input
+                  Clear Form
                 </button>
                 <!-- Modal -->
                 <!-- end Modal -->

@@ -10,6 +10,7 @@ Progress Reminder:<br>
 - Data deduplication is completed via Python MD5, but client-side process is not possible.<br>
 - For now, every process is server-side only.<br>
 - Login and profiling 70% done
+- Users are not allowed to modify or upload in folder not belong to them, except admin
 <br>
 
 Next task:<br>
