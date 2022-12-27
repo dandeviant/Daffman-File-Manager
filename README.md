@@ -80,11 +80,9 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 3. werkzeug.utils (secure_filename)
 4. hashlib
 5. mysql-connector-python (import mysql.connector)
-6. pycrypto
-7. Crypto (for AES)
-8. pyAesCrypt
+6. pyAesCrypt
     - pyAesCrypt is a AES Crypt module integrated with Python.
-    - It uses AES-256-CBC encryption moode
+    - It uses AES-256-CBC encryption mode
 
 ---
 
