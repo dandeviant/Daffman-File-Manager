@@ -82,7 +82,7 @@
     
 
     <!-- As a link -->
-    <header class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <header class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: black;">
         <div class="container-fluid">
           <a class="navbar-brand" href="" fill="blue">
             <svg fill="#ffffff" width="48px" height="32px" viewBox="0 0 16 16" id="SVGRepoEditor" 
@@ -99,7 +99,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
             </ul>
             <div class="dropdown show">
-                <button class="btn btn-dark dropdown-toggle btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn dropdown-toggle btn-lg" type="button" style="color: white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <svg fill="#ffffff" width="28px" height="32px" 
                   viewBox="0 1.5 30.586 30.586" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g transform="translate(-546.269 -195.397)"><path d="M572.138,221.245a15.738,15.738,0,0,0-21.065-.253l-1.322-1.5a17.738,17.738,0,0,1,23.741.28Z"></path><path d="M561.464,204.152a4.96,4.96,0,1,1-4.96,4.96,4.966,4.966,0,0,1,4.96-4.96m0-2a6.96,6.96,0,1,0,6.96,6.96,6.96,6.96,0,0,0-6.96-6.96Z"></path><path d="M561.562,197.4a13.293,13.293,0,1,1-13.293,13.293A13.308,13.308,0,0,1,561.562,197.4m0-2a15.293,15.293,0,1,0,15.293,15.293A15.293,15.293,0,0,0,561.562,195.4Z"></path></g></svg>
@@ -162,31 +162,76 @@
                     </div>
                 </div>
                 <br>
+                <hr>
                 <div class="row">
                     <div class="col">
-                        Password
-                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter password" style="color: black;">
+                        New Password
+                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" style="color: black;">
                     </div>
                     <div class="col">
-                      Confirm Password
-                      <input type="password" class="form-control" id="passmatch" name="passmatch" placeholder="Re-enter password" style="color: black;">
-                  </div>
-                </div><br><Br>
-                <button class="btn btn-primary" type="submit">
+                        Confirm Password
+                        <input type="password" class="form-control" id="passmatch" name="passmatch" placeholder="Re-enter Password" style="color: black;">
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-danger" type="submit">
                   Create User
                 </button>
                 <button class="btn btn-secondary" type="reset">
                   Clear Form
                 </button>
+              </form>
+              <hr>
+                <h4>Current Admin Password</h4>
+                <table class="table table-dark">
+                  <tr>
+                    <td>
+                      <b>Plain Text</b>
+                    </td>
+                    <td>
+                      {{ session['rawpass'] }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <b>sha256</b>
+                    </td>
+                    <td>
+                        {{ session['password'] }}
+                    </td>
+                  </tr>
+                </table><br>
+                
                 <!-- Modal -->
                 <!-- end Modal -->
-              </form>
               <hr>
               <h3 class="alert alert-danger">
                 DANGER ZONE
               </h3>
               <br><br><br>
-              <h4>Delete User and Files </h4>
+              <h4>New Admin Password</h4>
+              <hr>
+                <div class="row">
+                    <div class="col">
+                        New Password
+                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" style="color: black;">
+                    </div>
+                    <div class="col">
+                      Confirm Password
+                      <input type="password" class="form-control" id="passmatch" name="passmatch" placeholder="Re-enter Password" style="color: black;">
+                  </div>
+                </div><br>
+                <button class="btn btn-danger" type="submit">
+                  Change Password
+                </button>
+                <button class="btn btn-secondary" type="reset">
+                  Clear Form
+                </button>
+              <br>
+              <hr>
+              <br><br>
+              <h4>Delete User and Their Folder </h4>
+              <hr>
                 <table class="table table-dark">
                   <thead>
                     <th scope="col">User ID</th>
@@ -195,20 +240,24 @@
                     <th scope="col">Action</th>
                   </thead>
                   {% for items in result %}
-                    <tr>
-                      <td>{{ items[0] }}</td>
-                      <td>{{ items[1] }}</td>
-                      <td>{{ items[3] }}</td>
-                      <td>
-                        <a href="/deleteuser?id={{ items[0] }}&username={{ items[1] }}">
-                          <button class="btn btn-danger" type="submit" fill="red">
-                          Remove User
-                          </button>
-                        </a>
-                      </td>
-                    </tr>
+                    {% if items[1] != 'admin' %}
+                      <tr>
+                        <td>{{ items[0] }}</td>
+                        <td>{{ items[1] }}</td>
+                        <td>{{ items[3] }}</td>
+                        <td>
+                          <a href="/deleteuser?id={{ items[0] }}&username={{ items[1] }}">
+                            <button class="btn btn-danger" type="submit" fill="red">
+                            Remove User
+                            </button>
+                          </a>
+                        </td>
+                      </tr>
+                    {% endif %}
                   {% endfor%}
                 </table>
+                <br>
+                <hr>
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
             </main>
         </div>

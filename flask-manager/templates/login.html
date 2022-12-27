@@ -88,11 +88,11 @@
                 <p style="font-size: 30px; color: white;"> DAFFMAN<br>
                 Daniel's Flask File Manager</p>
               <p></p>
-              {% if wrongcred == True %}
+              {% if session['wrongcred'] == True %}
               <p class="alert alert-danger">Error: User Not Found<br>
               </p>
               {% endif %}
-              {% if wrongpass == True %}
+              {% if session['wrongpass'] == True %}
               <p class="alert alert-danger">Error: Incorrect Password<br>
               </p>
               {% endif %}

@@ -12,6 +12,8 @@ Progress so far...<br>
 - Login and profiling 70% done
 - Users are not allowed to modify or upload in folder not belong to them, except admin
 - folders for new users will be created upon registration
+- Passwords for files is user's password
+- Password is hashed using SHA256
 <br>
 
 Next task:<br>

@@ -75,27 +75,36 @@ def login():
 #check login creds
 @app.route('/verifylogin', methods=['POST'])
 def verifylogin():
-    
+    print("============================== VERIFYLOGIN ==============================")
     global wrongcred
     global wrongpass
     
     wrongcred = False
     username = request.form['username']
-    inputpass = request.form['password']
+    rawinputpass = request.form['password']
+    session['rawpass'] = rawinputpass
+    hashinputpass = hashlib.sha256(rawinputpass.encode('utf-8')).hexdigest()
     print("Entered name: " + username)
+    print("Input pass: " + rawinputpass)
+    print("Input pass hash: " + hashinputpass)
     
     query = 'select * from user where user_name="%s"; ' % (username)
     dbcursor.execute(query)
     account = dbcursor.fetchone()
-    print("Account : " + str(account))
+    print("Account list: " + str(account))
     if account:
         print("Account : " + str(account[1]))
         print("Password : " + str(account[2]))
         password = account[2]
+
+        # use sha256 to hash the input password and compare the hash
+
+
+
         # session['password'] = password
-        if inputpass != password:
-            wrongcred = False
-            wrongpass = True
+        if hashinputpass != password:
+            session['wrongcred'] = False
+            session['wrongpass'] = True
             return redirect('/login')
         else:
             # print("Session user: " + session['username'])
@@ -113,8 +122,8 @@ def verifylogin():
             print("Check editpermit: " + str(session['editpermit']))
             return redirect("/browser")
     else:
-        wrongcred = True
-        wrongpass = False
+        session['wrongcred'] = True
+        session['wrongpass'] = False
         print("No user found")
         print("Check editpermit: " + str(session['editpermit']))
         return redirect('/login')
@@ -155,6 +164,7 @@ def reset():
 
 @app.route('/browser', methods=['GET', 'POST']) # Flask decorator
 def index():
+    print("============================== FILE BROWSER INDEX ==============================")
     # if session['username'] is None:
     #     return redirect(url_for('/logout'))
 
@@ -229,8 +239,8 @@ def index():
     result = dbcursor.fetchall()
     # print("Result: ", end="")
     # print(result)
-    # print("Files: ", end="")
-    # print(files)
+    print("Files = ", end="")
+    print(files)
     notepath = '/home/daniel/Desktop/Flask-file-manager/README.md'
     note = subprocess.check_output(('cat ' + notepath), shell=True).decode('utf-8')
 
@@ -240,7 +250,7 @@ def index():
     for item in files[0: -1]:
             if '.' in item:
                 namefile = current_dir + '/' + item
-                query = "select md5, filesize, user_id from hash where filename = '%s' ; " % (namefile)
+                query = "select md5, filesize from hash where filename = '%s' ; " % (namefile)
                 dbcursor.execute(query)
                 result = dbcursor.fetchall()
                 # print("Query result: ", end="")
@@ -249,8 +259,7 @@ def index():
                     # print(x[0])
                     hash = x[0]
                     filesize = x[1]
-                    id = x[2]
-                hash_list.append((item, filesize, hash, id))
+                hash_list.append((item, filesize, hash))
                 # print("hash_list = ", end="")
                 # print(hash_list)
     # assets = '../'            
@@ -486,7 +495,7 @@ def download():
 # upload files from filesystem
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
-
+    print("\n================ UPLOAD FILE ================")
 
     global filemissing
     global fileexist
@@ -556,8 +565,11 @@ def upload_file():
             print("Query: " + query)
             dbcursor.execute(query)
             result = dbcursor.fetchone()
+            print("Result: " + str(result))
             user_id = result[0]
+            password = session['password']
             print('User ID: ' + str(result[0]))
+            print('User Password: ' + password)
 
 
 
@@ -568,16 +580,33 @@ def upload_file():
             rows = dbcursor.rowcount
 
             if rows == 0:
-                query = "insert into hash(filename, md5, filesize, user_id) values ('%s', '%s', '%s', %d)" % (file, hash, filesize, user_id)
+
+                # AES encryption process
+                inputfile = file
+                outputfile = file + ".aes"
+                encodedpass = password.encode('utf-8')
+                hashedpass = hashlib.sha256(encodedpass)
+                print("Input file : " + inputfile)
+                print("Output file: " + outputfile)
+                print("File Password Unhashed: " + password)
+                print("File Password Hashed: " + str(hashedpass.hexdigest()))
+
+                
+                pyAesCrypt.encryptFile(inputfile, outputfile, password)
+                
+                query = "insert into hash(filename, md5, filesize, user_id) values ('%s', '%s', '%s', %d)" % (outputfile, hash, filesize, user_id)
                 dbcursor.execute(query)
                 db.commit()
+                os.remove(file)
                 print("File uploaded")
                 fileexist = False
                 filesuccess = True
-                fileuploaded = f.filename
+                fileuploaded = f.filename+'.aes'
                 
-                #encryption process
                 
+                
+
+
             else:
                 print("File already exists")
                 fileexist = True
@@ -682,7 +711,17 @@ def delete_dir():
 
 @app.route('/profile')
 def profile():
-    return render_template("profile.html")
+    print("\n================ PROFILE ================")
+    query = 'select * from user where user_name="%s"; ' % (session['username'])
+    dbcursor.execute(query)
+    result = dbcursor.fetchone()
+    rawpass = session['password']
+    password = str(result[0])
+    hashedpass = password
+    print("Hashed Password : " + hashedpass)
+    return render_template("profile.html",
+        hashedpass = hashedpass
+    )
 
 @app.route('/changepass')
 def changepass():
@@ -696,14 +735,24 @@ def adminstart():
 
 @app.route('/admin')
 def admin():
+    print("===================== ADMIN =====================")
+    queryadmin = "select password from user where user_id='1' "
+    dbcursor.execute(queryadmin)
+    result = dbcursor.fetchall()
+    resultpass = str(result[0])
+    password = resultpass.encode('utf-8')
+    hashedpass = hashlib.sha256(password).hexdigest()
+    print("Hashed Password : " + hashedpass)
+
+
     query = "select * from user;"
     dbcursor.execute(query)
-    result = dbcursor.fetchall() 
-    return render_template("admin.html", result=result)
+    result = dbcursor.fetchall()
+    return render_template("admin.html", result=result, resultpass=resultpass, hashedpass = hashedpass)
 
 @app.route('/newprofile', methods = ['POST'])
 def newprofile():
-    
+    print("============================== FILE BROWSER INDEX ==============================")
     newusername = request.form['newusername']
     newpassword = request.form['newusername']
     newfullname = request.form['newfullname']
@@ -721,9 +770,11 @@ def newprofile():
         session['nousername'] = False
         if passmatch == newpassword:
             try:
+                hashedpass = hashlib.sha256(newpassword.encode('utf-8')).hexdigest()
+                print("Hashed Password : " + hashedpass)
                 query = ''' INSERT INTO `flaskmanager`.`user` 
                 (`user_id`, `user_name`, `password`, `full_name`) 
-                VALUES (default, '%s', '%s', '%s'); ''' % (newusername, newpassword, newfullname)
+                VALUES (default, '%s', '%s', '%s'); ''' % (newusername, hashedpass, newfullname)
                 dbcursor.execute(query)
                 db.commit()
                 print("User " + newusername + " inserted successfully")
