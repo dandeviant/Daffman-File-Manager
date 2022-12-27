@@ -82,7 +82,9 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 5. mysql-connector-python (import mysql.connector)
 6. pycrypto
 7. Crypto (for AES)
-8. pyaescrypt - PyAesCrypt
+8. pyAesCrypt
+    - pyAesCrypt is a AES Crypt module integrated with Python.
+    - It uses AES-256-CBC encryption moode
 
 ---
 
