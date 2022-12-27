@@ -12,6 +12,7 @@ import subprocess
 import hashlib
 import shutil
 import mysql.connector
+import pyAesCrypt
 
 db = mysql.connector.connect(
   host="localhost",
@@ -574,6 +575,9 @@ def upload_file():
                 fileexist = False
                 filesuccess = True
                 fileuploaded = f.filename
+                
+                #encryption process
+                
             else:
                 print("File already exists")
                 fileexist = True
