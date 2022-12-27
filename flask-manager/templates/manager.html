@@ -87,7 +87,7 @@
     
 
     <!-- As a link -->
-    <header class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <header class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: black;">
         <div class="container-fluid">
           <a class="navbar-brand" href="" fill="blue">
             <svg fill="#ffffff" width="48px" height="32px" viewBox="0 0 16 16" id="SVGRepoEditor" 
@@ -104,14 +104,14 @@
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
             </ul>
             <div class="dropdown show">
-              <button class="btn btn-dark dropdown-toggle btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn dropdown-toggle" type="button" style="color: white" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <svg fill="#ffffff" width="28px" height="32px" 
                 viewBox="0 1.5 30.586 30.586" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g transform="translate(-546.269 -195.397)"><path d="M572.138,221.245a15.738,15.738,0,0,0-21.065-.253l-1.322-1.5a17.738,17.738,0,0,1,23.741.28Z"></path><path d="M561.464,204.152a4.96,4.96,0,1,1-4.96,4.96,4.966,4.966,0,0,1,4.96-4.96m0-2a6.96,6.96,0,1,0,6.96,6.96,6.96,6.96,0,0,0-6.96-6.96Z"></path><path d="M561.562,197.4a13.293,13.293,0,1,1-13.293,13.293A13.308,13.308,0,0,1,561.562,197.4m0-2a15.293,15.293,0,1,0,15.293,15.293A15.293,15.293,0,0,0,561.562,195.4Z"></path></g>
                 </svg>
                 {{ session['username'] }}
               </button>
-              <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-menu dropdown-menu-dark" style="color: black;" aria-labelledby="dropdownMenuButton">
                 {% if session['username'] == 'admin' %}
                 <a class="dropdown-item" href="/adminstart">Administration</a>
                 <hr>
@@ -127,12 +127,12 @@
       </header>
       <div class="container-fluid">
         <div class="row">
-          <nav id="sidebarMenu" class="col-md-3 col-lg-1 d-md-block sidebar collapse" style="background-color: #02355e;">
+          <!-- <nav id="sidebarMenu" class="col-md-3 col-lg-1 d-md-block sidebar collapse" style="background-color: #02355e;">
             <div class="position-sticky pt-3 sidebar-sticky">
               <hr>
             </div>
-          </nav>
-            <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4" height="10000">
+          </nav> -->
+            <main class="col-md-2 ms-sm-auto col-lg-12 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
               For Debugging: {{ current_dir }}<br>
               <a href="/cd?path={{ rootpath }}">
@@ -295,6 +295,7 @@
                         <th scope="col">File</th>
                         <th scope="col">Size</th>
                         <th scope="col">md5</th>
+                        <th scope="col">Password</th>   
                         <th scope="col">Actions</th>
                         <th scope="col"></th>
                       </thead>
@@ -308,6 +309,7 @@
                                     <td>{{ item[1] }} KB</td>
                                     <!-- file hash -->
                                     <td>{{ item[2] }}</td>
+                                    <td></td>
                                     <td><a href="/download?file={{current_dir + '/' + item[0]}}">
                                       <button class="btn btn-primary" type="submit">
                                         Download

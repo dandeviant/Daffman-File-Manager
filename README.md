@@ -83,6 +83,7 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 6. pyAesCrypt
     - pyAesCrypt is a AES Crypt module integrated with Python.
     - It uses AES-256-CBC encryption mode
+    - It can also be used directly from the terminal
 
 ---
 
