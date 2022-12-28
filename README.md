@@ -51,16 +51,6 @@ Later:<br>
 
 ---
 
-### System Preview Image
-
-File Browser Page - Folder Section<br>
-![browser-preview](https://user-images.githubusercontent.com/68473358/209222789-4dc5b62a-fab2-41e2-9a2f-f3595fc62485.png)
-
-File Browser Page - File Section<br>
-![browser-preview2](https://user-images.githubusercontent.com/68473358/209222849-b7df5633-e66b-4147-8257-9832d63d6e67.png)
-
----
-
 ### How to run the app in development env
 <code>$ python3 flask-manager.py</code><br>
 <b>OR</b><br>
@@ -98,4 +88,15 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 1. MySQL database for user profiling and hash checking
 2. Bootstrap CSS framework for UI (config files in folder 'static'). DO NOT TOUCH THAT FOLDER
 3. SVG Source: <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>
+
+---
+
+### System Preview Image
+
+File Browser Page - Folder Section<br>
+![browser-preview](https://user-images.githubusercontent.com/68473358/209222789-4dc5b62a-fab2-41e2-9a2f-f3595fc62485.png)
+
+File Browser Page - File Section<br>
+![browser-preview2](https://user-images.githubusercontent.com/68473358/209222849-b7df5633-e66b-4147-8257-9832d63d6e67.png)
+
 

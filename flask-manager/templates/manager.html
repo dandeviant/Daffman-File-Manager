@@ -132,7 +132,8 @@
           </nav> -->
             <main class="col-md-2 ms-sm-auto col-lg-12 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-              For Debugging: {{ current_dir }}<br>
+              <!-- For Debugging: {{ current_dir }} -->
+              <br>
               <a href="/cd?path={{ rootpath }}">
                 <button class="btn btn-primary" type="submit">
                   Root Folder
@@ -151,7 +152,8 @@
                   <br>
                 <div class="table-responsive">
                   <h3><u>Folders and Directories</u></h3><br>
-                  For Debugging: editpermit = {{ session['editpermit'] }}<br>
+                  <!-- For Debugging: editpermit = {{ session['editpermit'] }} -->
+                  <br>
                     {% if session['editpermit'] == False %}
                       <p class="alert alert-danger">
                         You are not allowed to modify or upload in this directory
@@ -159,8 +161,17 @@
                     {% else %}
                       {% if session['editpermit'] == True %}
                         <form action="/md">
-                        <input type="text" name="folder" placeholder="Enter folder name..."/>
-                        <input type="submit" value="New Folder"/>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <input type="text" name="folder" placeholder="Enter new folder name..." class="form-control" style="color: black;"/>
+                            </div>
+                          </div><br>
+                          <div class="input-group">
+                            <div class="input-group-prepend col-xs-4">
+                              <input type="submit" value="Create New Folder" class="btn btn-primary"/>
+                              <input type="reset" value="Clear Folder Name" class="btn btn-secondary">
+                            </div>  
+                          </div>
                         </form><br>
                       {% else %}
                         <h3>File uploads not allowed here...</h3>
@@ -198,7 +209,7 @@
                       <td></td>
                     </tr>
                     {% endif %}
-                    For debugging: rootpath = {{rootpath}}, sessionuser = {{session['username']}}
+                    <!-- For debugging: rootpath = {{rootpath}}, sessionuser = {{session['username']}} -->
                     {% if current_dir != rootpath or session['username'] == 'admin' %}
                       {% for item in files[0: -1] %}
                         <tr>
@@ -279,10 +290,22 @@
                     <h3><u>Files</u></h3><br>
                     {% if session['editpermit'] == True %}
                       <form action="/upload" method="POST" enctype = "multipart/form-data">
-                        <input type="file" name="file" value="Choose File"/>
-                        <input type = "submit" value="Upload New File"/>
-                        <input type="reset" value="Clear Selection">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
+                          </div>
+                        </div><br>
+                        <div class="input-group">
+                          <div class="input-group-prepend col-xs-4">
+                            <input type ="submit" value="Upload New File" class="btn btn-primary"/>
+                            <input type="reset" value="Clear Selection" class="btn btn-secondary">
+                          </div>  
+                        </div>
+                          
+                          <!-- <input type ="submit" value="Upload New File" class="btn btn-primary"/>
+                          <input type="reset" value="Clear Selection" class="btn btn-secondary"> -->
                       </form><br>
+                      
                     {% endif %}
                     {% if fileexist == True %}
                       <p class="alert alert-danger">File Already Exists<br>
@@ -392,10 +415,6 @@
                     <p>{{ numfiles }} entries found</p>
                   </div>
                 </a>
-                <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                Launch demo modal
-              </button>
 
               <!-- Modal -->
               <!-- <div class="modal fade show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
