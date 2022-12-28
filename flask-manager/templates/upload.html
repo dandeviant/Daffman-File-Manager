@@ -123,15 +123,9 @@
         </div>
       </header>
         <div class="container-fluid">
-          <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-1 d-md-block sidebar collapse" style="background-color: #02355e;">
-              <div class="position-sticky pt-3 sidebar-sticky">
-                <hr>
-              </div>
-            </nav>
-            <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4" height="10000">
+            <main class="col-md-3 ms-sm-auto col-lg-11 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-              Target Directory<br>
+              <h4>Target Directory</h4><hr>
               {% for x in range(1, numdir): %} 
                   <svg fill="#ffffff" width="20px" height="25px" viewBox="0 0 16 16" id="SVGRepoEditor" 
                   xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
@@ -139,36 +133,11 @@
                   </path> </svg>&nbsp;&nbsp;
                   {{ listdir[x] }}&nbsp;&nbsp;&nbsp;/ &nbsp;
               {% endfor %}
+              <hr>
+              
 
-
-              <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                Launch demo modal
-              </button>
-
-              <!-- Modal -->
-              <div class="modal fade show" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModal" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content" style="color: black">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          ...dasdasdas
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                  </div>
-                </div>
-              </div>
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
             </main>
-          </div>
         </div> 
 
 

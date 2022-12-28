@@ -254,7 +254,7 @@ def index(downloadpass = True):
     for item in files[0: -1]:
             if '.' in item:
                 namefile = current_dir + '/' + item
-                query = "select md5, filesize from hash where filename = '%s' ; " % (namefile)
+                query = "select md5, filesize, user_id from hash where filename = '%s' ; " % (namefile)
                 dbcursor.execute(query)
                 result = dbcursor.fetchall()
                 # print("Query result: ", end="")
@@ -263,7 +263,13 @@ def index(downloadpass = True):
                     # print(x[0])
                     hash = x[0]
                     filesize = x[1]
-                hash_list.append((item, filesize, hash))
+                    owner_id = x[2]
+                    ownerquery = "select user_name from user where user_id = %s;" % (owner_id)
+                    dbcursor.execute(ownerquery)
+                    ownerresult = dbcursor.fetchone()
+                    owner_name = str(ownerresult[0])
+                    print("Owner Name: " + str(owner_name))
+                hash_list.append((item, filesize, hash, owner_name))
                 # print("hash_list = ", end="")
                 # print(hash_list)
     # assets = '../'            
@@ -527,7 +533,6 @@ def download():
         print("Password Match      : False")
         session['downloadpass'] = False
         return index(session['downloadpass'])
-    
 
     
 # upload files from filesystem
@@ -556,22 +561,22 @@ def upload_file():
     print("Dir : " + current_dir)
     print("Usercd : " + usercd)
 
-    if session['username'] == "admin":
-        session['admin'] = True
-    else:
-        session['admin'] = False
+    # if session['username'] == "admin":
+    #     session['admin'] = True
+    # else:
+    #     session['admin'] = False
 
-    if session['admin'] == False:
-        if compare not in current_dir:
-            print("Upload not allowed")
-            session['editpermit'] = False
-            return redirect('/browser')
-        else:
-            session['editpermit'] = True
-    else:
-        session['editpermit'] = True
+    # if session['admin'] == False:
+    #     if compare not in current_dir:
+    #         print("Upload not allowed")
+    #         session['editpermit'] = False
+    #         return redirect('/browser')
+    #     else:
+    #         session['editpermit'] = True
+    # else:
+    #     session['editpermit'] = True
     
-    print("resultcheck : " + str(session['editpermit']))
+    # print("resultcheck : " + str(session['editpermit']))
 
         
     if request.method == 'POST':
@@ -579,11 +584,17 @@ def upload_file():
         if f.filename == '':
             filemissing = True
             filesuccess = False
-            
         else:
             filemissing = False
             filesuccess = True
             f.save(secure_filename(f.filename))
+            print("Save successful")
+            print("File saved : " + f.filename)
+            if ' ' in f.filename:
+                print("Whitespace detected")
+                f.filename = f.filename.replace(" ", '_')
+                print("Whitespace replaced with underscore")
+                print("New name : " + f.filename)
             dir = os.getcwd()
             file = "%s/%s" % (dir,f.filename)
             filestat = os.stat(f.filename)
@@ -608,8 +619,6 @@ def upload_file():
             password = session['password']
             print('User ID: ' + str(result[0]))
             print('User Password: ' + password)
-
-
 
             query = "select * from hash where filename='%s' and md5='%s'; " % (file, hash)
             print("Query: " + query)
@@ -639,10 +648,6 @@ def upload_file():
                 fileexist = False
                 filesuccess = True
                 fileuploaded = f.filename+'.aes'
-                
-                
-                
-
 
             else:
                 print("File already exists")

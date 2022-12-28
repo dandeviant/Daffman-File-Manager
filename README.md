@@ -15,7 +15,9 @@ Progress so far...<br>
 - Folders for new users will be created upon registration<br>
 - Passwords for files is user's password<br>
 - Password is hashed using SHA256 algorithm, to be updated in Chapter 2 and 3<br>
-- Download popup to input decrypt password, download only when password is correct (incomplete, broken popup error)
+- Download popup to input decrypt password, download only when password is correct, error message not in popup<br>
+- Whitespaces in filename is replaced with underscore during upload
+
 <br>
 
 Next task:<br>
