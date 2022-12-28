@@ -27,6 +27,7 @@ Next task:<br>
 - Configure Raspberry Pi remote storage using SAMBA and connect to this PyFlask server: 
 
 https://www.circuitbasics.com/making-a-nas-with-samba-and-raspberry-pi/<br>
+https://stackoverflow.com/questions/34430714/sha-256-different-result <br>
 <br>
 
 Later:<br>
@@ -92,6 +93,10 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 3. SVG Source: <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>
 
 ---
+
+## Explanation on certain matters (FAQ)
+
+1. Results of (hashlib.sha256(text.encode()) ) will be different from (echo 'text' | sha256sum) because the echo command add a newline to string while hashlib does not, thus resulting to different hash value
 
 ### System Preview Image
 
