@@ -13,10 +13,14 @@
       crossorigin="anonymous">
     </script>
     <script src="js/bootstrap.bundle.min.js"></script> -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+
     <script src="{{ url_for('static', filename='jquery-3.3.1.slim.min.js') }}" ></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
     <script src="{{ url_for('static', filename='popper/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script> 
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}" ></script> 
 
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -76,13 +80,13 @@
 
 
     </style>
-    <link href="navbar-top-fixed.css" rel="stylesheet">
+    <!-- <link href="navbar-top-fixed.css" rel="stylesheet"> -->
 </head>
 <body style="background-color: #212121; color: white;">
     
 
-    <!-- As a link -->
-    <header class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <!-- As a link -->
+      <header class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="" fill="blue">
             <svg fill="#ffffff" width="48px" height="32px" viewBox="0 0 16 16" id="SVGRepoEditor" 
@@ -118,28 +122,54 @@
           </div>
         </div>
       </header>
-      <div class="container-fluid">
-        <div class="row">
-          <nav id="sidebarMenu" class="col-md-3 col-lg-1 d-md-block sidebar collapse" style="background-color: #02355e;">
-            <div class="position-sticky pt-3 sidebar-sticky">
-              <hr>
-            </div>
-          </nav>
+        <div class="container-fluid">
+          <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-1 d-md-block sidebar collapse" style="background-color: #02355e;">
+              <div class="position-sticky pt-3 sidebar-sticky">
+                <hr>
+              </div>
+            </nav>
             <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4" height="10000">
-            <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-            Target Directory<br>
-            {% for x in range(1, numdir): %} 
-                <svg fill="#ffffff" width="20px" height="25px" viewBox="0 0 16 16" id="SVGRepoEditor" 
-                xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <path id="SVGRepoEditor" data-name="Path 102" d="M35.5,16h-11A2.5,2.5,0,0,1,22,13.5v-8A2.5,2.5,0,0,1,24.5,3h4A2.5,2.5,0,0,1,31,5.5V6h4.5A2.5,2.5,0,0,1,38,8.5v5A2.5,2.5,0,0,1,35.5,16ZM24.5,4A1.5,1.5,0,0,0,23,5.5v8A1.5,1.5,0,0,0,24.5,15h11A1.5,1.5,0,0,0,37,13.5v-5A1.5,1.5,0,0,0,35.5,7h-5a.5.5,0,0,1-.5-.5v-1A1.5,1.5,0,0,0,28.5,4Z" transform="translate(-22 -3)">
-                </path> </svg>&nbsp;&nbsp;
-                {{ listdir[x] }}&nbsp;&nbsp;&nbsp;/ &nbsp;
-            {% endfor %}
+              <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
+              Target Directory<br>
+              {% for x in range(1, numdir): %} 
+                  <svg fill="#ffffff" width="20px" height="25px" viewBox="0 0 16 16" id="SVGRepoEditor" 
+                  xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <path id="SVGRepoEditor" data-name="Path 102" d="M35.5,16h-11A2.5,2.5,0,0,1,22,13.5v-8A2.5,2.5,0,0,1,24.5,3h4A2.5,2.5,0,0,1,31,5.5V6h4.5A2.5,2.5,0,0,1,38,8.5v5A2.5,2.5,0,0,1,35.5,16ZM24.5,4A1.5,1.5,0,0,0,23,5.5v8A1.5,1.5,0,0,0,24.5,15h11A1.5,1.5,0,0,0,37,13.5v-5A1.5,1.5,0,0,0,35.5,7h-5a.5.5,0,0,1-.5-.5v-1A1.5,1.5,0,0,0,28.5,4Z" transform="translate(-22 -3)">
+                  </path> </svg>&nbsp;&nbsp;
+                  {{ listdir[x] }}&nbsp;&nbsp;&nbsp;/ &nbsp;
+              {% endfor %}
 
+
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Launch demo modal
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade show" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content" style="color: black">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          ...dasdasdas
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                  </div>
+                </div>
+              </div>
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
             </main>
-        </div>
-      </div> 
+          </div>
+        </div> 
 
 
 </body>

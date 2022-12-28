@@ -81,11 +81,8 @@
 
 
     </style>
-    <!-- <link href="navbar-top-fixed.css" rel="stylesheet"> -->
 </head>
 <body style="background-color: #212121; color: white;">
-    
-
     <!-- As a link -->
     <header class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: black;">
         <div class="container-fluid">
@@ -116,6 +113,7 @@
                 <a class="dropdown-item" href="/adminstart">Administration</a>
                 <hr>
                 {% endif %}
+                <a class="dropdown-item" href="/browser">File Browser</a>
                 <a class="dropdown-item" href="/profile">Profile</a>
                 <a class="dropdown-item" href="/logout">Sign Out</a>
                 
@@ -187,7 +185,6 @@
                   <table class="table table-dark">
                     <thead>
                       <th scope="col">Folder</th>
-                      <th scope="col">Actions</th>
                     </thead>
                     {% if current_dir != rootpath %}
                     <tr>
@@ -206,8 +203,19 @@
                       {% for item in files[0: -1] %}
                         <tr>
                             {% if '.' not in item  %}
-                                <td><a href="/cd?path={{current_dir + '/' + item}}"><p>{{item + '/'}}</p></a></td>
-                                {% if session['editpermit'] == True %}
+                                <td>
+                                  <svg fill="#ffffff" width="28px" height="28px" viewBox="0 0 16 16" id="SVGRepoEditor" 
+                                  xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <path id="SVGRepoEditor" data-name="Path 102" d="M35.5,16h-11A2.5,2.5,0,0,1,22,13.5v-8A2.5,2.5,0,0,1,24.5,3h4A2.5,2.5,0,0,1,31,5.5V6h4.5A2.5,2.5,0,0,1,38,8.5v5A2.5,2.5,0,0,1,35.5,16ZM24.5,4A1.5,1.5,0,0,0,23,5.5v8A1.5,1.5,0,0,0,24.5,15h11A1.5,1.5,0,0,0,37,13.5v-5A1.5,1.5,0,0,0,35.5,7h-5a.5.5,0,0,1-.5-.5v-1A1.5,1.5,0,0,0,28.5,4Z" transform="translate(-22 -3)">
+                                    </path>
+                                  </svg>&nbsp;&nbsp;&nbsp;
+                                  <a href="/cd?path={{current_dir + '/' + item}}">
+                                      {{item + '/'}}
+                                  </a>
+                                  
+                                </td>
+                                <!-- {% if session['editpermit'] == True %}
                                 <td>
                                   <a href="/delete_dir?dir={{current_dir + '/' + item}}">
                                   <button class="btn btn-danger" type="submit" fill="red">
@@ -216,7 +224,7 @@
                                 </td>
                                 {% else %}
                                 <td></td>
-                                {% endif %}
+                                {% endif %} -->
                             {% endif %}
                         </tr>
                       {% endfor %}
@@ -303,16 +311,68 @@
                       
                       {% else %}
 
-                                    <td>{{ item[0] }}</td>
+                                    <td>
+                                      <svg fill="#ffffff" height="28px" width="28px" version="1.1" id="XMLID_33_" 
+                                      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                      viewBox="0 0 24 24" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                      <g id="SVGRepo_iconCarrier"> <g id="document-locked"><g>
+                                      <polygon points="23,24 15,24 15,22 21,22 21,6.4 16.6,2 5,2 5,8 3,8 3,0 17.4,0 23,5.6 "></polygon> </g> <g> <polygon points="22,8 15,8 15,2 17,2 17,6 22,6 "></polygon> </g> <g> <path d="M13,24H1V14h12V24z M3,22h8v-6H3V22z M8,20H6v-2h2V20z"></path> </g> <g> <path d="M11,16H3v-3c0-2.2,1.8-4,4-4s4,1.8,4,4V16z M5,14h4v-1c0-1.1-0.9-2-2-2s-2,0.9-2,2V14z">
+                                      </path> </g> </g> </g></svg>
+                                      &nbsp;&nbsp;&nbsp;
+                                      {{ item[0] }}
+                                    </td>
                                     <!-- file size -->
                                     <td>{{ item[1] }} KB</td>
                                     <!-- file hash -->
                                     <td>{{ item[2] }}</td>
-                                    <td><a href="/download?file={{current_dir + '/' + item[0]}}">
-                                      <button class="btn btn-primary" type="submit">
-                                        Download
-                                        </button></a>
-                                      </td>
+                                    <td>
+                                     
+                                      <button type="button" class="btn btn-primary" type="submit" data-toggle="modal" data-target="#downloadModal">
+                                      Download
+                                      </button></a>
+                                      
+                                      <div class="modal fade show" id="downloadModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="downloadModal" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                          <div class="modal-content" style="color: black">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLongTitle">Downloading {{ item[0] }}</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <form method="POST" action="/download">
+                                                    <div class="modal-body">
+                                                      <p>Enter Decryption Password</p>
+                                                      {% if session['downloadpass'] == False %}
+                                                        <p class="alert alert-danger">
+                                                          Password mismatched. Please re-enter password
+                                                        </p>
+                                                      {% endif %}
+                                                      <input type="text" id="downloadfile" name="downloadfile" value="{{ item[0] }}" class="form-control" style="color: black;" readonly>
+                                                      <input type="password" id="password" name="password" placeholder="Encryption Password" class="form-control" style="color: black;">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success">
+                                                          Download File
+                                                        </button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                                <script>
+                                                  // $('#downloadModal').on('hidden.bs.modal', function () {
+                                                  //       $(this).find('form').trigger('reset');
+                                                  //     })
+
+                                                  
+                                                  // $('#downloadModal').modal({
+                                                  //       backdrop: 'static',
+                                                  //       keyboard: false
+                                                  //     })
+                                                </script>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </td>
                                     {% if session['editpermit'] == True %}
                                     <td><a href="/delete?file={{current_dir + '/' + item[0]}}">
                                       <button class="btn btn-danger" type="submit" fill="red">
@@ -332,6 +392,31 @@
                     <p>{{ numfiles }} entries found</p>
                   </div>
                 </a>
+                <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Launch demo modal
+              </button>
+
+              <!-- Modal -->
+              <!-- <div class="modal fade show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content" style="color: black">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          ...dasdasdas
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                  </div>
+                </div>
+              </div> -->
                 <br><br><br><br>
                 <br><br>
                 <h3>==== README.md ====</h3>

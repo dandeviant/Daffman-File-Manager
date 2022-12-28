@@ -23,7 +23,7 @@ db = mysql.connector.connect(
 
 here = os.getcwd()
 
-dbcursor = db.cursor()
+dbcursor = db.cursor(buffered=True)
 static_url_path='sa',
 app = Flask(__name__,
 static_folder = here + '/static'
@@ -89,6 +89,7 @@ def verifylogin():
     print("Input pass hash: " + hashinputpass)
     
     query = 'select * from user where user_name="%s"; ' % (username)
+    print("Login query: " + query)
     dbcursor.execute(query)
     account = dbcursor.fetchone()
     print("Account list: " + str(account))
@@ -163,7 +164,7 @@ def reset():
     return redirect('/browser')
 
 @app.route('/browser', methods=['GET', 'POST']) # Flask decorator
-def index():
+def index(downloadpass = True):
     print("============================== FILE BROWSER INDEX ==============================")
     # if session['username'] is None:
     #     return redirect(url_for('/logout'))
@@ -175,6 +176,8 @@ def index():
     if rootfolder not in current_dir:
         os.chdir(rootpath)
 
+    session['downloadpass'] = downloadpass
+
     # session['editpermit'] = True
     current_dir = os.getcwd()
     compare = rootfolder + "/" + session['username']
@@ -182,6 +185,7 @@ def index():
     usercd = session['username']
     print("Dir : " + current_dir)
     print("Usercd : " + usercd)
+
 
     if session['username'] == "admin":
         session['admin'] = True
@@ -283,7 +287,6 @@ def index():
     hash_list = hash_list,
     numdir = numdir,
     listdir = listdir,
-    # svg = svg,
     fileexist = fileexist,
     filemissing = filemissing,
     filesuccess = filesuccess,
@@ -468,9 +471,9 @@ def md():
 
 
 # download file from server
-@app.route('/download', methods=['GET'])
+@app.route('/download', methods=['POST','GET'])
 def download():
-
+    print("============================== DOWNLOAD FILE ==============================")
     global folderexist
     global foldermissing
     global foldersuccess
@@ -487,11 +490,46 @@ def download():
     foldersuccess = False
     foldercreated = ''
 
-    if request.method == 'GET':
-        print("")
-    file = request.args.get('file')
-    return send_file(file, as_attachment=True)
+    file = request.form['downloadfile']
+    inputpass = request.form['password']
+    hashinputpass = hashlib.sha256(inputpass.encode('utf-8')).hexdigest()
+    print("file: " + file)
+    hashquery = "select * from hash where filename like '%"+file+"%' ;"
+    print("hashquery: " + hashquery)
+    dbcursor.execute(hashquery)
+    hashresult = dbcursor.fetchone()
+    filename = str(hashresult[0])
+    actualpass = str(hashresult[1])
+    ownerid = str(hashresult[3])
 
+    userquery = "select * from user where user_id='%s'; " % (ownerid)
+    print("userquery: " + userquery)
+    dbcursor.execute(userquery)
+    userresult = dbcursor.fetchone()
+    print("User Result         : " + str(userresult))
+    ownerusername = userresult[1]
+    ownerpasshash = userresult[2]
+    
+    print("Hash Result         : " + str(hashresult))
+    print("Download File       : " + filename)
+    print("File Owner ID       : " + ownerid)
+    print("File Owner username : " + ownerusername)
+    print("Input Password      : " + inputpass)
+    print("Input Password Hash : " + hashinputpass)
+    print("Actual Password Hash: " + ownerpasshash)
+
+
+    if hashinputpass == ownerpasshash:
+        print("Password Match      : True")
+        session['downloadpass'] = True
+        return send_file(filename, as_attachment=True)
+    else:
+        print("Password Match      : False")
+        session['downloadpass'] = False
+        return index(session['downloadpass'])
+    
+
+    
 # upload files from filesystem
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
@@ -590,7 +628,6 @@ def upload_file():
                 print("Output file: " + outputfile)
                 print("File Password Unhashed: " + password)
                 print("File Password Hashed: " + str(hashedpass.hexdigest()))
-
                 
                 pyAesCrypt.encryptFile(inputfile, outputfile, password)
                 
@@ -802,6 +839,7 @@ def deleteuser():
 
 @app.route('/newupload')
 def newupload():
+    print("============================== NEW UPLOAD ==============================")
 
     os.chdir(rootpath + "/daniel/testdaniel")
     current_dir = os.getcwd()
