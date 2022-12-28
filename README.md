@@ -17,12 +17,13 @@ Progress so far...<br>
 - Password is hashed using SHA256 algorithm, to be updated in Chapter 2 and 3<br>
 - Download popup to input decrypt password, download only when password is correct, error message not in popup<br>
 - Whitespaces in filename is replaced with underscore during upload
+---
+- change password features is completed for both admin and user
 
 <br>
 
 Next task:<br>
 
-- Add change password features for all user<br>
 - Complete upload page<br>
 - Configure Raspberry Pi remote storage using SAMBA and connect to this PyFlask server: 
 
