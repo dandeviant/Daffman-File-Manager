@@ -538,7 +538,7 @@ def download():
 # upload files from filesystem
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
-    print("\n================ UPLOAD FILE ================")
+    print("\n============================== UPLOAD FILE ==============================")
 
     global filemissing
     global fileexist
@@ -656,6 +656,25 @@ def upload_file():
                 fileuploaded = ''
     return redirect('/browser')
 
+
+@app.route('/newupload')
+def newupload():
+    print("============================== NEW UPLOAD ==============================")
+
+    os.chdir(rootpath + "/daniel/testdaniel")
+    current_dir = os.getcwd()
+    path = current_dir.replace(forbidpath, ".")
+    listdir = path.split("/")
+    numdir = len(listdir)
+    # for x in range(len(listdir)):
+
+    # create tuple named file
+    files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
+    return render_template('upload.html',
+        listdir = listdir,
+        numdir = numdir
+    )
+
 #delete files from the server directory
 @app.route('/delete', methods = ['GET'])
 def delete_file():
@@ -751,28 +770,15 @@ def delete_dir():
     #redirect to file manager
     return redirect('/browser')
 
-@app.route('/profile')
-def profile():
-    print("\n================ PROFILE ================")
-    query = 'select * from user where user_name="%s"; ' % (session['username'])
-    dbcursor.execute(query)
-    result = dbcursor.fetchone()
-    rawpass = session['password']
-    password = str(result[0])
-    hashedpass = password
-    print("Hashed Password : " + hashedpass)
-    return render_template("profile.html",
-        hashedpass = hashedpass
-    )
-
-@app.route('/changepass')
-def changepass():
-    return render_template("profile.html")
 
 @app.route('/adminstart')
 def adminstart():
     session['nousername'] = False
-    session['passmatch'] = True
+    session['passmatch'] = False
+    session['matchadminpass'] = False
+    session['blankadminpass'] = False
+    session['newadminpass'] = False
+    session['sameadminhash'] = False
     return redirect("/admin")
 
 @app.route('/admin')
@@ -792,27 +798,92 @@ def admin():
     result = dbcursor.fetchall()
     return render_template("admin.html", result=result, resultpass=resultpass, hashedpass = hashedpass)
 
+
+@app.route('/changepassadmin', methods=['POST'])
+def changepassadmin():
+    print("\n============================== CHANGE PASSWORD ADMIN ==============================")
+    newadminpass = request.form['newadminpass']
+    passmatch = request.form['passmatch']
+    
+    if newadminpass == '' and passmatch == '':
+        session['matchadminpass'] = False
+        session['blankadminpass'] = True
+        session['newadminpass'] = False
+        session['sameadminhash'] = False
+        print("session['blankadminpass'] = " + str(session['blankadminpass']))
+        print("session['newadminpass']   = " + str(session['newadminpass']))
+        print("session['sameadminhash']  = " + str(session['sameadminhash']))
+        print("session['matchadminpass'] = " + str(session['matchadminpass']))
+    elif newadminpass != passmatch:
+        session['matchadminpass'] = True
+        session['blankadminpass'] = False
+        session['newadminpass'] = False
+        session['sameadminhash'] = False
+        print("session['blankadminpass'] = " + str(session['blankadminpass']))
+        print("session['newadminpass']   = " + str(session['newadminpass']))
+        print("session['sameadminhash']  = " + str(session['sameadminhash']))
+        print("session['matchadminpass'] = " + str(session['matchadminpass']))
+    else: 
+        session['matchadminpass'] = False
+        session['blankadminpass'] = False
+        passquery = "select password from user where user_name='admin'; "
+        dbcursor.execute(passquery)
+        resultpass = dbcursor.fetchone()
+        print("Query result: " + str(resultpass))
+        print("====================================")
+        oldpasshash = str(resultpass[0])
+        newpasshash = hashlib.sha256(newadminpass.encode('utf-8')).hexdigest()
+        if newpasshash == oldpasshash:
+            session['sameadminhash'] = True
+            session['newadminpass'] = False
+        else:
+            session['sameadminhash'] = False
+            session['newadminpass'] = True
+            print("session['blankadminpass'] = " + str(session['blankadminpass']))
+            print("session['newadminpass']   = " + str(session['newadminpass']))
+            print("session['sameadminhash']  = " + str(session['sameadminhash']))
+            print("session['matchadminpass'] = " + str(session['matchadminpass']))
+            print("====================================")
+            # session['newadminpass'] = True
+            # query = "UPDATE user SET password = '%s' WHERE user_name = 'admin'; " % (newpasshash)
+            query = "UPDATE user SET password = '" + newpasshash + "' WHERE user_name = 'admin'; "
+            print("Query: " + query)
+            dbcursor.execute(query)
+            db.commit()
+            print("New Admin Request : " + newadminpass)
+            print("Confirm Password  : " + passmatch)
+            print("Old Password Raw  : " + session['rawpass'])
+            print("New Password Hash : " + newpasshash)
+            print("Old Password Hash : " + oldpasshash)
+            print("Similar Password  : " + str(session['sameadminhash']))
+            session['rawpass'] = newadminpass
+    
+    return redirect('/admin')
+
+
 @app.route('/newprofile', methods = ['POST'])
 def newprofile():
     print("============================== FILE BROWSER INDEX ==============================")
     newusername = request.form['newusername']
-    newpassword = request.form['newusername']
+    newuserpass = request.form['newuserpass']
     newfullname = request.form['newfullname']
     passmatch = request.form['passmatch']
     print("New Fullname : " + newfullname)
     print("New Username : " + newusername)
-    print("New Password : " + newpassword)
+    print("New Password : " + newuserpass)
     print("Confirm Password : " + passmatch)
 
     if newusername == '':
         session['nousername'] = True
+        session['passmatch'] = False
         print("No username")
         return redirect("/admin")
     else:
         session['nousername'] = False
-        if passmatch == newpassword:
+        session['passmatch'] = False
+        if passmatch == newuserpass:
             try:
-                hashedpass = hashlib.sha256(newpassword.encode('utf-8')).hexdigest()
+                hashedpass = hashlib.sha256(newuserpass.encode('utf-8')).hexdigest()
                 print("Hashed Password : " + hashedpass)
                 query = ''' INSERT INTO `flaskmanager`.`user` 
                 (`user_id`, `user_name`, `password`, `full_name`) 
@@ -825,7 +896,7 @@ def newprofile():
             except mysql.connector.Error as error:
                 print("Failed to insert record into user table {}".format(error))
         else:
-            session['passmatch'] = False
+            session['passmatch'] = True
             session['nousername'] = False
     return redirect("/admin")
 
@@ -842,24 +913,99 @@ def deleteuser():
     shutil.rmtree(target)
     return redirect('/admin')
 
-@app.route('/newupload')
-def newupload():
-    print("============================== NEW UPLOAD ==============================")
+@app.route('/profilestart')
+def profilestart():
+    session['nousername'] = False
+    session['passmatch'] = False
+    session['matchuserpass'] = False
+    session['blankuserpass'] = False
+    session['newuserpass'] = False
+    session['sameuserhash'] = False
+    return redirect("/profile")
 
-    os.chdir(rootpath + "/daniel/testdaniel")
-    current_dir = os.getcwd()
-    path = current_dir.replace(forbidpath, ".")
-    listdir = path.split("/")
-    numdir = len(listdir)
-    # for x in range(len(listdir)):
+@app.route('/profile')
+def profile():
+    print("\n============================== PROFILE ==============================")
 
-    # create tuple named file
-    files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
-    return render_template('upload.html',
-        listdir = listdir,
-        numdir = numdir
+
+    print("Session username: " + session['username'])
+    query = 'select password from user where user_name="%s"; ' % (session['username'])
+    print("Query = " + query)
+    dbcursor.execute(query)
+    result = dbcursor.fetchone()
+    rawpass = session['rawpass']
+    password = str(result[0])
+    hashedpass = password
+    print("Raw Password    : " + rawpass)
+    print("Hashed Password : " + hashedpass)
+
+    return render_template("profile.html",
+        hashedpass = hashedpass
     )
 
+@app.route('/changepass', methods=['POST'])
+def changepass():
+    print("\n============================== CHANGE PASSWORD USER ==============================")
+
+    current_user = session['username']
+    olduserpass = session['rawpass']
+    newuserpass = request.form['newuserpass']
+    confirmpass = request.form['passmatch']
+    newuserpasshash = hashlib.sha256(newuserpass.encode('utf-8')).hexdigest()
+
+    query = "select password from user where user_name = '%s'; " % (current_user)
+    print("Select Query  : " + query)
+    dbcursor.execute(query)
+    result = dbcursor.fetchone()
+    print("Result        : " + str(result))
+    print("=============================")
+    olduserpasshash = result[0]
+    print("Current Username  : " + current_user)
+    print("New user password : " + newuserpass)
+    print("Confirm password  : " + confirmpass)
+    print("Old user password : " + olduserpass)
+    print("Old password hash : " + olduserpasshash)
+    print("New password hash : " + newuserpasshash)
+
+    if newuserpass == '' and confirmpass == '':
+        session['matchuserpass'] = False
+        session['blankuserpass'] = True
+        session['newuserpass'] = False
+        session['sameuserhash'] = False
+        print("session['blankuserpass'] = " + str(session['blankuserpass']))
+        print("session['newuserpass']   = " + str(session['newuserpass']))
+        print("session['sameuserhash']  = " + str(session['sameuserhash']))
+        print("session['matchuserpass'] = " + str(session['matchuserpass']))
+    elif newuserpass != confirmpass:
+        session['matchuserpass'] = True
+        session['blankuserpass'] = False
+        session['newuserpass'] = False
+        session['sameuserhash'] = False
+        print("session['blankuserpass'] = " + str(session['blankuserpass']))
+        print("session['newuserpass']   = " + str(session['newuserpass']))
+        print("session['sameuserhash']  = " + str(session['sameuserhash']))
+        print("session['matchuserpass'] = " + str(session['matchuserpass']))
+    else: 
+        session['matchuserpass'] = False
+        session['blankuserpass'] = False
+        if newuserpasshash == olduserpasshash:
+            session['sameuserhash'] = True
+            session['newuserpass'] = False
+        else:
+            session['sameuserhash'] = False
+            session['newuserpass'] = True
+            print("session['blankuserpass'] = " + str(session['blankuserpass']))
+            print("session['newuserpass']   = " + str(session['newuserpass']))
+            print("session['sameuserhash']  = " + str(session['sameuserhash']))
+            print("session['matchuserpass'] = " + str(session['matchuserpass']))
+            print("====================================")
+            query = "UPDATE user SET password = '" + newuserpasshash + "' WHERE user_name = '%s'; " % (current_user)
+            print("Update Query      : " + query)
+            dbcursor.execute(query)
+            db.commit()
+            session['rawpass'] = newuserpass
+
+    return redirect('/profile')
 
 
 # ====================================================================

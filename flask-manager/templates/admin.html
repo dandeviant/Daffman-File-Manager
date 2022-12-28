@@ -108,10 +108,9 @@
                 <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
                   {% if session['username'] == 'admin' %}
                   <a class="dropdown-item" href="/adminstart">Administration</a>
-                  <hr>
+                  <hr style="color: white;">
                   {% endif %}
                   <a class="dropdown-item" href="/browser">File Browser</a>
-                  <a class="dropdown-item" href="/profile">Profile</a>
                   <a class="dropdown-item" href="/logout">Sign Out</a>
                   
                 </div>
@@ -136,13 +135,13 @@
               <hr style="color: white;">
               <h3> Add New User </h3>
               <hr style="color: white;">
-              For debugging: Passmatch = {{ session['passmatch'] }}
-              {% if session['passmatch'] == False %}
+              <!-- For debugging: Passmatch = {{ session['passmatch'] }} -->
+              {% if session['passmatch'] == True %}
                   <p class="alert alert-danger">Error: Password does not match<br>
                     Please re-enter password
                   </p>
-              {% endif %}<br>
-              For debugging: nousername = {{ session['nousername'] }}
+              {% endif %}
+              <!-- <br> For debugging: nousername = {{ session['nousername'] }} -->
               {% if session['nousername'] == True %}
               <p class="alert alert-danger">
                 No username entered
@@ -166,8 +165,8 @@
                 <hr>
                 <div class="row">
                     <div class="col">
-                        New Password
-                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" style="color: black;">
+                        User Password
+                        <input type="password" class="form-control" id="newuserpass" name="newuserpass" placeholder="Enter New Password" style="color: black;">
                     </div>
                     <div class="col">
                         Confirm Password
@@ -210,24 +209,74 @@
                 DANGER ZONE
               </h3>
               <br><br><br>
+              
               <h4>New Admin Password</h4>
               <hr>
-                <div class="row">
-                    <div class="col">
-                        New Password
-                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" style="color: black;">
-                    </div>
-                    <div class="col">
-                      Confirm Password
-                      <input type="password" class="form-control" id="passmatch" name="passmatch" placeholder="Re-enter Password" style="color: black;">
+              {% if session['matchadminpass'] == True %}
+                <p class="alert alert-danger">
+                  Error: Password does not match. Please re-enter.
+                </p>
+              {% endif %}
+              {% if session['blankadminpass'] == True %}
+                <p class="alert alert-danger">
+                  Error: No password entered.
+                </p>
+              {% endif %}
+              {% if session['newadminpass'] == True %}
+                <p class="alert alert-success">
+                  Admin password changed 
+                </p>
+              {% endif %}
+              {% if session['sameadminhash'] == True %}
+                <p class="alert alert-danger">
+                  Error: New password is same as the old one 
+                </p>
+              {% endif %}
+              <form method="POST" action="/changepassadmin">
+                  <div class="row">
+                      <div class="col">
+                          New Password
+                          <input type="password" class="form-control" id="newadminpass" name="newadminpass" placeholder="Enter New Password" style="color: black;">
+                      </div>
+                      <div class="col">
+                          Confirm Password
+                          <input type="password" class="form-control" id="passmatch" name="passmatch" placeholder="Re-enter Password" style="color: black;">
+                      </div>
                   </div>
-                </div><br>
-                <button class="btn btn-danger" type="submit">
-                  Change Password
-                </button>
-                <button class="btn btn-secondary" type="reset">
-                  Clear Form
-                </button>
+                  <br>
+                  <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#passadminmodal">
+                    Change Password
+                  </button>
+                  <button class="btn btn-secondary" type="reset">
+                    Clear Form
+                  </button>
+                  <div class="modal fade show" id="passadminmodal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="downloadModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content" style="color: black">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Change Admin Password</h5>
+                              <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                                <div class="modal-body">
+                                  <p>User password for {{ session['username'] }} will be changed forever.
+                                    Make sure to remember the password or write it wherever you want.<br>
+                                    PASSWORD IS IRRECOVERABLE ONCE LOST OR FORGOTTEN</p>
+                                  <p>Proceed?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">
+                                      Confirm
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                      Cancel
+                                    </button>
+                                </div>
+                      </div>
+                    </div>
+                  </div>
+              </form>
               <br>
               <hr>
               <br><br>
