@@ -15,15 +15,16 @@ import mysql.connector
 import pyAesCrypt
 
 db = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="Dane@1710",
-  database="flaskmanager"
-)
+        host="localhost",
+        user="root",
+        password="Dane@1710",
+        database="flaskmanager"
+    )
+dbcursor = db.cursor(buffered=True)
 
 here = os.getcwd()
 
-dbcursor = db.cursor(buffered=True)
+
 static_url_path='sa',
 app = Flask(__name__,
 static_folder = here + '/static'
@@ -67,6 +68,7 @@ def login():
     global wrongcred
     global wrongpass
     session['editpermit'] = False
+
     return render_template("login.html",
     wrongcred = wrongcred,
     wrongpass = wrongpass
@@ -152,8 +154,15 @@ def logout():
     foldersuccess = False
 
     session.clear()
-    
-    return redirect("/login")
+    dbcursor.close()
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Dane@1710",
+        database="flaskmanager"
+    )
+    dbcursor = db.cursor(buffered=True)
+    return redirect("/")
 
 
 # for Home button, return to root folder 'uploads'
@@ -178,13 +187,33 @@ def index(downloadpass = True):
 
     session['downloadpass'] = downloadpass
 
+    query = "select user_id from user where user_name = '%s'; " % (session['username'])
+    print("Query : " + query)
+    dbcursor.execute(query)
+    result = dbcursor.fetchone()
+    session['user_id'] = result[0]
+    print("Result          : " + str(result))
+    print("Current User ID : " + str(session['user_id']))
+
+    filequery = "select * from hash; "
+    print("File Query : " + filequery)
+    dbcursor.execute(filequery)
+    resultfile = dbcursor.fetchall()
+    numfiles = dbcursor.rowcount
+    session['numfileowned'] = numfiles
+    print("======================================")
+    print("File Result : " + str(resultfile))
+    print("======================================")
+    print("No. of File Owned by %s : %s" % (session['username'], str(session['numfileowned'])))
+
+
     # session['editpermit'] = True
     current_dir = os.getcwd()
     compare = rootfolder + "/" + session['username']
     print("Compare : " + compare)
     usercd = session['username']
     print("Dir : " + current_dir)
-    print("Usercd : " + usercd)
+    print("Usercd : " + usercd) 
 
 
     if session['username'] == "admin":
@@ -952,6 +981,13 @@ def changepass():
     newuserpass = request.form['newuserpass']
     confirmpass = request.form['passmatch']
     newuserpasshash = hashlib.sha256(newuserpass.encode('utf-8')).hexdigest()
+
+    filequery = "select * from hash where user_id=%s " % (str(session['user_id']))
+    print("File Query : " + filequery)
+    dbcursor.execute(query)
+    numfiles = dbcursor.rowcount()
+    print("File Owned by %s : " + numfiles) % (session['username'])
+
 
     query = "select password from user where user_name = '%s'; " % (current_user)
     print("Select Query  : " + query)

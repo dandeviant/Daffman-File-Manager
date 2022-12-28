@@ -6,7 +6,9 @@
 
 GitHub repository: https://github.com/dandeviant/Flask-file-manager
 
-Progress so far...<br>
+Progress so far...
+---
+---
 - Data deduplication is completed via Python MD5, but client-side process is not possible.<br>
 - Server-side AES encryption during upload is completed. Using pyAesCrypt with .aes extension
 - For now, every process is server-side only.<br>
@@ -19,6 +21,9 @@ Progress so far...<br>
 - Whitespaces in filename is replaced with underscore during upload
 ---
 - change password features is completed for both admin and user
+- ONLY CHANGE PASSWORD WHEN THE USER HAVE NO FILES IN THE SERVER
+- THIS IS BECUZ THE ENCRYPTION/DECRYPTION PASSWORD WILL NOT CHANGE
+---
 
 <br>
 
