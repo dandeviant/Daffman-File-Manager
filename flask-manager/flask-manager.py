@@ -46,8 +46,9 @@ foldersuccess = False
 foldercreated = ''
 
 rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
-forbidpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager'
-rootfolder= 'uploads'
+forbidpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/'
+# rootfolder = rootpath.replace(forbidpath, '')
+rootfolder = 'uploads'
 
 os.chdir(rootpath)
 
@@ -207,29 +208,40 @@ def index(downloadpass = True):
     print("======================================")
     print("No. of File Owned by %s : %s" % (session['username'], str(session['numfileowned'])))
 
-
+    print("====================== EDIT PERMIT ======================")
     # session['editpermit'] = True
     current_dir = os.getcwd()
-    compare = rootfolder + "/" + session['username']
-    print("Compare : " + compare)
-    usercd = session['username']
-    print("Dir : " + current_dir)
-    print("Usercd : " + usercd) 
+    current_dir = current_dir.replace(forbidpath, '')
+    print("Current Dir : " + current_dir)
+    print("Current User: " + session['username'])
 
-
-    if session['username'] == "admin":
-        session['admin'] = True
-    else:
-        session['admin'] = False
-
-    if session['admin'] == False:
-        if compare not in current_dir:
-            print("Upload not allowed")
-            session['folderpermit'] = False
+    if session['username'] == 'admin':
+        if current_dir == rootfolder:
+            session['editpermit'] = False
         else:
             session['editpermit'] = True
     else:
-        session['editpermit'] = True
+        if current_dir == rootpath:
+            session['editpermit'] = False
+        else:
+            dir = current_dir.replace(forbidpath, '')
+            if session['username'] not in dir:
+                session['editpermit'] = False
+            else:
+                session['editpermit'] = True
+
+    print("Edit permit : " + str(session['editpermit']))
+    print("")
+    print("=========================================================")
+
+    # if session['admin'] == False:
+    #     if compare not in current_dir:
+    #         print("Upload not allowed")
+    #         session['folderpermit'] = False
+    #     else:
+    #         session['editpermit'] = True
+    # else:
+    #     session['editpermit'] = True
 
 
 
@@ -281,9 +293,17 @@ def index(downloadpass = True):
 
      # scan for md5 and file size of each file
     hash_list = []
+
+    for item in files[0: -1]:
+        if '.' in item:
+            if '.aes' not in item:
+                os.remove(item)
+                return redirect('/browser')
+
     for item in files[0: -1]:
             if '.' in item:
                 namefile = current_dir + '/' + item
+                namefile = namefile.replace(forbidpath, '')
                 query = "select md5, filesize, user_id from hash where filename = '%s' ; " % (namefile)
                 dbcursor.execute(query)
                 result = dbcursor.fetchall()
@@ -309,9 +329,13 @@ def index(downloadpass = True):
     global folderexist
     global foldermissing
 
+    # current_dir = os.getcwd()
+
     print("Check editpermit: " + str(session['editpermit']))
+    print("Current Dir     : " + current_dir)
     return render_template("manager.html",
     rootpath = rootpath,
+    rootfolder = rootfolder,
     forbidpath = forbidpath,
     mimetype='image/svg+xml',
     current_dir = current_dir,
@@ -355,34 +379,18 @@ def cd():
     session['editpermit'] = False
     target_dir = request.args.get('path')
     print("Target dir: " + target_dir)
-
-    os.chdir(request.args.get('path'))
+    if target_dir == '..':
+        os.chdir(target_dir)
+    else:
+        os.chdir(forbidpath + target_dir)
 
     current_dir = request.args.get('path')
-    compare = rootfolder + "/" + session['username']
+    compare = rootfolder + '/' + session['username']
     print("Compare : " + compare)
     usercd = session['username']
     print("Requested Dir : " + current_dir)
     print("Usercd : " + usercd)
 
-    # if session['username'] == "admin":
-    #     session['admin'] = True
-    # else:
-    #     session['admin'] = False
-
-    if session['admin'] == False:
-        if compare not in current_dir:
-            print("Upload not allowed")
-            session['editpermit'] = False
-        else:
-            session['editpermit'] = True
-    else:
-        session['editpermit'] = True
-
-    print("Check editpermit: " + str(session['editpermit']))
-
-    # run cd command
-    
     #redirect to file manager
     return redirect('/browser')
 
@@ -495,7 +503,7 @@ def md():
             folderexist = False
     # run cd command
     if foldername != '':
-        os.mkdir(request.args.get('folder'))
+        os.mkdir(foldername)
         foldermissing = False
         foldersuccess = True
         foldercreated = request.args.get('folder')
@@ -526,39 +534,56 @@ def download():
     foldersuccess = False
     foldercreated = ''
 
+    current_dir = os.getcwd()
+    print("Current Dir        : " + current_dir)
+    current_dir = current_dir.replace(forbidpath, '')
     file = request.form['downloadfile']
     inputpass = request.form['password']
-    hashinputpass = hashlib.sha256(inputpass.encode('utf-8')).hexdigest()
-    print("file: " + file)
-    hashquery = "select * from hash where filename like '%"+file+"%' ;"
-    print("hashquery: " + hashquery)
+    inputpasshash = hashlib.sha256(inputpass.encode('utf-8')).hexdigest()
+    filename = current_dir + '/' + file
+    print("Requested File Name: " + file)
+    print("File Name in DB    : " + filename)
+
+    hashquery = "select * from hash where filename = '%s' ;" % (filename)
+    print("hashquery          : " + hashquery)
     dbcursor.execute(hashquery)
     hashresult = dbcursor.fetchone()
     filename = str(hashresult[0])
-    actualpass = str(hashresult[1])
+    filepasshash = str(hashresult[3])
     ownerid = str(hashresult[5])
 
-    userquery = "select * from user where user_id='%s'; " % (ownerid)
-    print("userquery: " + userquery)
+    userquery = "select user_name from user where user_id='%s'; " % (ownerid)
+    print("userquery           : " + userquery)
     dbcursor.execute(userquery)
     userresult = dbcursor.fetchone()
     print("User Result         : " + str(userresult))
-    ownerusername = userresult[1]
-    ownerpasshash = userresult[2]
-    
+    ownerusername = userresult[0]
+
     print("Hash Result         : " + str(hashresult))
+    print("=================================")
     print("Download File       : " + filename)
-    print("File Owner ID       : " + ownerid)
+    print("File Owner User ID  : " + ownerid)
     print("File Owner username : " + ownerusername)
     print("Input Password      : " + inputpass)
-    print("Input Password Hash : " + hashinputpass)
-    print("Actual Password Hash: " + ownerpasshash)
+    print("Input Password Hash : " + inputpasshash)
+    print("Actual Password Hash: " + filepasshash)
 
 
-    if hashinputpass == ownerpasshash:
+    if inputpasshash == filepasshash:
         print("Password Match      : True")
         session['downloadpass'] = True
-        return send_file(filename, as_attachment=True)
+        print("Downloaded File : " + filename)
+        print("====================== DECRYPT FILE ======================")
+        outputfile = file.replace('.aes', '')
+        print("Input file   : " + file)
+        print("Output file  : " + outputfile)
+        print("Password     : " + inputpass)
+        pyAesCrypt.decryptFile(file, outputfile, inputpass)
+        downloadfile = filename.replace('.aes', '')
+        print("Downloading %s%s" % (forbidpath, downloadfile))
+        return send_file(forbidpath + downloadfile, as_attachment=True)
+        # os.remove(forbidpath + downloadfile)
+    #     return redirect('/browser')
     else:
         print("Password Match      : False")
         session['downloadpass'] = False
@@ -771,6 +796,7 @@ def checkupload():
             outputfile = inputfile + ".aes"
             filepassword = session['userpassraw']
             filepathencrypt = current_dir + '/' + outputfile
+            filepathencrypt = filepathencrypt.replace(forbidpath, '')
             filepathraw = current_dir + '/' + newfile.filename
             print("Input file : " + inputfile)
             print("Output file: " + outputfile)
@@ -799,6 +825,9 @@ def checkupload():
             print("Upload Query : " + uploadquery)
             dbcursor.execute(uploadquery)
             db.commit()
+            session['filemissing'] = False
+            session['fileexist'] = False
+            session['filesuccess'] = True
             return redirect('/browser')
         else:
             os.remove(newfile.filename)
@@ -814,7 +843,26 @@ def checkupload():
                 result = dbcursor.fetchone()
                 print("Owner Username : " + result[0])
                 print("")
-            return redirect('/newupload')
+
+            current_dir = os.getcwd()
+            path = current_dir.replace(forbidpath, ".")
+            listdir = path.split("/")
+            numdir = len(listdir)
+
+            session['filemissing'] = False
+            session['fileexist'] = True
+            session['filesuccess'] = False
+
+
+                # create tuple named file
+            files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
+            return render_template('upload.html',
+                listdir = listdir,
+                numdir = numdir,
+                current_dir = current_dir,
+                checkresult = checkresult
+            )
+
     return redirect('/newupload')
 
 @app.route('/delete', methods = ['GET'])

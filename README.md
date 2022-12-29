@@ -24,12 +24,14 @@ Progress so far...
 - ONLY ALLOW CHANGE PASSWORD WHEN THE USER HAVE NO FILES IN THE SERVER
 - THIS IS BECUZ THE ENCRYPTION/DECRYPTION PASSWORD WILL NOT CHANGE
 ---
-
+- download decryption is completed
 <br>
 
 Next task:<br>
 
 - Complete upload page<br>
+- In the error message box, list out all file names with similar contents if found<br>
+- hash table has been altered. Debug the code for any variables using the old table column
 - Configure Raspberry Pi remote storage using SAMBA and connect to this PyFlask server: 
 
 https://www.circuitbasics.com/making-a-nas-with-samba-and-raspberry-pi/<br>
@@ -37,13 +39,9 @@ https://stackoverflow.com/questions/34430714/sha-256-different-result <br>
 <br>
 
 Later:<br>
-- ========================================================================<br>
 
-- If file has different name, but same contents with files in database, ABORT UPLOAD and display error message.<br>
-- In the error message box, list out all file names with similar contents if found<br>
-- Display errors of fileexist in the page, not in browser page<br>
-- hash table has been altered. Debug the code for any variables using the old table column
-<br>
+1. Add User Rules page. just to explain some shit on how to use this system
+    - User can upload similar files as long as the similar files has different owner user ID
 
 ---
 
