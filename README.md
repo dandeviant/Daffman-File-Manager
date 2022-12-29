@@ -38,14 +38,11 @@ https://stackoverflow.com/questions/34430714/sha-256-different-result <br>
 
 Later:<br>
 - ========================================================================<br>
-- Do not allow files with same contents for storage, even for files with different names<br>
-- The process happens during upload process<br>
+
 - If file has different name, but same contents with files in database, ABORT UPLOAD and display error message.<br>
-- SELECT * FROM hash where md5=" " - to list all files with same content<br>
 - In the error message box, list out all file names with similar contents if found<br>
-- ========================================================================<br>
-- If you are to use client-side MD5 checking, create another page for file upload<br>
 - Display errors of fileexist in the page, not in browser page<br>
+- hash table has been altered. Debug the code for any variables using the old table column
 <br>
 
 ---

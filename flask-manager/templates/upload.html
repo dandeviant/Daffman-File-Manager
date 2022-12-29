@@ -146,19 +146,19 @@
                 </button>                
               </a>
               <hr>
-              <form action="/upload" method="POST" enctype = "multipart/form-data">
-                        <div class="input-group">
-                          <div class="input-group-prepend col-lg-6">
-                            <input type="file" class="form-control rounded-0" id="file" name="file" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
-                          </div>
-                        </div><br>
-                        <div class="input-group">
-                          <div class="input-group-prepend col-xs-6">
-                            <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0"/>
-                            <input type="reset" value="Clear Selection" class="btn btn-secondary rounded-0">
-                          </div>  
-                        </div>
-                      </form><br>
+              <form action="/checkupload" method="POST" enctype = "multipart/form-data">
+                  <div class="input-group">
+                    <div class="input-group-prepend col-lg-6">
+                      <input type="file" class="form-control rounded-0" id="newfile" name="newfile" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
+                    </div>
+                  </div><br>
+                  <div class="input-group">
+                    <div class="input-group-prepend col-xs-6">
+                      <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0"/>
+                      <input type="reset" value="Clear Selection" class="btn btn-secondary rounded-0">
+                    </div>  
+                  </div>
+              </form><br>
                       
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
             </main>

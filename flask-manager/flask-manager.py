@@ -84,7 +84,7 @@ def verifylogin():
     wrongcred = False
     username = request.form['username']
     rawinputpass = request.form['password']
-    session['rawpass'] = rawinputpass
+    session['userpassraw'] = rawinputpass
     hashinputpass = hashlib.sha256(rawinputpass.encode('utf-8')).hexdigest()
     print("Entered name: " + username)
     print("Input pass: " + rawinputpass)
@@ -95,9 +95,18 @@ def verifylogin():
     dbcursor.execute(query)
     account = dbcursor.fetchone()
     print("Account list: " + str(account))
+    print("================= User Database =================")
     if account:
-        print("Account : " + str(account[1]))
-        print("Password : " + str(account[2]))
+        session['user_id'] = str(account[0])
+        session['username'] = account[1]
+        session['userpasshash'] = account[2]
+        session['userfullname'] = account[3]
+        print("User  ID  : " + session['user_id'])
+        print("username  : " + session['username'])
+        print("Password  : " + session['userpasshash'])
+        print("Password raw  : " + session['userpassraw'])
+        print("Full Name : " + session['userfullname'])
+        print("==================================")
         password = account[2]
 
         # use sha256 to hash the input password and compare the hash
@@ -527,7 +536,7 @@ def download():
     hashresult = dbcursor.fetchone()
     filename = str(hashresult[0])
     actualpass = str(hashresult[1])
-    ownerid = str(hashresult[3])
+    ownerid = str(hashresult[5])
 
     userquery = "select * from user where user_id='%s'; " % (ownerid)
     print("userquery: " + userquery)
@@ -677,9 +686,16 @@ def upload_file():
                 fileuploaded = ''
     return redirect('/browser')
 
-
 @app.route('/startupload', methods=['GET'])
 def startupload():
+    session['filemissing'] = False
+    session['fileexist'] = False
+    session['fileuploaded'] = False
+
+    return redirect('/newupload')
+
+@app.route('/newupload', methods=['GET'])
+def newupload():
     print("============================== NEW UPLOAD ==============================")
 
     # os.chdir(rootpath + "/daniel/testdaniel")
@@ -689,7 +705,9 @@ def startupload():
     numdir = len(listdir)
     # for x in range(len(listdir)):
 
-    # create tuple named file
+
+
+        # create tuple named file
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
     return render_template('upload.html',
         listdir = listdir,
@@ -697,7 +715,108 @@ def startupload():
         current_dir = current_dir
     )
 
-#delete files from the server directory
+@app.route('/checkupload', methods=['POST'])
+def checkupload():
+    print("============================== VERIFY UPLOAD ==============================")
+    
+    newfile = request.files['newfile']
+    print("New filename = " + newfile.filename)
+    if newfile.filename == '':
+        session['filemissing'] = True
+        session['fileexist'] = False
+        session['filesuccess'] = False
+    else:
+        session['filemissing'] = False
+        session['fileexist'] = False
+        session['filesuccess'] = False
+        newfile.save(secure_filename(newfile.filename))
+        print("File '" + newfile.filename + "' saved to server")
+        if ' ' in newfile.filename:
+                print("Whitespace detected")
+                newfile.filename = newfile.filename.replace(" ", '_')
+                print("Whitespace replaced with underscore")
+                print("New name : " + newfile.filename)
+        current_dir = os.getcwd()
+        file = "%s/%s" % (current_dir,newfile.filename)
+        filestat = os.stat(newfile.filename)
+        filesize = round(filestat.st_size/1024, 2)
+        filehash = hashlib.md5(open(newfile.filename,'rb').read()).hexdigest()
+        print("================ File Summary =======================")
+        print("File Name : " + newfile.filename)
+        print("File Size : " + str(filesize) + " KB")
+        print("File Hash : " + filehash)
+        print("================ User Summary =======================")
+        print("Current Username : " + session['username'])
+        print("Current User ID  : " + str(session['user_id']))
+        print("================ Check From Database ================")
+        print("user_id  : " + str(session['user_id']))
+        print("username : " + session['username'])
+        checkquery = "select * from hash where user_id=%s and md5='%s' " % (str(session['user_id']), filehash)
+        dbcursor.execute(checkquery)
+        checkresult = dbcursor.fetchall()
+        checkrow = dbcursor.rowcount
+        print("Query   : " + checkquery)
+        print("")
+        print("Result : " + str(checkresult))
+        print("")
+        print("Similar File Count: " + str(checkrow))
+        
+        
+        if checkrow == 0:
+            session['fileexist'] = True
+
+            print("================ FILE ENCRYPTION =================")
+            # AES encryption process
+            inputfile = newfile.filename
+            outputfile = inputfile + ".aes"
+            filepassword = session['userpassraw']
+            filepathencrypt = current_dir + '/' + outputfile
+            filepathraw = current_dir + '/' + newfile.filename
+            print("Input file : " + inputfile)
+            print("Output file: " + outputfile)
+            print("File path  : " + filepathencrypt)
+            print("File Password Hashed: " + session['userpasshash'])
+            print("File Password Unhashed: " + session['userpassraw'])
+            print("File Password variable: " + filepassword)
+            
+            pyAesCrypt.encryptFile(inputfile, outputfile, filepassword) # encrypt raw file
+            os.remove(filepathraw) # delete unencrypted file
+
+            print()
+            print("================ Upload to Database =================")
+            print("Current dir: " + current_dir)
+            
+            print("user_id  : " + str(session['user_id']))
+            print("username : " + session['username'])
+            print("File name: " + newfile.filename)
+            print("File path: " + filepathencrypt)
+            print("File Size: " + str(filesize))
+            print("File Hash: " + filehash)
+            print("filepasshash : " + session['userpasshash'])
+            print("filepassraw  : " + filepassword + "\n") # session['userpassraw']
+            
+            uploadquery = "INSERT INTO hash(filename, md5, filesize, filepasshash, filepassraw, user_id) VALUES ('%s','%s','%s','%s','%s',%d)" % (filepathencrypt, filehash, str(filesize), session['userpasshash'], filepassword, session['user_id'])
+            print("Upload Query : " + uploadquery)
+            dbcursor.execute(uploadquery)
+            db.commit()
+            return redirect('/browser')
+        else:
+            os.remove(newfile.filename)
+            print("File existed. Canceling upload")
+            print("===================== FILE DUPES FOUND =====================")
+            for x in checkresult:
+                print("")
+                print("File name : " + x[0])
+                print("file hash : " + x[1])
+                print("Owner ID  : " + str(x[5]))
+                ownerquery = "select user_name from user where user_id =%d;" % (x[5])
+                dbcursor.execute(ownerquery)
+                result = dbcursor.fetchone()
+                print("Owner Username : " + result[0])
+                print("")
+            return redirect('/newupload')
+    return redirect('/newupload')
+
 @app.route('/delete', methods = ['GET'])
 def delete_file():
 
