@@ -128,7 +128,7 @@
             <main class="col-md-3 ms-sm-auto col-lg-11 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
               <h4>Target Directory</h4><hr>
-              For debugging: {{ current_dir }}<br>
+              <!-- For debugging: {{ current_dir }}<br> -->
               {% for x in range(1, numdir): %} 
                   <svg fill="#ffffff" width="20px" height="25px" viewBox="0 0 16 16" id="SVGRepoEditor" 
                   xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
@@ -146,6 +146,7 @@
                 </button>                
               </a>
               <hr>
+              <h3>Select File to Upload</h3>
               <form action="/checkupload" method="POST" enctype = "multipart/form-data">
                   <div class="input-group">
                     <div class="input-group-prepend col-lg-6">

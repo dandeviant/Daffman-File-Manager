@@ -42,7 +42,11 @@ Later:<br>
 
 1. Add User Rules page. just to explain some shit on how to use this system
     - User can upload similar files as long as the similar files has different owner user ID
-
+2. Overall structure of the system is completed. Run some functionality testing and debugging for all features
+    - Upload/Download with encrypt/decrypt and hashing
+    - User profile making/removing
+    - User profile change password
+    - 
 ---
 
 ### About
