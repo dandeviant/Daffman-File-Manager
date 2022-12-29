@@ -154,14 +154,6 @@ def logout():
     foldersuccess = False
 
     session.clear()
-    dbcursor.close()
-    db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Dane@1710",
-        database="flaskmanager"
-    )
-    dbcursor = db.cursor(buffered=True)
     return redirect("/")
 
 
@@ -686,11 +678,11 @@ def upload_file():
     return redirect('/browser')
 
 
-@app.route('/newupload')
-def newupload():
+@app.route('/startupload', methods=['GET'])
+def startupload():
     print("============================== NEW UPLOAD ==============================")
 
-    os.chdir(rootpath + "/daniel/testdaniel")
+    # os.chdir(rootpath + "/daniel/testdaniel")
     current_dir = os.getcwd()
     path = current_dir.replace(forbidpath, ".")
     listdir = path.split("/")
@@ -701,7 +693,8 @@ def newupload():
     files = subprocess.check_output('ls', shell=True).decode('utf-8').split('\n')
     return render_template('upload.html',
         listdir = listdir,
-        numdir = numdir
+        numdir = numdir,
+        current_dir = current_dir
     )
 
 #delete files from the server directory

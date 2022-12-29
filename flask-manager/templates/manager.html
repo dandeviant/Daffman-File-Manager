@@ -131,7 +131,7 @@
               <!-- For Debugging: current_dir = {{ current_dir }} -->
               <br>
               <a href="/cd?path={{ rootpath }}">
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary rounded-0" type="submit">
                   Root Folder
                 </button></a>
                &nbsp;&nbsp;
@@ -159,13 +159,13 @@
                         <form action="/md">
                           <div class="input-group">
                             <div class="input-group-prepend">
-                              <input type="text" name="folder" placeholder="Enter new folder name..." class="form-control" style="color: black;"/>
+                              <input type="text" name="folder" placeholder="Enter new folder name..." class="form-control rounded-0" style="color: black;"/>
                             </div>
                           </div><br>
                           <div class="input-group">
                             <div class="input-group-prepend col-xs-4">
-                              <input type="submit" value="Create New Folder" class="btn btn-primary"/>
-                              <input type="reset" value="Clear Folder Name" class="btn btn-secondary">
+                              <input type="submit" value="Create New Folder" class="btn btn-primary rounded-0"/>
+                              <input type="reset" value="Clear Folder Name" class="btn btn-secondary rounded-0">
                             </div>  
                           </div>
                         </form><br>
@@ -173,16 +173,16 @@
                         <h3>File uploads not allowed here...</h3>
                       {% endif %}
                       {% if folderexist == True %}
-                        <p class="alert alert-danger">Folder Already Exists<br>
+                        <p class="alert alert-danger rounded-0">Folder Already Exists<br>
                           Note: Similar folder name
                         </p>
                       {% endif %}
                       {% if foldermissing == True %}
-                        <p class="alert alert-danger">No folder name entered<br>
+                        <p class="alert alert-danger rounded-0">No folder name entered<br>
                         </p>
                       {% endif %}
                       {% if foldersuccess == True %}
-                        <p class="alert alert-success">Folder Successfully Created<br>
+                        <p class="alert alert-success rounded-0">Folder Successfully Created<br>
                           Folder created: {{ foldercreated }}
                         </p>
                       {% endif %}
@@ -225,7 +225,7 @@
                                 {% if session['editpermit'] == True %}
                                 <td>
                                   <a href="/delete_dir?dir={{current_dir + '/' + item}}">
-                                  <button class="btn btn-danger" type="submit" fill="red">
+                                  <button class="btn btn-danger rounded-0" type="submit" fill="red">
                                     Remove Directory
                                   </button></a>
                                 </td>
@@ -273,7 +273,7 @@
                                   {% if current_dir != rootpath %}
                                     <td>
                                       <a href="/delete_dir?dir={{current_dir + '/' + item}}">
-                                      <button class="btn btn-danger" type="submit" fill="red">
+                                      <button class="btn btn-danger rounded-0" type="submit" fill="red">
                                         Remove Directory
                                       </button></a>
                                     </td>
@@ -281,6 +281,7 @@
                                 {% else %}
                                   <td></td>
                                 {% endif %}
+                                <td></td>
                             {% endif %}
                           {% endif %}                       
                           </tr>
@@ -297,39 +298,46 @@
                 
                     <h3><u>Files</u></h3><br>
                     {% if session['editpermit'] == True %}
-                      <form action="/upload" method="POST" enctype = "multipart/form-data">
+                      <!-- <form action="/upload" method="POST" enctype = "multipart/form-data">
                         <div class="input-group">
                           <div class="input-group-prepend">
-                            <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
+                            <input type="file" class="form-control rounded-0" id="file" name="file" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
                           </div>
                         </div><br>
                         <div class="input-group">
                           <div class="input-group-prepend col-xs-4">
-                            <input type ="submit" value="Upload New File" class="btn btn-primary"/>
-                            <input type="reset" value="Clear Selection" class="btn btn-secondary">
+                            <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0"/>
+                            <input type="reset" value="Clear Selection" class="btn btn-secondary rounded-0">
                           </div>  
                         </div>
-                          <!-- <input type ="submit" value="Upload New File" class="btn btn-primary"/>
-                          <input type="reset" value="Clear Selection" class="btn btn-secondary"> -->
-                      </form><br>
-                      
+                      </form><br> -->
+                      <a href="/startupload">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-xs-4">
+                            <button class="btn btn-primary rounded-0">
+                              Upload New File
+                            </button>
+                          </div>  
+                        </div>
+                        <br>
+                      </a>
                     {% endif %}
                     {% if fileexist == True %}
-                      <p class="alert alert-danger">File Already Exists<br>
+                      <p class="alert alert-danger rounded-0">File Already Exists<br>
                         Note: Similar file name and MD5 found 
                       </p>
                     {% endif %}
                     {% if filemissing == True %}
-                      <p class="alert alert-danger">No file selected<br>
+                      <p class="alert alert-danger rounded-0">No file selected<br>
                       </p>
                     {% endif %}
                     {% if filesuccess == True %}
-                      <p class="alert alert-success">File Successfully Uploaded<br>
+                      <p class="alert alert-success rounded-0">File Successfully Uploaded<br>
                         File Uploaded: {{ fileuploaded }} <br>
                       </p>
                     {% endif %}
                     {% if session['downloadpass'] == False %}
-                    <p class="alert alert-danger">
+                    <p class="alert alert-danger rounded-0">
                       Password mismatched. Please re-enter password
                     </p>
                     {% endif %}
@@ -364,7 +372,7 @@
                                     <td>{{ item[3] }}</td>
                                     <td>
                                      
-                                      <button type="button" class="btn btn-primary" type="submit" data-toggle="modal" data-target="#downloadModal">
+                                      <button type="button" class="btn btn-primary rounded-0" type="submit" data-toggle="modal" data-target="#downloadModal">
                                       Download
                                       </button>
                                       
@@ -380,14 +388,14 @@
                                                 <form method="POST" action="/download">
                                                     <div class="modal-body">
                                                       <p>Enter Decryption Password</p>
-                                                      <input type="text" id="downloadfile" name="downloadfile" value="{{ item[0] }}" class="form-control" style="color: black;" readonly>
-                                                      <input type="password" id="password" name="password" placeholder="Encryption Password" class="form-control" style="color: black;">
+                                                      <input type="text" id="downloadfile" name="downloadfile" value="{{ item[0] }}" class="form-control rounded-0" style="color: black;" readonly>
+                                                      <input type="password" id="password" name="password" placeholder="Encryption Password" class="form-control rounded-0" style="color: black;">
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-success">
+                                                        <button type="submit" class="btn btn-success rounded-0">
                                                           Download File
                                                         </button>
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">Close</button>
                                                     </div>
                                                 </form>
                                                 <script>
@@ -407,7 +415,7 @@
                                     </td>
                                     {% if session['editpermit'] == True %}
                                     <td><a href="/delete?file={{current_dir + '/' + item[0]}}">
-                                      <button class="btn btn-danger" type="submit" fill="red">
+                                      <button class="btn btn-danger rounded-0" type="submit" fill="red">
                                         Delete
                                         </button></a>
                                     </td>
