@@ -34,7 +34,9 @@ Next task:<br>
 - Complete upload page<br>
     - In the error message box, list out all file names with similar contents if found<br>
     - hash table has been altered. Debug the code for any variables using the old table column<br>
-- Configure Raspberry Pi remote storage using SAMBA and connect to this PyFlask server: 
+- Configure Raspberry Pi remote storage using SAMBA and connect to this PyFlask server:
+
+- Write a markdown file for full system specifications and requirements, properlyyyyy........
 
 https://www.circuitbasics.com/making-a-nas-with-samba-and-raspberry-pi/<br>
 https://stackoverflow.com/questions/34430714/sha-256-different-result <br>
