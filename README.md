@@ -15,14 +15,16 @@ Progress so far...
 - Login and profiling is completed, only small additions are needed for better UX<br>
 - Users are not allowed to modify or upload in folder not belong to them, except admin<br>
 - Folders for new users will be created upon registration<br>
-- Passwords for files is user's password<br>
+- Passwords for files is user's current password and will not change after user password change<br>
 - Password is hashed using SHA256 algorithm, to be updated in Chapter 2 and 3<br>
 - Download popup to input decrypt password, download only when password is correct, error message not in popup<br>
 - Whitespaces in filename is replaced with underscore during upload
 ---
 - change password features is completed for both admin and user
 - <s>ONLY ALLOW CHANGE PASSWORD WHEN THE USER HAVE NO FILES IN THE SERVER</s>
-- THIS IS BECUZ THE ENCRYPTION/DECRYPTION PASSWORD WILL NOT CHANGE
+- THIS IS BECUZ THE ENCRYPTION/DECRYPTION PASSWORD WILL NOT CHANGE<br>
+- As a workaround for demos, I have put a column in hash to store rawtext password. This is temp only<br>
+
 ---
 - download decryption is completed
 <br>
