@@ -30,8 +30,8 @@ Progress so far...
 Next task:<br>
 
 - Complete upload page<br>
-- In the error message box, list out all file names with similar contents if found<br>
-- hash table has been altered. Debug the code for any variables using the old table column
+    - In the error message box, list out all file names with similar contents if found<br>
+    - hash table has been altered. Debug the code for any variables using the old table column<br>
 - Configure Raspberry Pi remote storage using SAMBA and connect to this PyFlask server: 
 
 https://www.circuitbasics.com/making-a-nas-with-samba-and-raspberry-pi/<br>
@@ -46,7 +46,7 @@ Later:<br>
     - Upload/Download with encrypt/decrypt and hashing
     - User profile making/removing
     - User profile change password
-    - 
+    
 ---
 
 ### About
