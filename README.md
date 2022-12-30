@@ -21,7 +21,7 @@ Progress so far...
 - Whitespaces in filename is replaced with underscore during upload
 ---
 - change password features is completed for both admin and user
-- ONLY ALLOW CHANGE PASSWORD WHEN THE USER HAVE NO FILES IN THE SERVER
+- <s>ONLY ALLOW CHANGE PASSWORD WHEN THE USER HAVE NO FILES IN THE SERVER</s>
 - THIS IS BECUZ THE ENCRYPTION/DECRYPTION PASSWORD WILL NOT CHANGE
 ---
 - download decryption is completed
