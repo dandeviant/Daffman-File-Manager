@@ -1041,11 +1041,11 @@ def changepassadmin():
             db.commit()
             print("New Admin Request : " + newadminpass)
             print("Confirm Password  : " + passmatch)
-            print("Old Password Raw  : " + session['rawpass'])
+            print("Old Password Raw  : " + session['userpassraw'])
             print("New Password Hash : " + newpasshash)
             print("Old Password Hash : " + oldpasshash)
             print("Similar Password  : " + str(session['sameadminhash']))
-            session['rawpass'] = newadminpass
+            session['userpassraw'] = newadminpass
     
     return redirect('/admin')
 
@@ -1081,12 +1081,11 @@ def newprofile():
                 db.commit()
                 print("User " + newusername + " inserted successfully")
                 os.mkdir(rootpath + "/" + newusername)
-                session['passmatch'] = True
+                session['passmatch'] = False
             except mysql.connector.Error as error:
                 print("Failed to insert record into user table {}".format(error))
         else:
             session['passmatch'] = True
-            session['nousername'] = False
     return redirect("/admin")
 
 @app.route('/deleteuser')
@@ -1122,7 +1121,7 @@ def profile():
     print("Query = " + query)
     dbcursor.execute(query)
     result = dbcursor.fetchone()
-    rawpass = session['rawpass']
+    rawpass = session['userpassraw']
     password = str(result[0])
     hashedpass = password
     print("Raw Password    : " + rawpass)
@@ -1137,7 +1136,7 @@ def changepass():
     print("\n============================== CHANGE PASSWORD USER ==============================")
 
     current_user = session['username']
-    olduserpass = session['rawpass']
+    olduserpass = session['userpassraw']
     newuserpass = request.form['newuserpass']
     confirmpass = request.form['passmatch']
     newuserpasshash = hashlib.sha256(newuserpass.encode('utf-8')).hexdigest()
@@ -1199,7 +1198,7 @@ def changepass():
             print("Update Query      : " + query)
             dbcursor.execute(query)
             db.commit()
-            session['rawpass'] = newuserpass
+            session['userpassraw'] = newuserpass
 
     return redirect('/profile')
 

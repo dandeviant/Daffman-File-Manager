@@ -149,7 +149,7 @@
                           <b>Plain Text</b>
                         </td>
                         <td>
-                          {{ session['rawpass'] }}
+                          {{ session['userpassraw'] }}
                         </td>
                       </tr>
                       <tr>
@@ -157,7 +157,7 @@
                           <b>sha256</b>
                         </td>
                         <td>
-                            {{ hashedpass }}
+                            {{ session['userpasshash'] }}
                         </td>
                       </tr>
                     </table>
