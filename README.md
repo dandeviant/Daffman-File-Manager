@@ -46,7 +46,7 @@ Later:<br>
 
 1. IMPORTANT: build a JavaScript code to read the file hash from client side using FileReader JS from FileAPI
     - My plan: The hash checks will be done on client side.
-    - Select all hash uploaded by the user from database, but DO NOT SHOW IT YET.
+    - Select all hash uploaded by the user from database, but DO NOT SHOW IT YET on the upload page.
     - Perform data checks once user has selected the file
 
 https://github.com/lvaccaro/hashfilereader.git
