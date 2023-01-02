@@ -44,6 +44,15 @@ https://stackoverflow.com/questions/34430714/sha-256-different-result <br>
 
 Later:<br>
 
+1. IMPORTANT: build a JavaScript code to read the file hash from client side using FileReader JS from FileAPI
+    - My plan: The hash checks will be done on client side.
+    - Select all hash uploaded by the user from database, but DO NOT SHOW IT YET.
+    - Perform data checks once user has selected the file
+
+https://github.com/lvaccaro/hashfilereader.git
+
+---
+
 1. Add User Rules page. just to explain some shit on how to use this system
     - User can upload similar files as long as the similar files has different owner user ID
 2. Overall structure of the system is completed. Run some functionality testing and debugging for all features
