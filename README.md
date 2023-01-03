@@ -40,6 +40,7 @@ Next task:<br>
 
 https://www.circuitbasics.com/making-a-nas-with-samba-and-raspberry-pi/<br>
 https://stackoverflow.com/questions/34430714/sha-256-different-result <br>
+https://medium.com/@0xVaccaro/hashing-big-file-with-filereader-js-e0a5c898fc98 <br>
 <br>
 
 Later:<br>
