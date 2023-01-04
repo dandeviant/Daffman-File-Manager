@@ -45,10 +45,12 @@ foldermissing = False
 foldersuccess = False
 foldercreated = ''
 
-rootpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/uploads'
-forbidpath = '/home/daniel/Desktop/Flask-file-manager/flask-manager/'
+rootpath = '/home/daniel/Desktop/daffman/daffman-main/uploads'
+forbidpath = '/home/daniel/Desktop/daffman/daffman-main/'
 # rootfolder = rootpath.replace(forbidpath, '')
 rootfolder = 'uploads'
+
+# notepath = '../README.md'
 
 os.chdir(rootpath)
 
@@ -287,8 +289,8 @@ def index(downloadpass = True):
     # print(result)
     print("Files = ", end="")
     print(files)
-    notepath = '/home/daniel/Desktop/Flask-file-manager/README.md'
-    note = subprocess.check_output(('cat ' + notepath), shell=True).decode('utf-8')
+    # notepath = '/home/daniel/Desktop/Flask-file-manager/README.md'
+    # note = subprocess.check_output(('cat ' + notepath), shell=True).decode('utf-8')
 
 
      # scan for md5 and file size of each file
@@ -341,7 +343,7 @@ def index(downloadpass = True):
     current_dir = current_dir,
     path = path,
     files = files,
-    note = note,
+    # note = note,
     numfiles = numfiles,
     numfolder = numfolder,
     hash_list = hash_list,
@@ -1141,11 +1143,11 @@ def changepass():
     confirmpass = request.form['passmatch']
     newuserpasshash = hashlib.sha256(newuserpass.encode('utf-8')).hexdigest()
 
-    filequery = "select * from hash where user_id=%s " % (str(session['user_id']))
-    print("File Query : " + filequery)
-    dbcursor.execute(query)
-    numfiles = dbcursor.rowcount()
-    print("File Owned by %s : " + numfiles) % (session['username'])
+    # filequery = "select * from hash where user_id=%s " % (str(session['user_id']))
+    # print("File Query : " + filequery)
+    # dbcursor.execute(filequery)
+    # numfiles = dbcursor.rowcount
+    # print("File Owned by %s : " + str(numfiles)) % (session['username'])
 
 
     query = "select password from user where user_name = '%s'; " % (current_user)
