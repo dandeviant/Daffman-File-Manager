@@ -73,6 +73,11 @@ https://github.com/lvaccaro/hashfilereader.git
 
 ---
 
+Install all requirements
+
+```pip3 install -r requirements.txt```
+
+
 ### How to run the app in development env
 <code>$ python3 flask-manager.py</code><br>
 <b>OR</b><br>
