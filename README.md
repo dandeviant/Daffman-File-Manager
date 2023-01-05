@@ -4,6 +4,8 @@
 
 ---
 
+### Notes for rogress and bug fixes are available in tasks-pending.md
+
 ### About
 
 1. DAFFMAN is a NAS file manager built on Python and built for Debian Linux system running Bash/ZSH shell
