@@ -13,6 +13,7 @@
 3. Now I've improved this project for my final year project
 4. The system is fully Debian-based/Ubuntu-based (Ubuntu, Mint OS, etc.) as far as I have tested<b>
     - DO NOT RUN ON ANY OTHER OPERATING SYSTEM UNLESS YOU KNOW WHAT YOU'RE DOING</b>
+    - OR ELSE IT WON'T WORK AS INTENDED, NOTE THIS...
 
 ---
 
