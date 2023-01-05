@@ -4,7 +4,7 @@
 
 ---
 
-### Notes for progress and bug fixes are available in `tasks-pending.md`
+### Notes for progress and bug fixes are available in ```tasks-pending.md```
 
 ### About
 
