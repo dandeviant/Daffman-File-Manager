@@ -322,8 +322,8 @@ def index(downloadpass = True):
                     owner_name = str(ownerresult[0])
                     print("Owner Name: " + str(owner_name))
                 hash_list.append((item, filesize, hash, owner_name))
-                # print("hash_list = ", end="")
-                # print(hash_list)
+                print("hash_list = ", end="")
+                print(hash_list)
     # assets = '../'            
 
     global fileexist
