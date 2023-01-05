@@ -19,15 +19,16 @@ Progress so far...
 - Password is hashed using SHA256 algorithm, to be updated in Chapter 2 and 3<br>
 - Download popup to input decrypt password, download only when password is correct, error message not in popup<br>
 - Whitespaces in filename is replaced with underscore during upload
----
+
 - change password features is completed for both admin and user
 - <s>ONLY ALLOW CHANGE PASSWORD WHEN THE USER HAVE NO FILES IN THE SERVER</s>
 - THIS IS BECUZ THE ENCRYPTION/DECRYPTION PASSWORD WILL NOT CHANGE<br>
 - As a workaround for demos, I have put a column in hash to store rawtext password. This is temp only<br>
----
+
 - download decryption is completed
 <br>
 
+---
 Next task:<br>
 
 - Complete upload page<br>
@@ -52,11 +53,9 @@ https://github.com/lvaccaro/hashfilereader.git
     - On web server, mount the NFS shared directory and configure DAFFMAN to use that directory
 https://linuxhint.com/install-and-configure-nfs-server-ubuntu-22-04/
 
----
-
-1. Add User Rules page. just to explain some shit on how to use this system
+3. Add User Rules page. just to explain some shit on how to use this system
     - User can upload similar files as long as the similar files has different owner user ID
-2. Overall structure of the system is completed. Run some functionality testing and debugging for all features
+4. Overall structure of the system is completed. Run some functionality testing and debugging for all features
     - Upload/Download with encrypt/decrypt and hashing
     - User profile making/removing
     - User profile change password
