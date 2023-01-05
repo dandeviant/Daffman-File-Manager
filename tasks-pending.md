@@ -4,9 +4,10 @@
     - I have tried this using standard Mint VM in my Windows using NFS, but OMV has SMB/CIFS
     - Learn more about SMB/CIFS for file sharing https://linuxhint.com/install-and-configure-nfs-server-ubuntu-22-04/
 
-Building Raspberry Pi OMV: https://www.raspberrypi.com/tutorials/nas-box-raspberry-pi-tutorial/
-Mounting SMB Share from web server: https://support.zadarastorage.com/hc/en-us/articles/213024986-How-to-Mount-a-SMB-Share-in-Ubuntu
-Some guide videos are on YouTube
+- Links
+    - Building Raspberry Pi OMV: https://www.raspberrypi.com/tutorials/nas-box-raspberry-pi-tutorial/
+    - Mounting SMB Share from web server: https://support.zadarastorage.com/hc/en-us/articles/213024986-How-to-Mount-a-SMB-Share-in-Ubuntu
+    - Some guide videos are on YouTube
 ---
 
 ### Progress so far...
