@@ -1,6 +1,6 @@
 ## Notes for new things I came across in the Internet
 
-- Try to find on how to use OpenMediaVault for folder sharing with web server
+- Try to find out more on how to use OpenMediaVault for folder sharing with web server
     - I have tried this using standard Mint VM in my Windows using NFS, but OMV has SMB/CIFS
     - Learn more about SMB/CIFS for file sharing https://linuxhint.com/install-and-configure-nfs-server-ubuntu-22-04/
 
