@@ -1,4 +1,4 @@
-Notes for new things I came across in the Internet
+## Notes for new things I came across in the Internet
 
 - Try to find on how to use OpenMediaVault for folder sharing with web server
     - I have tried this using standard Mint VM in my Windows using NFS, but OMV has SMB/CIFS
@@ -8,8 +8,8 @@ Notes for new things I came across in the Internet
 
 ---
 
-Progress so far...
----
+### Progress so far...
+
 ---
 - Data deduplication is completed via Python MD5, but client-side process is not possible.<br>
 - Server-side AES encryption during upload is completed. Using pyAesCrypt with .aes extension
