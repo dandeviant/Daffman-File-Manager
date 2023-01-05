@@ -24,7 +24,6 @@ Progress so far...
 - <s>ONLY ALLOW CHANGE PASSWORD WHEN THE USER HAVE NO FILES IN THE SERVER</s>
 - THIS IS BECUZ THE ENCRYPTION/DECRYPTION PASSWORD WILL NOT CHANGE<br>
 - As a workaround for demos, I have put a column in hash to store rawtext password. This is temp only<br>
-
 ---
 - download decryption is completed
 <br>
@@ -35,25 +34,23 @@ Next task:<br>
     - In the error message box, list out all file names with similar contents if found<br>
     - hash table has been altered. Debug the code for any variables using the old table column<br>
 - Configure Raspberry Pi remote storage using SAMBA and connect to this PyFlask server:
-
 - Write a markdown file for full system specifications and requirements, properlyyyyy........
 
 https://www.circuitbasics.com/making-a-nas-with-samba-and-raspberry-pi/<br>
 https://stackoverflow.com/questions/34430714/sha-256-different-result <br>
 https://medium.com/@0xVaccaro/hashing-big-file-with-filereader-js-e0a5c898fc98 <br>
-<br>
 
-Later:<br>
 
 1. IMPORTANT: build a JavaScript code to read the file hash from client side using FileReader JS from FileAPI
     - My plan: The hash checks will be done on client side.
     - Select all hash uploaded by the user from database, but DO NOT SHOW IT YET on the upload page.
     - Perform data checks once user has selected the file
+https://github.com/lvaccaro/hashfilereader.git
+
 2. FILE SERVER CONFIGURATION
     - Use NFS and configure a shared NFS directory in the Raspberry Pi Server
     - On web server, mount the NFS shared directory and configure DAFFMAN to use that directory
-
-https://github.com/lvaccaro/hashfilereader.git
+https://linuxhint.com/install-and-configure-nfs-server-ubuntu-22-04/
 
 ---
 
