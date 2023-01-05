@@ -49,6 +49,9 @@ Later:<br>
     - My plan: The hash checks will be done on client side.
     - Select all hash uploaded by the user from database, but DO NOT SHOW IT YET on the upload page.
     - Perform data checks once user has selected the file
+2. FILE SERVER CONFIGURATION
+    - Use NFS and configure a shared NFS directory in the Raspberry Pi Server
+    - On web server, mount the NFS shared directory and configure DAFFMAN to use that directory
 
 https://github.com/lvaccaro/hashfilereader.git
 
