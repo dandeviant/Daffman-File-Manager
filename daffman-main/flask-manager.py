@@ -907,6 +907,7 @@ def delete_file():
 
     print("resultcheck : " + str(session['deletepermit']))
     file = request.args.get('file')
+    file = forbidpath + file
     query = "DELETE FROM hash WHERE filename='%s' " % (file)
     dbcursor.execute(query)
     db.commit()
