@@ -394,10 +394,7 @@
                                       <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content" style="color: black">
                                             <div class="modal-header">
-                                              <h5 class="modal-title" id="exampleModalLongTitle">Downloading File</h5>
-                                              <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">[X] Close</span>
-                                              </button>
+                                              <h5 class="modal-title" id="exampleModalLongTitle">Downloading file...</h5>
                                             </div>
                                             <form method="POST" action="/download">
                                               <div class="modal-body">
@@ -408,8 +405,11 @@
                                                 <input type="password" id="password" name="password" placeholder="Encryption Password" class="form-control rounded-0" style="color: black;">
                                               </div>
                                               <div class="modal-footer">
-                                                  <button type="submit" class="btn btn-success rounded-0">
-                                                    Download File
+                                                  <button type="submit" class="btn btn-success">
+                                                    Decrypt and Download File
+                                                  </button>
+                                                  <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">[X] Close</span>
                                                   </button>
                                               </div>
                                             </form>
