@@ -593,108 +593,108 @@ def download():
 
     
 # upload files from filesystem
-@app.route('/upload', methods = ['GET', 'POST'])
-def upload_file():
-    print("\n============================== UPLOAD FILE ==============================")
+# @app.route('/upload', methods = ['GET', 'POST'])
+# def upload_file():
+#     print("\n============================== UPLOAD FILE ==============================")
 
-    global filemissing
-    global fileexist
-    global filesuccess
-    global fileuploaded
-    global folderexist
-    global foldermissing
-    global foldersuccess
+#     global filemissing
+#     global fileexist
+#     global filesuccess
+#     global fileuploaded
+#     global folderexist
+#     global foldermissing
+#     global foldersuccess
 
-    folderexist = False
-    foldermissing = False
-    foldersuccess = False
+#     folderexist = False
+#     foldermissing = False
+#     foldersuccess = False
 
-    session['editpermit'] = True
+#     session['editpermit'] = True
 
-    current_dir = os.getcwd()
-    compare = rootfolder + "/" + session['username']
-    print("Compare : " + compare)
-    usercd = session['username']
-    print("Dir : " + current_dir)
-    print("Usercd : " + usercd)
+#     current_dir = os.getcwd()
+#     compare = rootfolder + "/" + session['username']
+#     print("Compare : " + compare)
+#     usercd = session['username']
+#     print("Dir : " + current_dir)
+#     print("Usercd : " + usercd)
         
-    if request.method == 'POST':
-        f = request.files['file']
-        if f.filename == '':
-            filemissing = True
-            filesuccess = False
-        else:
-            filemissing = False
-            filesuccess = True
-            f.save(secure_filename(f.filename))
-            print("Save successful")
-            print("File saved : " + f.filename)
-            if ' ' in f.filename:
-                print("Whitespace detected")
-                f.filename = f.filename.replace(" ", '_')
-                print("Whitespace replaced with underscore")
-                print("New name : " + f.filename)
-            dir = os.getcwd()
-            file = "%s/%s" % (dir,f.filename)
-            filestat = os.stat(f.filename)
+#     if request.method == 'POST':
+#         f = request.files['file']
+#         if f.filename == '':
+#             filemissing = True
+#             filesuccess = False
+#         else:
+#             filemissing = False
+#             filesuccess = True
+#             f.save(secure_filename(f.filename))
+#             print("Save successful")
+#             print("File saved : " + f.filename)
+#             if ' ' in f.filename:
+#                 print("Whitespace detected")
+#                 f.filename = f.filename.replace(" ", '_')
+#                 print("Whitespace replaced with underscore")
+#                 print("New name : " + f.filename)
+#             dir = os.getcwd()
+#             file = "%s/%s" % (dir,f.filename)
+#             filestat = os.stat(f.filename)
 
-            # print(f'File Size in MegaBytes is {file_stats.st_size / (1024 * 1024)}')
+#             # print(f'File Size in MegaBytes is {file_stats.st_size / (1024 * 1024)}')
 
             
-            # hash = hashlib.md5(open(f.filename,'rb').read()).hexdigest()
-            hash = request.form['md5']
-            filesize = round(filestat.st_size / (1024), 1)
-            roundedsize = str(filesize)
-            print("\n\nUploaded File: " + file)
-            print("File Size = " + roundedsize + "MB")
-            print("Uploaded Hash: "+ hash)
+#             # hash = hashlib.md5(open(f.filename,'rb').read()).hexdigest()
+#             hash = request.form['md5']
+#             filesize = round(filestat.st_size / (1024), 1)
+#             roundedsize = str(filesize)
+#             print("\n\nUploaded File: " + file)
+#             print("File Size = " + roundedsize + "MB")
+#             print("Uploaded Hash: "+ hash)
 
-            # Get user id for db update
-            query = "select user_id from user where user_name = '%s'; " % (session['username'])
-            print("Query: " + query)
-            dbcursor.execute(query)
-            result = dbcursor.fetchone()
-            print("Result: " + str(result))
-            user_id = result[0]
-            password = session['password']
-            print('User ID: ' + str(result[0]))
-            print('User Password: ' + password)
+#             # Get user id for db update
+#             query = "select user_id from user where user_name = '%s'; " % (session['username'])
+#             print("Query: " + query)
+#             dbcursor.execute(query)
+#             result = dbcursor.fetchone()
+#             print("Result: " + str(result))
+#             user_id = result[0]
+#             password = session['password']
+#             print('User ID: ' + str(result[0]))
+#             print('User Password: ' + password)
 
-            query = "select * from hash where filename='%s' and md5='%s'; " % (file, hash)
-            print("Query: " + query)
-            dbcursor.execute(query)
-            result = dbcursor.fetchall()
-            rows = dbcursor.rowcount
+#             query = "select * from hash where filename='%s' and md5='%s'; " % (file, hash)
+#             print("Query: " + query)
+#             dbcursor.execute(query)
+#             result = dbcursor.fetchall()
+#             rows = dbcursor.rowcount
 
-            if rows == 0:
+#             if rows == 0:
 
-                # AES encryption process
-                inputfile = file
-                outputfile = file + ".aes"
-                encodedpass = password.encode('utf-8')
-                hashedpass = hashlib.sha256(encodedpass)
-                print("Input file : " + inputfile)
-                print("Output file: " + outputfile)
-                print("File Password Unhashed: " + password)
-                print("File Password Hashed: " + str(hashedpass.hexdigest()))
+#                 # AES encryption process
+#                 inputfile = file
+#                 outputfile = file + ".aes"
+#                 encodedpass = password.encode('utf-8')
+#                 hashedpass = hashlib.sha256(encodedpass)
+#                 print("Input file : " + inputfile)
+#                 print("Output file: " + outputfile)
+#                 print("File Password Unhashed: " + password)
+#                 print("File Password Hashed: " + str(hashedpass.hexdigest()))
                 
-                pyAesCrypt.encryptFile(inputfile, outputfile, password)
+#                 pyAesCrypt.encryptFile(inputfile, outputfile, password)
                 
-                query = "insert into hash(filename, md5, filesize, user_id) values ('%s', '%s', '%s', %d)" % (outputfile, hash, filesize, user_id)
-                dbcursor.execute(query)
-                db.commit()
-                os.remove(file)
-                print("File uploaded")
-                fileexist = False
-                filesuccess = True
-                fileuploaded = f.filename+'.aes'
+#                 query = "insert into hash(filename, md5, filesize, user_id) values ('%s', '%s', '%s', %d)" % (outputfile, hash, filesize, user_id)
+#                 dbcursor.execute(query)
+#                 db.commit()
+#                 os.remove(file)
+#                 print("File uploaded")
+#                 fileexist = False
+#                 filesuccess = True
+#                 fileuploaded = f.filename+'.aes'
 
-            else:
-                print("File already exists")
-                fileexist = True
-                filesuccess = False
-                fileuploaded = ''
-    return redirect('/browser')
+#             else:
+#                 print("File already exists")
+#                 fileexist = True
+#                 filesuccess = False
+#                 fileuploaded = ''
+#     return redirect('/browser')
 
 @app.route('/startupload', methods=['GET'])
 def startupload():
@@ -747,10 +747,12 @@ def checkupload():
                 print("Whitespace replaced with underscore")
                 print("New name : " + newfile.filename)
         current_dir = os.getcwd()
-        file = "%s/%s" % (current_dir,newfile.filename)
-        filestat = os.stat(newfile.filename)
-        filesize = round(filestat.st_size/1024, 2)
-        filehash = hashlib.md5(open(newfile.filename,'rb').read()).hexdigest()
+        # file = "%s/%s" % (current_dir,newfile.filename)
+        # filestat = os.stat(newfile.filename)
+        # filesize = round(filestat.st_size/1024, 2)
+        filesize = request.form['filesize']
+        # filehash = hashlib.md5(open(newfile.filename,'rb').read()).hexdigest()
+        filehash = request.form['md5']
         print("================ File Summary =======================")
         print("File Name : " + newfile.filename)
         print("File Size : " + str(filesize) + " KB")
@@ -779,16 +781,18 @@ def checkupload():
             # AES encryption process
             inputfile = newfile.filename
             outputfile = inputfile + ".aes"
-            filepassword = session['userpassraw']
+            filepassword = request.form['decryptpass']
+            encodepassword =  filepassword.encode('utf-8')
+            hashedpass = hashlib.sha256(encodepassword).hexdigest()
             filepathencrypt = current_dir + '/' + outputfile
             filepathencrypt = filepathencrypt.replace(forbidpath, '')
             filepathraw = current_dir + '/' + newfile.filename
             print("Input file : " + inputfile)
             print("Output file: " + outputfile)
             print("File path  : " + filepathencrypt)
-            print("File Password Hashed: " + session['userpasshash'])
-            print("File Password Unhashed: " + session['userpassraw'])
-            print("File Password variable: " + filepassword)
+            print("File Password Hashed    : " + hashedpass)
+            print("File Password from Input: " + request.form['decryptpass'])
+            print("File Password variable  : " + filepassword)
             
             pyAesCrypt.encryptFile(inputfile, outputfile, filepassword) # encrypt raw file
             os.remove(filepathraw) # delete unencrypted file
@@ -802,11 +806,11 @@ def checkupload():
             print("File name: " + newfile.filename)
             print("File path: " + filepathencrypt)
             print("File Size: " + str(filesize))
-            print("File Hash: " + filehash)
-            print("filepasshash : " + session['userpasshash'])
+            print("File Hash: " + hashedpass)
+            print("filepasshash : " + hashedpass)
             print("filepassraw  : " + filepassword + "\n") # session['userpassraw']
             
-            uploadquery = "INSERT INTO hash(filename, md5, filesize, filepasshash, filepassraw, user_id) VALUES ('%s','%s','%s','%s','%s',%d)" % (filepathencrypt, filehash, str(filesize), session['userpasshash'], filepassword, session['user_id'])
+            uploadquery = "INSERT INTO hash(filename, md5, filesize, filepasshash, filepassraw, user_id) VALUES ('%s','%s','%s','%s','%s',%d)" % (filepathencrypt, filehash, str(filesize), hashedpass, filepassword, session['user_id'])
             print("Upload Query : " + uploadquery)
             dbcursor.execute(uploadquery)
             db.commit()
@@ -873,6 +877,7 @@ def delete_file():
 
     session['deletepermit'] = True
 
+    print("==================== DELETE FILE ====================")
     current_dir = os.getcwd()
     compare = rootfolder + "/" + session['username']
     print("Compare : " + compare)
@@ -892,11 +897,14 @@ def delete_file():
 
     print("resultcheck : " + str(session['deletepermit']))
     file = request.args.get('file')
-    file = forbidpath + file
+    print("Filepath db   : " + file)
+    filepath = forbidpath + file
+    print("Filepath full : " + filepath)
     query = "DELETE FROM hash WHERE filename='%s' " % (file)
+    print("Query = " + query)
     dbcursor.execute(query)
     db.commit()
-    os.remove(file)
+    os.remove(filepath)
     return redirect('/browser')
 
 @app.route('/delete_dir', methods = ['GET'])

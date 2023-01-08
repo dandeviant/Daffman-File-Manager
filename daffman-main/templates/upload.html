@@ -148,30 +148,82 @@
               <br><br>
               <h3>Select File to Upload</h3>
               <hr>
-              <form action="/checkupload" method="POST" enctype = "multipart/form-data">
-                  <div class="input-group">
-                    <div class="input-group-prepend col-lg-6">
-                      <label for="newfile"><b>Selected File Name</b></label>
-                      
-                      <input type="file" class="form-control rounded-0" id="newfile" name="newfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
-                    </div><br>
+              <form action="/checkupload" method="POST" enctype = "multipart/form-data"">
+                    <div class="row">
+                      <div class="col">
+                        <label for="newfile"><b>Selected File Name</b></label>
+                        <input type="file" class="form-control rounded-0" id="newfile" name="newfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
+                      </div>
                     </div>
-                    <Br>
-                    <div class="input-group">
-                      <div class="form-group-prepend col-lg-6">
-                        <label for="md5"><b>Hash of Selected File</b></label>
-                        <input type="text" id="md5" name="md5" style="color: black" class="form-control rounded-0" readonly/>
-                      </div><br>
+                    <br>
+                    <hr>
+                    <div class="row">
+                      <div class="col">
+                        <label for="md5"><b>Hash of Selected File (auto-generated)</b></label>
+                        <input type="text" id="md5" name="md5" style="color: black" class="form-control rounded-0" placeholder="File hash is auto-generated" readonly/>
+                      </div>
+                      <div class="col">
+                        <label for="md5"><b>File Size (KB)</b></label>
+                        <input type="text" id="filesize" name="filesize" style="color: black" class="form-control rounded-0" placeholder="File size is auto-generated" readonly/>
+                      </div>
                     </div><br>
-                  
-                  <div class="input-group">
-                    <div class="input-group-prepend col-xs-6">
+                    <div class="row">
+                      <div class="col">
+                        <label for="md5"><b>File Decryption Password</b></label>
+                        <input type="password" id="decryptpass" name="decryptpass" style="color: black" class="form-control rounded-0" placeholder="Password for AES decryption"/>
+                        <input type="checkbox" onclick="showPassword()">&nbsp;&nbsp;Show Password 
+                      </div>
+                    </div><br>
+                    <div class="col">
                       <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0"/>
                       <input type="reset" value="Clear Selection" class="btn btn-secondary rounded-0">
                     </div>  
                   </div>
                   <br>
-                  
+                    <!-- ================ ALERT MESSAGES ================ -->
+                  <div class="row" style="padding-left: 160px; padding-right: 40px;">
+                    <div class="col">
+                      {% if session['filemissing'] == True %}
+                      <p class="alert alert-danger">
+                        Error: No file chosen.
+                      </p>
+                    {% endif %}
+                    {% if session['fileexist'] == True %}
+                    <p class="alert alert-danger">
+                      Error: Similar file has been found as shown in the table below
+                    </p>
+
+                      {% for x in checkresult: %}
+                        <table class="table table-dark">
+                          <tr>
+                            <td>
+                              <b>File Location</b>
+                            </td>
+                            <td>
+                              {{ x[0] }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <b>md5</b>
+                            </td>
+                            <td>
+                              {{ x[1] }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <b>Owner</b>
+                            </td>
+                            <td>
+                              {{ ownername }}
+                            </td>
+                          </tr>
+                        </table>  
+                      {% endfor %}  
+                    {% endif %}
+                    </div>
+                  </div>   
               </form><br>
               <br>
               <hr>
@@ -185,65 +237,35 @@
                     var md5 = hash.toString(CryptoJS.enc.Hex)
                     var fileInput = document.getElementById('newfile');   
                     var filename = fileInput.files[0].name;
+                    var actualsize = fileInput.files[0].size;
+                    var filesize = (actualsize / 1024).toFixed(3);
                     var output = "MD5 for " + filename + " = " + md5;
                     console.log(output);
                     document.getElementById("md5").value = md5;
+                    document.getElementById("filesize").value = filesize;
                   });
                   reader.readAsBinaryString(document.getElementById("newfile").files[0]);
                 }
+
+
+                function showPassword() {
+                  var x = document.getElementById("decryptpass");
+                  if (x.type === "password") { 
+                    x.type = "text";
+                  } else {
+                    x.type = "password";
+                  }
+                } 
               </script>
 
-
-
-              <!-- ================ ALERT MESSAGES ================ -->
-              {% if session['filemissing'] == True %}
-                <p class="alert alert-danger">
-                  Error: No file chosen.
-                </p>
-              {% endif %}
-              {% if session['fileexist'] == True %}
-              <p class="alert alert-danger">
-                Error: Similar file has been found as shown in the table below
-              </p>
-
-                {% for x in checkresult: %}
-                  <table class="table table-dark">
-                    <tr>
-                      <td>
-                        <b>File Location</b>
-                      </td>
-                      <td>
-                        {{ x[0] }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>md5</b>
-                      </td>
-                      <td>
-                        {{ x[1] }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Owner</b>
-                      </td>
-                      <td>
-                        {{ ownername }}
-                      </td>
-                    </tr>
-                  </table>  
-                {% endfor %}  
-              {% endif %}
-                
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
             </main>
-        </div> 
+        </div>
 
         <script src="{{ url_for('static', filename='crypto-js/md5.js') }}"></script>
         <script src="{{ url_for('static', filename='./crypto-js/core.js') }}"></script>
         <script src="{{ url_for('static', filename='crypto-js/lib-typedarrays.js') }}"></script>
         <script src="{{ url_for('static', filename='crypto-js/crypto-js.js') }}"></script>
-
+      
 </body>
 </html>
