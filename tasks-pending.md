@@ -71,6 +71,7 @@
 
 - Client-side file hashing has been completed using CryptoJS
     - more on tasks-pending.md
+    
 <br>
 
 ---
