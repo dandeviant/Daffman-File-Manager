@@ -617,24 +617,6 @@ def upload_file():
     usercd = session['username']
     print("Dir : " + current_dir)
     print("Usercd : " + usercd)
-
-    # if session['username'] == "admin":
-    #     session['admin'] = True
-    # else:
-    #     session['admin'] = False
-
-    # if session['admin'] == False:
-    #     if compare not in current_dir:
-    #         print("Upload not allowed")
-    #         session['editpermit'] = False
-    #         return redirect('/browser')
-    #     else:
-    #         session['editpermit'] = True
-    # else:
-    #     session['editpermit'] = True
-    
-    # print("resultcheck : " + str(session['editpermit']))
-
         
     if request.method == 'POST':
         f = request.files['file']
@@ -659,7 +641,8 @@ def upload_file():
             # print(f'File Size in MegaBytes is {file_stats.st_size / (1024 * 1024)}')
 
             
-            hash = hashlib.md5(open(f.filename,'rb').read()).hexdigest()
+            # hash = hashlib.md5(open(f.filename,'rb').read()).hexdigest()
+            hash = request.form['md5']
             filesize = round(filestat.st_size / (1024), 1)
             roundedsize = str(filesize)
             print("\n\nUploaded File: " + file)
@@ -843,7 +826,8 @@ def checkupload():
                 ownerquery = "select user_name from user where user_id =%d;" % (x[5])
                 dbcursor.execute(ownerquery)
                 result = dbcursor.fetchone()
-                print("Owner Username : " + result[0])
+                ownername = result[0]
+                print("Owner Username : " + ownername)
                 print("")
 
             current_dir = os.getcwd()
@@ -862,7 +846,8 @@ def checkupload():
                 listdir = listdir,
                 numdir = numdir,
                 current_dir = current_dir,
-                checkresult = checkresult
+                checkresult = checkresult,
+                ownername = ownername
             )
 
     return redirect('/newupload')
@@ -1094,12 +1079,14 @@ def newprofile():
 @app.route('/deleteuser')
 def deleteuser():
     
-    session['passmatch'] = True
+    session['passmatch'] = False
     id = request.args.get('id')
     username = request.args.get('username')
     print("Deleted ID = " + str(id))
     query = "delete from user where user_id=%s ;" % (id)
     dbcursor.execute(query)
+    db.commit()
+
     target = rootpath + "/" + username
     shutil.rmtree(target)
     return redirect('/admin')

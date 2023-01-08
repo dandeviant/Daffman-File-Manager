@@ -127,7 +127,7 @@
         <div class="container-fluid">
             <main class="col-md-3 ms-sm-auto col-lg-11 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-              <h4>Target Directory</h4><hr>
+              <h4>Target Directory</h4>
               <!-- For debugging: {{ current_dir }}<br> -->
               {% for x in range(1, numdir): %} 
                   <svg fill="#ffffff" width="20px" height="25px" viewBox="0 0 16 16" id="SVGRepoEditor" 
@@ -145,19 +145,25 @@
                   Cancel Upload
                 </button>                
               </a>
+              <br><br>
+              <h3>Select File to Upload</h3>
               <hr>
-              
               <form action="/checkupload" method="POST" enctype = "multipart/form-data">
                   <div class="input-group">
                     <div class="input-group-prepend col-lg-6">
-                      <label for="newfile"><h3>Select File to Upload</h3></label>
+                      <label for="newfile"><b>Selected File Name</b></label>
+                      
                       <input type="file" class="form-control rounded-0" id="newfile" name="newfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
+                    </div><br>
                     </div>
-                  </div><br>
-                  <div class="form-group-prepend col-xs-6">
-                    <label for="md5"><h4>Hash</h4></label>
-                    <input type="text" id="md5" name="md5" style="color: black" class="form-control" readonly/>
-                  </div><br>
+                    <Br>
+                    <div class="input-group">
+                      <div class="form-group-prepend col-lg-6">
+                        <label for="md5"><b>Hash of Selected File</b></label>
+                        <input type="text" id="md5" name="md5" style="color: black" class="form-control rounded-0" readonly/>
+                      </div><br>
+                    </div><br>
+                  
                   <div class="input-group">
                     <div class="input-group-prepend col-xs-6">
                       <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0"/>
@@ -181,7 +187,7 @@
                     var filename = fileInput.files[0].name;
                     var output = "MD5 for " + filename + " = " + md5;
                     console.log(output);
-                    document.getElementById("md5").value = output;
+                    document.getElementById("md5").value = md5;
                   });
                   reader.readAsBinaryString(document.getElementById("newfile").files[0]);
                 }
@@ -197,26 +203,37 @@
               {% endif %}
               {% if session['fileexist'] == True %}
               <p class="alert alert-danger">
-                Error: Similar file has been found
+                Error: Similar file has been found as shown in the table below
               </p>
-              <table class="table table-dark">
-                <tr>
-                  <td>
-                    <b>File Path</b>
-                  </td>
-                  <td>
-                    {{ session['rawpass'] }}
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>sha256</b>
-                  </td>
-                  <td>
-                      {{ hashedpass }}
-                  </td>
-                </tr>
-              </table>    
+
+                {% for x in checkresult: %}
+                  <table class="table table-dark">
+                    <tr>
+                      <td>
+                        <b>File Location</b>
+                      </td>
+                      <td>
+                        {{ x[0] }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <b>md5</b>
+                      </td>
+                      <td>
+                        {{ x[1] }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <b>Owner</b>
+                      </td>
+                      <td>
+                        {{ ownername }}
+                      </td>
+                    </tr>
+                  </table>  
+                {% endfor %}  
               {% endif %}
                 
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
