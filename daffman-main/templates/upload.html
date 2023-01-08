@@ -146,12 +146,17 @@
                 </button>                
               </a>
               <hr>
-              <h3>Select File to Upload</h3>
+              
               <form action="/checkupload" method="POST" enctype = "multipart/form-data">
                   <div class="input-group">
                     <div class="input-group-prepend col-lg-6">
-                      <input type="file" class="form-control rounded-0" id="newfile" name="newfile" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
+                      <label for="newfile"><h3>Select File to Upload</h3></label>
+                      <input type="file" class="form-control rounded-0" id="newfile" name="newfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
                     </div>
+                  </div><br>
+                  <div class="form-group-prepend col-xs-6">
+                    <label for="md5"><h4>Hash</h4></label>
+                    <input type="text" id="md5" name="md5" style="color: black" class="form-control" readonly/>
                   </div><br>
                   <div class="input-group">
                     <div class="input-group-prepend col-xs-6">
@@ -159,10 +164,30 @@
                       <input type="reset" value="Clear Selection" class="btn btn-secondary rounded-0">
                     </div>  
                   </div>
+                  <br>
+                  
               </form><br>
               <br>
               <hr>
-              
+
+              <script type="text/javascript">
+                function onFileSelect(){
+                  var reader = new FileReader();
+          
+                  reader.addEventListener('load',function () {
+                    var hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(this.result));
+                    var md5 = hash.toString(CryptoJS.enc.Hex)
+                    let filename = document.getElementById("newfile");
+                    var output = "MD5 (" + filename + ") = " + md5
+                    console.log(output);
+                    document.getElementById("md5").innerText = output
+                  });
+                  reader.readAsBinaryString(document.getElementById("newfile").files[0]);
+                }
+              </script>
+
+
+
               <!-- ================ ALERT MESSAGES ================ -->
               {% if session['filemissing'] == True %}
                 <p class="alert alert-danger">
@@ -197,6 +222,11 @@
             </main>
         </div> 
 
+        <script src="{{ url_for('static', filename='crypto-js/md5.js') }}"></script>
+        <script src="{{ url_for('static', filename='./crypto-js/core.js') }}"></script>
+        <script src="{{ url_for('static', filename='crypto-js/lib-typedarrays.js') }}"></script>
+        <script src="{{ url_for('static', filename='crypto-js/crypto-js.js') }}"></script>
+        <script src="{{ url_for('static', filename='hash.js') }}"></script>
 
 </body>
 </html>

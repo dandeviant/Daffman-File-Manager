@@ -1,0 +1,1 @@
+Test encrypt 2 files same content, different decrypt password

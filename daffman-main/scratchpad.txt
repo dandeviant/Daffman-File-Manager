@@ -1,39 +1,27 @@
-Nothing important here. Just my scratching place for trash codes
-
-https://stackoverflow.com/questions/10626885/passing-data-to-a-bootstrap-modal
-
-
-html
-===========================================================
-
-<p>Link 1</p>
-<a data-toggle="modal" data-id="ISBN564541" title="Add this item" class="open-AddBookDialog btn btn-primary" href="#addBookDialog">test</a>
-
-<p>&nbsp;</p>
-
-
-<p>Link 2</p>
-<a data-toggle="modal" data-id="ISBN-001122" title="Add this item" class="open-AddBookDialog btn btn-primary" href="#addBookDialog">test</a>
-    
-<div class="modal hide" id="addBookDialog">
- <div class="modal-header">
-    <button class="close" data-dismiss="modal">×</button>
-    <h3>Modal header</h3>
-  </div>
-    <div class="modal-body">
-        <p>some content</p>
-        <input type="text" name="bookId" id="bookId" value=""/>
-    </div>
-</div>
-
-javascript
-===========================================================
-
-$(document).on("click", ".open-AddBookDialog", function () {
-     var myBookId = $(this).data('id');
-     $(".modal-body #bookId").val( myBookId );
-     
-     // As pointed out in comments, 
-     // it is unnecessary to have to manually call the modal.
-     // $('#addBookDialog').modal('show');
-});
+{% for item in files[0: -1] %}
+                        <tr>
+                            {% if '.' not in item  %}
+                                <td>
+                                  <svg fill="#ffffff" width="28px" height="28px" viewBox="0 0 16 16" id="SVGRepoEditor" 
+                                  xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <path id="SVGRepoEditor" data-name="Path 102" d="M35.5,16h-11A2.5,2.5,0,0,1,22,13.5v-8A2.5,2.5,0,0,1,24.5,3h4A2.5,2.5,0,0,1,31,5.5V6h4.5A2.5,2.5,0,0,1,38,8.5v5A2.5,2.5,0,0,1,35.5,16ZM24.5,4A1.5,1.5,0,0,0,23,5.5v8A1.5,1.5,0,0,0,24.5,15h11A1.5,1.5,0,0,0,37,13.5v-5A1.5,1.5,0,0,0,35.5,7h-5a.5.5,0,0,1-.5-.5v-1A1.5,1.5,0,0,0,28.5,4Z" transform="translate(-22 -3)">
+                                    </path>
+                                  </svg>&nbsp;&nbsp;&nbsp;
+                                  <a href="/cd?path={{current_dir + '/' + item}}">
+                                      {{item + '/'}}
+                                  </a>
+                                </td>
+                                {% if current_dir != rootfolder %}
+                                  <td>
+                                    <a href="/delete_dir?dir={{current_dir + '/' + item}}">
+                                    <button class="btn btn-danger rounded-0" type="submit" fill="red">
+                                      Remove Directory
+                                    </button></a>
+                                  </td>
+                                {% else %}
+                                  <td></td>
+                                {% endif %}
+                            {% endif %}
+                        </tr>
+                      {% endfor %}

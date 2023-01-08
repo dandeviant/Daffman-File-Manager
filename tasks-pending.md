@@ -23,6 +23,11 @@
         2. get file password input from user2
         3. generate new hash for user2's new file
             - perform hash tests for files with same contents, but different encryption password
+            - workaround for now : DO NOT HASH THE ENCRYPTED FILE, HASH ONLY UNENCRYPTED FILE
+            - PLANNED WORKAROUND :
+                - store hash of unencrypted file as usual in the database
+                - same process, but use only hash of unencrypted file
+                - all of this depends on the capability of using JS FileReader to send hash from client-side
         4. encrypt user2's file in user2 folder
         5. copy to user2 folder
         6. modify the name to make it different
