@@ -177,10 +177,11 @@
                   reader.addEventListener('load',function () {
                     var hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(this.result));
                     var md5 = hash.toString(CryptoJS.enc.Hex)
-                    let filename = document.getElementById("newfile");
-                    var output = "MD5 (" + filename + ") = " + md5
+                    var fileInput = document.getElementById('newfile');   
+                    var filename = fileInput.files[0].name;
+                    var output = "MD5 for " + filename + " = " + md5;
                     console.log(output);
-                    document.getElementById("md5").innerText = output
+                    document.getElementById("md5").value = output;
                   });
                   reader.readAsBinaryString(document.getElementById("newfile").files[0]);
                 }
