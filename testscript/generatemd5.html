@@ -2,7 +2,7 @@
     <head>
         <title>Get MD5 for a file</title>
     
-        <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+        <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/crypto-js.js"></script>
         
         <script type="text/javascript">
           function onFileSelect(){
@@ -23,6 +23,6 @@
       <form>
         <input type="file" id='input' onchange='onFileSelect();'>
       </form>
-      <pre id="md5"></pre>
+      <input type="text" id="md5" readonly>
     
     </html>
