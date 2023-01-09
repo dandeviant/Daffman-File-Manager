@@ -40,7 +40,7 @@
 
 
 - Notes
-    - Hashing
+    - Hashing of two files with...
         - Same filename, diff content = diff hash
         - Diff filename, same content = same hash
         - diff filename, diff content = diff hash (obviously...)
@@ -76,6 +76,9 @@
 
 ---
 Next task:<br>
+
+- Possible solution for client-side encryption using node.js file-encryptor
+    - https://github.com/XervoIO/file-encryptor
 
 - Configure Raspberry Pi remote storage using SAMBA and connect to this PyFlask server:
 - Write a markdown file for full system specifications and requirements, properlyyyyy........
