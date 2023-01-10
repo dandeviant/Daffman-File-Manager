@@ -441,13 +441,24 @@
                                       </div>
                                     </div>
                                   </td>
-                                    {% if session['editpermit'] == True %}
-                                    <td><a href="/delete?file={{current_dir + '/' + item[0]}}">
-                                      <button class="btn btn-danger rounded-0" type="submit" fill="red">
-                                        Delete
-                                        </button></a>
-                                    </td>
-                                    {% endif %}
+
+                                      {% if session['username'] == 'admin' %}
+                                        <td><a href="/delete?file={{current_dir + '/' + item[0]}}">
+                                          <button class="btn btn-danger rounded-0" type="submit" fill="red">
+                                            Delete
+                                            </button></a>
+                                        </td>
+                                      {% else %}
+                                        {% if session['editpermit'] == True %}
+                                          <td><a href="/delete?file={{current_dir + '/' + item[0]}}">
+                                            <button class="btn btn-danger rounded-0" type="submit" fill="red">
+                                              Delete
+                                              </button></a>
+                                          </td>
+                                        {% else %}
+                                          <td></td>
+                                        {% endif %}
+                                      {% endif %}
                                   <td></td>
                                 <!-- unreadable file for download only -->
                                 <!-- unreadable file for download only -->
