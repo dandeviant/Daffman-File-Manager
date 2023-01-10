@@ -731,7 +731,8 @@ def checkupload():
     
     newfile = request.files['newfile']
     print("New filename = " + newfile.filename)
-    if newfile.filename == '':
+    filepassword = request.form['decryptpass']
+    if newfile.filename == '' or filepassword == '':
         session['filemissing'] = True
         session['fileexist'] = False
         session['filesuccess'] = False
@@ -781,7 +782,6 @@ def checkupload():
             # AES encryption process
             inputfile = newfile.filename
             outputfile = inputfile + ".aes"
-            filepassword = request.form['decryptpass']
             encodepassword =  filepassword.encode('utf-8')
             hashedpass = hashlib.sha256(encodepassword).hexdigest()
             filepathencrypt = current_dir + '/' + outputfile

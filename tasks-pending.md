@@ -82,6 +82,7 @@ Next task:<br>
     - https://medium.com/swlh/browersify-use-require-in-client-side-javascript-7414b229a4ad
 - More tests has proven the modules "incooperative".
 - For now, stick to cryptojs module.
+    - https://crypto.stackexchange.com/questions/3570/how-do-i-store-encrypted-files-on-a-web-server-and-decrypt-them-locally
 
 - Configure Raspberry Pi remote storage using SAMBA and connect to this PyFlask server:
 - Write a markdown file for full system specifications and requirements, properlyyyyy........

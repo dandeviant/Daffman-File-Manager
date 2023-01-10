@@ -152,40 +152,47 @@
                     <div class="row">
                       <div class="col">
                         <label for="newfile"><b>Selected File Name</b></label>
-                        <input type="file" class="form-control rounded-0" id="newfile" name="newfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
+                        <div class="file-upload-wrapper">
+                          <input type="file" class="form-control rounded-0" id="newfile" name="newfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
+                        </div>
                       </div>
                     </div>
                     <br>
                     <hr>
+                    <p class="alert alert-dark">Green-colored field is auto-generated and require no input</p>
                     <div class="row">
                       <div class="col">
-                        <label for="md5"><b>Hash of Selected File (auto-generated)</b></label>
-                        <input type="text" id="md5" name="md5" style="color: black" class="form-control rounded-0" placeholder="File hash is auto-generated" readonly/>
+                        <label for="md5"><b>Hash of Selected File (md5)</b></label>
+                        <input type="text" id="md5" name="md5" style="color: black; background-color: #cbf2d1;" class="form-control rounded-0" placeholder="File hash" readonly/>
                       </div>
                       <div class="col">
                         <label for="md5"><b>File Size (KB)</b></label>
-                        <input type="text" id="filesize" name="filesize" style="color: black" class="form-control rounded-0" placeholder="File size is auto-generated" readonly/>
+                        <input type="text" id="filesize" name="filesize" style="color: black; background-color: #cbf2d1;" class="form-control rounded-0" placeholder="File size in KB" readonly/>
                       </div>
                     </div><br>
                     <div class="row">
                       <div class="col">
                         <label for="md5"><b>File Decryption Password</b></label>
-                        <input type="password" id="decryptpass" name="decryptpass" style="color: black" class="form-control rounded-0" placeholder="Password for AES decryption"/>
+                        <input type="password" id="decryptpass" name="decryptpass" style="color: black" class="form-control rounded-0" oninput="encryptFile()" placeholder="Password for AES decryption"/>
                         <input type="checkbox" onclick="showPassword()">&nbsp;&nbsp;Show Password 
+                      </div>
+                      <div class="col">
+                        <label for="md5"><b>Decryption Password Hash (sha256)</b></label>
+                        <input type="text" id="decryptpasshash" name="decryptpasshash" style="color: black; background-color: #cbf2d1;" class="form-control rounded-0" placeholder="Password Hash for AES decryption" readonly/> 
                       </div>
                     </div><br>
                     <div class="col">
-                      <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0"/>
+                      <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0" onchange="encryptFile()"/>
                       <input type="reset" value="Clear Selection" class="btn btn-secondary rounded-0">
                     </div>  
-                  </div>
                   <br>
                     <!-- ================ ALERT MESSAGES ================ -->
-                  <div class="row" style="padding-left: 160px; padding-right: 40px;">
+                  <div class="row">
                     <div class="col">
                       {% if session['filemissing'] == True %}
                       <p class="alert alert-danger">
-                        Error: No file chosen.
+                        Error (blank field):<br>
+                        No file chosen or no encryption password entered.
                       </p>
                     {% endif %}
                     {% if session['fileexist'] == True %}
@@ -229,10 +236,12 @@
               <hr>
 
               <script type="text/javascript">
-                function onFileSelect(){
-                  var reader = new FileReader();
-          
+                var reader = new FileReader();
+
+                function onFileSelect(){  
                   reader.addEventListener('load',function () {
+                    console.log("This Result  : " + this.result)
+                    console.log("Reader Result: " + reader.result)
                     var hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(this.result));
                     var md5 = hash.toString(CryptoJS.enc.Hex)
                     var fileInput = document.getElementById('newfile');   
@@ -247,6 +256,18 @@
                   reader.readAsBinaryString(document.getElementById("newfile").files[0]);
                 }
 
+                function encryptFile() {
+                  key = document.getElementById("decryptpass").value
+                  console.log("Key : " + key)
+                  if (key == ''){
+                    document.getElementById("decryptpasshash").value = ''
+                  }
+                  else {
+                    var hash = CryptoJS.SHA256(CryptoJS.enc.Latin1.parse(key));
+                    document.getElementById("decryptpasshash").value = hash
+                  }
+                  
+                }
 
                 function showPassword() {
                   var x = document.getElementById("decryptpass");
@@ -257,12 +278,13 @@
                   }
                 } 
               </script>
+              
 
               <canvas class="my-4 w-100" id="myChart" width="300" height="1000"></canvas>
             </main>
         </div>
 
-        <script src="{{ url_for('static', filename='crypto-js/md5.js') }}"></script>
+        <!-- <script src="{{ url_for('static', filename='crypto-js/md5.js') }}"></script> -->
         <script src="{{ url_for('static', filename='./crypto-js/core.js') }}"></script>
         <script src="{{ url_for('static', filename='crypto-js/lib-typedarrays.js') }}"></script>
         <script src="{{ url_for('static', filename='crypto-js/crypto-js.js') }}"></script>
