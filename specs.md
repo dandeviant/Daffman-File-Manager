@@ -18,7 +18,7 @@ This system is purely browser-based, so for client devices, the system is ready 
 - For MySQL installation
     - run "sudo mysql"
     - run this query:
-        - ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'mysql'; 
+        - ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Dane@1710'; 
 
 - Make sure all folders in uploads directory are blank, only empty admin folder should be there.
 - Change the rootpath in the main app script
