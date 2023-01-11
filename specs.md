@@ -13,6 +13,15 @@ This system is purely browser-based, so for client devices, the system is ready 
 
 ---
 
+## When Installing...
+
+- Make sure all folders in uploads directory are blank, only empty admin folder should be there.
+- Change the rootpath in the main app script
+- Clear all users in database, except admin
+- Clear all hash stored in hash table in database 
+
+---
+
 ## How it works
 
 - Connection
