@@ -738,13 +738,6 @@ def checkupload():
         session['filemissing'] = False
         session['fileexist'] = False
         session['filesuccess'] = False
-        newfile.save(secure_filename(newfile.filename))
-        print("File '" + newfile.filename + "' saved to server")
-        if ' ' in newfile.filename:
-                print("Whitespace detected")
-                newfile.filename = newfile.filename.replace(" ", '_')
-                print("Whitespace replaced with underscore")
-                print("New name : " + newfile.filename)
         current_dir = os.getcwd()
         # file = "%s/%s" % (current_dir,newfile.filename)
         # filestat = os.stat(newfile.filename)
@@ -775,7 +768,13 @@ def checkupload():
         
         if checkrow == 0:
             session['fileexist'] = True
-
+            newfile.save(secure_filename(newfile.filename))
+            print("File '" + newfile.filename + "' saved to server")
+            if ' ' in newfile.filename:
+                    print("Whitespace detected")
+                    newfile.filename = newfile.filename.replace(" ", '_')
+                    print("Whitespace replaced with underscore")
+                    print("New name : " + newfile.filename)
             print("================ FILE ENCRYPTION =================")
             # AES encryption process
             inputfile = newfile.filename
