@@ -5,7 +5,6 @@
 from flask import Flask, send_file, session, send_from_directory, redirect, url_for, render_template, request, render_template_string, Response, escape, request
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
-from flaskext.markdown import Markdown
 from array import *
 import os
 import subprocess
@@ -17,7 +16,7 @@ import pyAesCrypt
 db = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Dane@1710",
+        password="mysql@1234",
         database="flaskmanager"
     )
 dbcursor = db.cursor(buffered=True)
@@ -31,7 +30,6 @@ static_folder = here + '/static'
 )
 
 app.secret_key = 'any random string'
-Markdown(app)
 Bootstrap(app)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 
@@ -45,8 +43,8 @@ foldermissing = False
 foldersuccess = False
 foldercreated = ''
 
-rootpath = '/home/daniel/Desktop/daffman/daffman-main/uploads'
-forbidpath = '/home/daniel/Desktop/daffman/daffman-main/'
+rootpath = '/home/daniel/uploads'
+forbidpath = '/home/daniel/'
 # rootfolder = rootpath.replace(forbidpath, '')
 rootfolder = 'uploads'
 
