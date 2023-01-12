@@ -1,4 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.31, for Linux (x86_64)
+CREATE DATABASE  IF NOT EXISTS `flaskmanager` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `flaskmanager`;
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: flaskmanager
 -- ------------------------------------------------------
@@ -7,7 +9,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -38,7 +40,6 @@ CREATE TABLE `hash` (
 
 LOCK TABLES `hash` WRITE;
 /*!40000 ALTER TABLE `hash` DISABLE KEYS */;
-INSERT INTO `hash` VALUES ('uploads/amelia/README.md.aes','7166dc0c21bbde1bcd7c8020a61cfd33','4.18','f0d9991c5e47e0d26a350c1618bd3154cd0f9f2461d3df671a753c393fe7a6a7','amelia',9),('uploads/dawson/README.md.aes','926b72f17452b1d28d229bc22baa4d9c','4.82','9691cf90923cba9d50a547cd5af5c04ebc0f40055a10f2f38a8b020a02e83c9d','dawson',31);
 /*!40000 ALTER TABLE `hash` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +65,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918','System Administrator'),(2,'daniel','bd3dae5fb91f88a4f0978222dfd58f59a124257cb081486387cbae9df11fb879','Muhammad Danial bin Asmawi'),(9,'amelia','f0d9991c5e47e0d26a350c1618bd3154cd0f9f2461d3df671a753c393fe7a6a7','Amelia Woods'),(10,'hammond','f315d9ecad52f84972fc251230a456bb42ab07ab1a17e17976acb58158723725','John Hammond Jr.'),(31,'dawson','9691cf90923cba9d50a547cd5af5c04ebc0f40055a10f2f38a8b020a02e83c9d','Dawson Cole'),(33,'hancock','992ac612cbf100702bf5424d7221eff2ffa29abe0a99d611c073012dd9b4c717','John Hancock');
+INSERT INTO `user` VALUES (1,'admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918','System Administrator');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -77,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-03 16:33:29
+-- Dump completed on 2023-01-12 11:20:00
