@@ -13,6 +13,26 @@ This system is purely browser-based, so for client devices, the system is ready 
 
 ---
 
+## When Installing...
+
+- For MySQL installation
+    - run "sudo mysql"
+    - run this query:
+        - ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'mysql@1234';
+
+- Make sure all folders in uploads directory are blank, only empty admin folder should be there.
+- Change the rootpath in the main app script
+- Clear all users in database, except admin
+    - if deleted, add the admin row with the following details or query: 
+        - user_id   : 1
+        - user_name : admin
+        - password  : 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+        - full_name : System Administrator
+        - Query: INSERT INTO user (user_id, user_name, password, fullname) VALUES (1, "admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", "System Administrator");
+- Clear all hash stored in hash table in database 
+
+---
+
 ## How it works
 
 - Connection

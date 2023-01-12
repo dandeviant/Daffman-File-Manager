@@ -1,0 +1,32 @@
+=======================================================================================================
+Raspberry Pi NAS Server NFS Config
+=======================================================================================================
+
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ sudo chown -R nobody:nogroup /media/daniel/HDD/uploads
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ sudo chmod 777 /media/daniel/HDD/uploads
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ sudo nano /etc/exports
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ sudo exportfs -a
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ sudo systemctl restart nfs-kernel-server
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ sudo ufw allow from 192.168.0.0/24 to any port nfs
+Rules updated
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ sudo ufw enable
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? n
+Aborted
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ sudo ufw enable
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+2049                       ALLOW       192.168.0.0/24
+
+daniel@daniel-raspi:/media/daniel/HDD/uploads$ mkdir admin
+
+=======================================================================================================
+Web Server NFS Config
+=======================================================================================================
+
+daniel@daniel-mint:~/uploads$ mkdir admin
+daniel@daniel-mint:~/uploads$ sudo mount 192.168.0.23:/media/daniel/HDD/uploads /home/daniel/uploads
