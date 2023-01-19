@@ -172,6 +172,12 @@
                     </div><br>
                     <div class="row">
                       <div class="col">
+                        <label for="md5"><b>Time Elapsed (seconds)</b></label>
+                        <input type="text" id="timeelapsed" name="timeelapsed" style="color: black; background-color: #cbf2d1;" class="form-control rounded-0" placeholder="Time Elapsed for Hashing Process" readonly/> 
+                      </div>
+                    </div><br>
+                    <div class="row">
+                      <div class="col">
                         <label for="md5"><b>File Decryption Password</b></label>
                         <input type="password" id="decryptpass" name="decryptpass" style="color: black" class="form-control rounded-0" oninput="encryptFile()" placeholder="Password for AES decryption"/>
                         <input type="checkbox" onclick="showPassword()">&nbsp;&nbsp;Show Password 
@@ -237,10 +243,14 @@
 
               <script type="text/javascript">
                 var reader = new FileReader();
-
-                function onFileSelect(){  
+                
+                function onFileSelect(){
+                  var timestart, timeend
+                  timestart = Date.now();
+                  console.log("Time Start: " + timestart);
                   reader.addEventListener('load',function () {
-                    console.log("This Result  : " + this.result)
+                    
+                    console.log("\nThis Result  : " + this.result)
                     console.log("Reader Result: " + reader.result)
                     var hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(this.result));
                     var md5 = hash.toString(CryptoJS.enc.Hex)
@@ -252,8 +262,20 @@
                     console.log(output);
                     document.getElementById("md5").value = md5;
                     document.getElementById("filesize").value = filesize;
+                    timeend = Date.now();
+                    var timeDiff = timeend - timestart; //in ms
+                    // strip the ms
+                    timeDiff /= 1000
+                    // get seconds 
+                    var seconds = timeDiff;
+
+                    console.log("Time End: " + timeend);
+                    console.log("Time diff: " + seconds);
+                    // console.log(seconds + " seconds");
+                    document.getElementById("timeelapsed").value = seconds;
                   });
                   reader.readAsBinaryString(document.getElementById("newfile").files[0]);
+                  
                 }
 
                 function encryptFile() {

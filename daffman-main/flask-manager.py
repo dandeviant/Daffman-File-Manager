@@ -4,6 +4,7 @@
 
 from flask import Flask, send_file, session, send_from_directory, redirect, url_for, render_template, request, render_template_string, Response, escape, request
 from flask_bootstrap import Bootstrap
+import time
 from werkzeug.utils import secure_filename
 from array import *
 import os
@@ -726,7 +727,7 @@ def newupload():
 @app.route('/checkupload', methods=['POST'])
 def checkupload():
     print("============================== VERIFY UPLOAD ==============================")
-    
+    timestart = time.time()
     newfile = request.files['newfile']
     print("New filename = " + newfile.filename)
     filepassword = request.form['decryptpass']
@@ -816,7 +817,7 @@ def checkupload():
             session['filesuccess'] = True
             return redirect('/browser')
         else:
-            os.remove(newfile.filename)
+            # os.remove(newfile.filename)
             print("File existed. Canceling upload")
             print("===================== FILE DUPES FOUND =====================")
             for x in checkresult:
@@ -835,7 +836,12 @@ def checkupload():
             path = current_dir.replace(forbidpath, ".")
             listdir = path.split("/")
             numdir = len(listdir)
-
+            timeend = time.time()
+            timeelapsed = timeend - timeend
+            print("\n\nTime Start: " + str(timeelapsed))
+            print("Time End: " + str(timeend))
+            print("Time Elapsed: " + str(timeelapsed))
+            print("===================== FILE UPLOAD END =====================")
             session['filemissing'] = False
             session['fileexist'] = True
             session['filesuccess'] = False
