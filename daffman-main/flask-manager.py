@@ -44,12 +44,9 @@ foldermissing = False
 foldersuccess = False
 foldercreated = ''
 
-rootpath = '/home/daniel/uploads'
-forbidpath = '/home/daniel/'
-# rootfolder = rootpath.replace(forbidpath, '')
+rootpath = '/home/daniel/Desktop/uploads'
+forbidpath = '/home/daniel/Desktop'
 rootfolder = 'uploads'
-
-# notepath = '../README.md'
 
 os.chdir(rootpath)
 
@@ -740,11 +737,9 @@ def checkupload():
         session['fileexist'] = False
         session['filesuccess'] = False
         current_dir = os.getcwd()
-        # file = "%s/%s" % (current_dir,newfile.filename)
-        # filestat = os.stat(newfile.filename)
-        # filesize = round(filestat.st_size/1024, 2)
+ 
         filesize = request.form['filesize']
-        # filehash = hashlib.md5(open(newfile.filename,'rb').read()).hexdigest()
+        
         filehash = request.form['md5']
         print("================ File Summary =======================")
         print("File Name : " + newfile.filename)
