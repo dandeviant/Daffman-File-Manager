@@ -20,7 +20,14 @@
     
     <script src="{{ url_for('static', filename='popper/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}" ></script> 
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}" ></script>
+    <script src="{{ url_for('static', filename='crypto-js/aes_crypt.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='crypto-js/enc-uint8array.js') }}"></script>
+    <script src="{{ url_for('static', filename='crypto-js/enc-utf16.js') }}"></script>
+    <script src="{{ url_for('static', filename='crypto-js/core.js') }}"></script>
+    <script src="{{ url_for('static', filename='crypto-js/lib-typedarrays.js') }}"></script>
+    <script src="{{ url_for('static', filename='crypto-js/crypto-js.js') }}"></script> 
+    <script src="{{ url_for('static', filename='crypto-js/md5.js') }}"></script>
 
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -157,6 +164,14 @@
                         </div>
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col">
+                        <label for="newfile"><b>Selected File Name</b></label>
+                        <div class="file-upload-wrapper">
+                          <input type="file" class="form-control rounded-0" id="newfile" name="newfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black" disabled>
+                        </div>
+                      </div>
+                    </div>
                     <br>
                     <hr>
                     <p class="alert alert-dark">Green-colored field is auto-generated and require no input</p>
@@ -249,7 +264,7 @@
                   timestart = Date.now();
                   console.log("Time Start: " + timestart);
                   reader.addEventListener('load',function () {
-                    
+
                     console.log("\nThis Result  : " + this.result)
                     console.log("Reader Result: " + reader.result)
                     var hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(this.result));
@@ -288,17 +303,72 @@
                     var hash = CryptoJS.SHA256(CryptoJS.enc.Latin1.parse(key));
                     document.getElementById("decryptpasshash").value = hash
                   }
-                  
                 }
 
-                function showPassword() {
-                  var x = document.getElementById("decryptpass");
-                  if (x.type === "password") { 
-                    x.type = "text";
-                  } else {
-                    x.type = "password";
-                  }
-                } 
+                let aes = AesCrypt();
+
+                reader.addEventListener('load',function () {
+                // Init aesCrypt library
+                  const aes = aesCrypt;
+                  key = document.getElementById("decryptpass").value;
+                  console.log("Key : " + key)
+                  if (key == ''){
+                    document.getElementById("decryptpasshash").value = '';
+                  }
+                  else {
+                    var hash = CryptoJS.SHA256(CryptoJS.enc.Latin1.parse(key));
+                    document.getElementById("decryptpasshash").value = hash;
+                  }
+
+                  let fileSecret = document.getElementById("fileSecret").files[0];
+
+                  let password = "foopassword"
+
+                  // encryption/decryption
+
+                  // encrypt typed array (Uint8Array)
+                  aes.encrypt(fileSecret, password).then((encrypted) => {
+                    console.log(encrypted);
+                  });
+
+                  let fileEncrypted = document.getElementById("fileEncrypted").files[0];
+
+                  // decrypt typed array (Uint8Array)
+                  aes.decrypt(fileEncrypted, password).then((decrypted) => {
+
+                    // transform Uint8Array to Latin1 string
+                    let secret = aes.utils.bytes2str(decrypted);
+                    
+                    console.log(secret);
+                  });
+
+                    function showPassword() {
+                      var x = document.getElementById("decryptpass");
+                      if (x.type === "password") { 
+                        x.type = "text";
+                      } else {
+                        x.type = "password";
+                      }
+                    }
+                } );
+                
+                let saveByteArray = (function () {
+                    return function (data, name) {
+                        let a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+
+                        let blob = new Blob([data], {type: "octet/stream"}),
+                            url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = name;
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        a.remove();
+                    };
+                  }());
+
+                  
               </script>
               
 
@@ -306,10 +376,7 @@
             </main>
         </div>
 
-        <!-- <script src="{{ url_for('static', filename='crypto-js/md5.js') }}"></script> -->
-        <script src="{{ url_for('static', filename='./crypto-js/core.js') }}"></script>
-        <script src="{{ url_for('static', filename='crypto-js/lib-typedarrays.js') }}"></script>
-        <script src="{{ url_for('static', filename='crypto-js/crypto-js.js') }}"></script>
+        
       
 </body>
 </html>
