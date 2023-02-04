@@ -27,8 +27,13 @@
     <script src="{{ url_for('static', filename='crypto-js/crypto-js.js') }}"></script> 
     <script src="{{ url_for('static', filename='crypto-js/md5.js') }}"></script>
     <script src="{{ url_for('static', filename='crypto-js/enc-utf16.js') }}"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script> -->
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/enc-utf16.min.js"></script>
+
     <script src="{{ url_for('static', filename='crypto-js/enc-uint8array.js') }}"></script>
     <script src="{{ url_for('static', filename='crypto-js/lib-typedarrays.js') }}"></script>
+    <script src="{{ url_for('static', filename='jsaescrypt/aes_crypt.js') }}"></script>
     <script src="{{ url_for('static', filename='jsaescrypt/aes_crypt.min.js') }}"></script>
 
 
@@ -168,9 +173,9 @@
                     </div>
                     <div class="row">
                       <div class="col">
-                        <label for="newfile"><b>Selected File Name</b></label>
+                        <label for="encryptedfile"><b>AES-Encrypted File</b></label>
                         <div class="file-upload-wrapper">
-                          <input type="file" class="form-control rounded-0" id="newfile" name="newfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black" disabled>
+                          <input type="file" class="form-control rounded-0" id="encryptedfile" name="encryptedfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black" disabled>
                         </div>
                       </div>
                     </div>
@@ -207,6 +212,7 @@
                     <div class="col">
                       <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0" onchange="encryptFile()"/>
                       <input type="reset" value="Clear Selection" class="btn btn-secondary rounded-0">
+                      <input onclick="encryptAES()" value="Encrypt File" class="btn btn-secondary rounded-0">
                     </div>  
                   <br>
                     <!-- ================ ALERT MESSAGES ================ -->
@@ -222,7 +228,6 @@
                     <p class="alert alert-danger">
                       Error: Similar file has been found as shown in the table below
                     </p>
-
                       {% for x in checkresult: %}
                         <table class="table table-dark">
                           <tr>
@@ -260,7 +265,9 @@
 
               <script type="text/javascript">
                 var reader = new FileReader();
-                
+                var newfile;
+                var password;
+
                 function onFileSelect(){
                   var timestart, timeend
                   timestart = Date.now();
@@ -292,27 +299,14 @@
                     document.getElementById("timeelapsed").value = seconds;
                   });
                   reader.readAsBinaryString(document.getElementById("newfile").files[0]);
-                  
                 }
 
+                
+                let aes = AesCrypt();
+                
                 function encryptFile() {
-                  key = document.getElementById("decryptpass").value
-                  console.log("Key : " + key)
-                  if (key == ''){
-                    document.getElementById("decryptpasshash").value = ''
-                  }
-                  else {
-                    var hash = CryptoJS.SHA256(CryptoJS.enc.Latin1.parse(key));
-                    document.getElementById("decryptpasshash").value = hash
-                  }
-                }
-
-                const aes = AesCrypt();
-
-                reader.addEventListener('load',function () {
-                // Init aesCrypt library
-                  const aes = aesCrypt;
                   key = document.getElementById("decryptpass").value;
+                  password = key;
                   console.log("Key : " + key)
                   if (key == ''){
                     document.getElementById("decryptpasshash").value = '';
@@ -321,39 +315,8 @@
                     var hash = CryptoJS.SHA256(CryptoJS.enc.Latin1.parse(key));
                     document.getElementById("decryptpasshash").value = hash;
                   }
+                }
 
-                  let fileSecret = document.getElementById("fileSecret").files[0];
-
-                  let password = "foopassword"
-
-                  // encryption/decryption
-
-                  // encrypt typed array (Uint8Array)
-                  aes.encrypt(fileSecret, password).then((encrypted) => {
-                    console.log(encrypted);
-                  });
-
-                  let fileEncrypted = document.getElementById("fileEncrypted").files[0];
-
-                  // decrypt typed array (Uint8Array)
-                  aes.decrypt(fileEncrypted, password).then((decrypted) => {
-
-                    // transform Uint8Array to Latin1 string
-                    let secret = aes.utils.bytes2str(decrypted);
-                    
-                    console.log(secret);
-                  });
-
-                    function showPassword() {
-                      var x = document.getElementById("decryptpass");
-                      if (x.type === "password") { 
-                        x.type = "text";
-                      } else {
-                        x.type = "password";
-                      }
-                    }
-                } );
-                
                 let saveByteArray = (function () {
                     return function (data, name) {
                         let a = document.createElement("a");
@@ -370,7 +333,56 @@
                     };
                   }());
 
-                  
+                reader.addEventListener('load',function () {
+                // Init aesCrypt library
+                  key = document.getElementById("decryptpass").value;
+                  console.log("Key : " + key)
+                  if (key == ''){
+                    document.getElementById("decryptpasshash").value = '';
+                  }
+                  else {
+                    var hash = CryptoJS.SHA256(CryptoJS.enc.Latin1.parse(key));
+                    document.getElementById("decryptpasshash").value = hash;
+                  }
+                    
+                } );
+
+                function showPassword() {
+                      var x = document.getElementById("decryptpass");
+                      if (x.type === "password") { 
+                        x.type = "text";
+                      } else {
+                        x.type = "password";
+                      }
+                    }
+                
+                
+
+                function encryptAES(){
+                  var file = document.getElementById('newfile').files[0];
+                  var reader = new FileReader();
+                  reader.onload = () => {
+                      var key = document.getElementById("decryptpasshash").value;
+                      var wordArray = CryptoJS.lib.WordArray.create(reader.result);           // Convert: ArrayBuffer -> WordArray
+                      var encrypted = CryptoJS.AES.encrypt(wordArray, key).toString();        // Encryption: I: WordArray -> O: -> Base64 encoded string (OpenSSL-format)
+
+                      var fileEnc = new Blob([encrypted]);                                   // Create blob from string
+                      console.log(fileEnc)
+                      var a = document.createElement("a");
+                      var url = window.URL.createObjectURL(fileEnc);
+                      var filename = file.name + ".enc";
+                      let datatransfer = new DataTransfer();  
+                      fileEnc.lastModifiedDate = new Date();
+                      var fileEncrypted = new File([fileEnc], filename)                                
+                      datatransfer.items.add(fileEncrypted);
+                      document.getElementById("encryptedfile").files = datatransfer.files;
+                      a.href = url;
+                      a.download = filename;
+                      a.click();
+                      window.URL.revokeObjectURL(url);
+                  };
+                  reader.readAsArrayBuffer(file);
+                }
               </script>
               
 
