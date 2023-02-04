@@ -2,7 +2,7 @@
 
 #Python Flask File Manager
 
-from flask import Flask, send_file, session, send_from_directory, redirect, url_for, render_template, request, render_template_string, Response, escape, request
+from flask import Flask, send_file, session, redirect, render_template, request, request
 from flask_bootstrap import Bootstrap
 import time
 from werkzeug.utils import secure_filename
@@ -44,8 +44,8 @@ foldermissing = False
 foldersuccess = False
 foldercreated = ''
 
-rootpath = '/home/daniel/Desktop/uploads'
-forbidpath = '/home/daniel/Desktop'
+rootpath = '/home/daniel/uploads'
+forbidpath = '/home/daniel/'
 rootfolder = 'uploads'
 
 os.chdir(rootpath)
