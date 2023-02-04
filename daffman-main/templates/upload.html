@@ -21,13 +21,15 @@
     <script src="{{ url_for('static', filename='popper/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}" ></script>
-    <script src="{{ url_for('static', filename='crypto-js/aes_crypt.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='crypto-js/enc-uint8array.js') }}"></script>
-    <script src="{{ url_for('static', filename='crypto-js/enc-utf16.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='crypto-js/aes_crypt.min.js') }}"></script> -->
+    
     <script src="{{ url_for('static', filename='crypto-js/core.js') }}"></script>
-    <script src="{{ url_for('static', filename='crypto-js/lib-typedarrays.js') }}"></script>
     <script src="{{ url_for('static', filename='crypto-js/crypto-js.js') }}"></script> 
     <script src="{{ url_for('static', filename='crypto-js/md5.js') }}"></script>
+    <script src="{{ url_for('static', filename='crypto-js/enc-utf16.js') }}"></script>
+    <script src="{{ url_for('static', filename='crypto-js/enc-uint8array.js') }}"></script>
+    <script src="{{ url_for('static', filename='crypto-js/lib-typedarrays.js') }}"></script>
+    <script src="{{ url_for('static', filename='jsaescrypt/aes_crypt.min.js') }}"></script>
 
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -305,7 +307,7 @@
                   }
                 }
 
-                let aes = AesCrypt();
+                const aes = AesCrypt();
 
                 reader.addEventListener('load',function () {
                 // Init aesCrypt library
