@@ -162,20 +162,12 @@
               <br><br>
               <h3>Select File to Upload</h3>
               <hr>
-              <form action="/checkupload" method="POST" enctype = "multipart/form-data"">
+              <form action="/checkupload" method="POST" enctype = "multipart/form-data">
                     <div class="row">
                       <div class="col">
                         <label for="newfile"><b>Selected File Name</b></label>
                         <div class="file-upload-wrapper">
                           <input type="file" class="form-control rounded-0" id="newfile" name="newfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label for="encryptedfile"><b>AES-Encrypted File</b></label>
-                        <div class="file-upload-wrapper">
-                          <input type="file" class="form-control rounded-0" id="encryptedfile" name="encryptedfile" onchange='onFileSelect();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black" disabled>
                         </div>
                       </div>
                     </div>
@@ -210,7 +202,7 @@
                       </div>
                     </div><br>
                     <div class="col">
-                      <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0" onchange="encryptFile()"/>
+                      <input type ="submit" value="Upload New File" class="btn btn-primary rounded-0"/>
                       <input type="reset" value="Clear Selection" class="btn btn-secondary rounded-0">
                       <input onclick="encryptAES()" value="Encrypt File" class="btn btn-secondary rounded-0">
                     </div>  
@@ -365,21 +357,27 @@
                       var key = document.getElementById("decryptpasshash").value;
                       var wordArray = CryptoJS.lib.WordArray.create(reader.result);           // Convert: ArrayBuffer -> WordArray
                       var encrypted = CryptoJS.AES.encrypt(wordArray, key).toString();        // Encryption: I: WordArray -> O: -> Base64 encoded string (OpenSSL-format)
+                      var fileEnc = new Blob([encrypted]);
+                      console.log("Encrypted: " + encrypted);                                   // Create blob from string
+                      console.log("Blob : " + fileEnc);
 
-                      var fileEnc = new Blob([encrypted]);                                   // Create blob from string
-                      console.log(fileEnc)
-                      var a = document.createElement("a");
+                      // var a = document.createElement("a");
                       var url = window.URL.createObjectURL(fileEnc);
                       var filename = file.name + ".enc";
+                      console.log("Filename: " + filename);
+                      console.log("Key: " + key);
                       let datatransfer = new DataTransfer();  
                       fileEnc.lastModifiedDate = new Date();
-                      var fileEncrypted = new File([fileEnc], filename)                                
+                      var fileEncrypted = new File([fileEnc], filename, {
+                        type: fileEnc.type
+                      });
+                      console.log(fileEncrypted instanceof File)                           
                       datatransfer.items.add(fileEncrypted);
-                      document.getElementById("encryptedfile").files = datatransfer.files;
-                      a.href = url;
-                      a.download = filename;
-                      a.click();
-                      window.URL.revokeObjectURL(url);
+                      document.getElementById("newfile").files = datatransfer.files;
+                      // a.href = url;
+                      // a.download = filename;
+                      // a.click();
+                      // window.URL.revokeObjectURL(url);
                   };
                   reader.readAsArrayBuffer(file);
                 }

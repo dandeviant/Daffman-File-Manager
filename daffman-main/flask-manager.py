@@ -2,8 +2,10 @@
 
 #Python Flask File Manager
 
-from flask import Flask, send_file, session, redirect, render_template, request, request
+from flask import Flask, send_file, session, redirect, render_template, request
 from flask_bootstrap import Bootstrap
+from distutils.log import debug
+from fileinput import filename
 import time
 from werkzeug.utils import secure_filename
 from array import *
@@ -13,6 +15,7 @@ import hashlib
 import shutil
 import mysql.connector
 import pyAesCrypt
+
 
 db = mysql.connector.connect(
         host="localhost",
@@ -294,7 +297,7 @@ def index(downloadpass = True):
 
     for item in files[0: -1]:
         if '.' in item:
-            if '.aes' not in item:
+            if '.enc' not in item:
                 os.remove(item)
                 return redirect('/browser')
 
@@ -724,7 +727,6 @@ def newupload():
 @app.route('/checkupload', methods=['POST'])
 def checkupload():
     print("============================== VERIFY UPLOAD ==============================")
-    timestart = time.time()
     newfile = request.files['newfile']
     print("New filename = " + newfile.filename)
     filepassword = request.form['decryptpass']
@@ -771,24 +773,28 @@ def checkupload():
                     newfile.filename = newfile.filename.replace(" ", '_')
                     print("Whitespace replaced with underscore")
                     print("New name : " + newfile.filename)
+
+
             print("================ FILE ENCRYPTION =================")
             # AES encryption process
             inputfile = newfile.filename
-            outputfile = inputfile + ".aes"
-            encodepassword =  filepassword.encode('utf-8')
-            hashedpass = hashlib.sha256(encodepassword).hexdigest()
-            filepathencrypt = current_dir + '/' + outputfile
+            # outputfile = inputfile + ".aes"
+            # encodepassword =  filepassword.encode('utf-8')
+            # hashedpass = hashlib.sha256(encodepassword).hexdigest()
+            hashedpass = request.form['decryptpasshash']
+            # filepathencrypt = current_dir + '/' + outputfile
+            filepathencrypt = current_dir + '/' + inputfile
             filepathencrypt = filepathencrypt.replace(forbidpath, '')
             filepathraw = current_dir + '/' + newfile.filename
             print("Input file : " + inputfile)
-            print("Output file: " + outputfile)
+            # print("Output file: " + outputfile)
             print("File path  : " + filepathencrypt)
             print("File Password Hashed    : " + hashedpass)
             print("File Password from Input: " + request.form['decryptpass'])
             print("File Password variable  : " + filepassword)
             
-            pyAesCrypt.encryptFile(inputfile, outputfile, filepassword) # encrypt raw file
-            os.remove(filepathraw) # delete unencrypted file
+            # pyAesCrypt.encryptFile(inputfile, outputfile, filepassword) # encrypt raw file
+            # os.remove(filepathraw) # delete unencrypted file
 
             print()
             print("================ Upload to Database =================")
