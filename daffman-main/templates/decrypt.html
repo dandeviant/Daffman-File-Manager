@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>DAFFMAN - File Upload</title>
+    <title>DAFFMAN - File Decryption</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -107,7 +107,7 @@
                 xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <path id="SVGRepoEditor" data-name="Path 102" d="M35.5,16h-11A2.5,2.5,0,0,1,22,13.5v-8A2.5,2.5,0,0,1,24.5,3h4A2.5,2.5,0,0,1,31,5.5V6h4.5A2.5,2.5,0,0,1,38,8.5v5A2.5,2.5,0,0,1,35.5,16ZM24.5,4A1.5,1.5,0,0,0,23,5.5v8A1.5,1.5,0,0,0,24.5,15h11A1.5,1.5,0,0,0,37,13.5v-5A1.5,1.5,0,0,0,35.5,7h-5a.5.5,0,0,1-.5-.5v-1A1.5,1.5,0,0,0,28.5,4Z" transform="translate(-22 -3)">
                 </path> </svg>
-              <span class="fs-4">DAFFMAN&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;File Upload</span>
+              <span class="fs-4">DAFFMAN&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;File Decryption</span>
           </a>
           <hr>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,22 +141,13 @@
         <div class="container-fluid">
             <main class="col-md-3 ms-sm-auto col-lg-11 px-md-4" height="10000">
               <canvas class="my-4 w-100" id="myChart" width="200" height="5"></canvas>
-              <h4>Target Directory</h4>
-              <!-- For debugging: {{ current_dir }}<br> -->
-              {% for x in range(1, numdir): %} 
-                  <svg fill="#ffffff" width="20px" height="25px" viewBox="0 0 16 16" id="SVGRepoEditor" 
-                  xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0">
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <path id="SVGRepoEditor" data-name="Path 102" d="M35.5,16h-11A2.5,2.5,0,0,1,22,13.5v-8A2.5,2.5,0,0,1,24.5,3h4A2.5,2.5,0,0,1,31,5.5V6h4.5A2.5,2.5,0,0,1,38,8.5v5A2.5,2.5,0,0,1,35.5,16ZM24.5,4A1.5,1.5,0,0,0,23,5.5v8A1.5,1.5,0,0,0,24.5,15h11A1.5,1.5,0,0,0,37,13.5v-5A1.5,1.5,0,0,0,35.5,7h-5a.5.5,0,0,1-.5-.5v-1A1.5,1.5,0,0,0,28.5,4Z" transform="translate(-22 -3)">
-                  </path> </svg>&nbsp;&nbsp;
-                  {{ listdir[x] }}&nbsp;&nbsp;&nbsp;/ &nbsp;
-              {% endfor %}
               <hr>
               <a href="/browser">
                 <button class="btn btn-danger rounded-0" type="button">
                   <svg fill="#ffffff" height="32px" width="32px" version="1.2" baseProfile="tiny" id="Layer_1" 
                   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-1077 923 256 256" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M-934.7,1039.4c-0.2,0-0.3,0-0.5,0.1c-0.1,0-0.1,0-0.2-0.1l-23.4,3.5l-13.3-29.3c-1.8-3.6-4-6.6-6.7-8.9 c-1.1-1.1-2.5-2.1-3.9-3c-1.5-0.8-3-1.4-4.7-1.7c-4.3-1-8.2-0.4-11.8,1.7l-29.3,13.7c-2,1.3-3.9,1.8-4.4,2.1 c-3,2.1-3.5,3.2-3.9,3.9l-14.8,28.3c-0.1,0.3-0.2,0.6-0.3,0.8c-0.5,1.1-0.9,2.3-0.9,3.6c0,1.3,0.4,2.6,0.9,3.7c0.7,1.8,2,3,3.7,3.5 c1,0.5,2.2,0.8,3.4,0.8c3.2,0,5.9-1.9,7.2-4.5c0.1-0.2,0.2-0.3,0.3-0.5c9.2-17.2,13.8-25.9,13.8-26.1l15.7-3.7l-18.8,79.1 l-35.9-0.3c-0.1,0-0.1,0-0.2,0c-0.1,0-0.1,0-0.2,0c-4.7,0-8.6,3.8-8.6,8.6c0,4.4,3.3,7.9,7.5,8.5v0.1l10,0 c7.8,0.4,30.7,1.4,37.7,0.6c0.2,0,0.4,0.1,0.7,0.1c3.9,0,7.1-2.8,7.8-6.4l5.4-15.8l0,0c3.6-10.3,6-20.4,6-20.4 c9.4,9.9,16.4,16.3,22.8,23l11,36.1l2.3,8.7l0.1,0c1.2,3.8,4.7,6.6,8.9,6.6c5.2,0,9.4-4.2,9.4-9.4c0-0.7-0.1-1.5-0.3-2.2l-0.7-2.7 c0,0,0-0.1,0-0.1l-2-7.5l-2-7.4l0,0l-8.1-30c-1.1-2.8-2.1-5.5-4.4-8.1c0,0-22.5-25-23.1-25.3l5.1-24.2l7.1,15.1 c0.1,0.1,0.2,0.3,0.3,0.4c0.5,0.7,0.9,1.3,1.3,1.7c1.4,1.4,3.3,2.2,5.3,2.2c0.1,0,0.1,0,0.2,0c0.6,0,1.2-0.1,1.8-0.2l26.3-2.9 c0.1,0,0.2,0,0.2,0c0.7,0,1.3-0.1,1.9-0.3l0.4,0c0.1,0,0.1-0.1,0.2-0.1c3.1-1.1,5.4-4,5.4-7.4 C-926.8,1043-930.3,1039.4-934.7,1039.4z"></path> <path d="M-984.2,995.1c4.4,0,8.2-1.6,11.3-4.7c3.1-3.1,4.7-6.8,4.7-11.1c0-4.4-1.6-8.2-4.7-11.3c-3.1-3.1-6.9-4.7-11.3-4.7 c-4.3,0-8,1.6-11.1,4.7c-3.1,3.1-4.7,6.9-4.7,11.3c0,4.3,1.6,8,4.7,11.1C-992.2,993.6-988.5,995.1-984.2,995.1z"></path> <path d="M-897.2,948.6V1145l72.6,31.8V925.2L-897.2,948.6z M-886.1,1055.8c-1.4,0-2.6-4.4-2.6-9.8s1.2-9.8,2.6-9.8 c1.4,0,2.6,4.4,2.6,9.8S-884.6,1055.8-886.1,1055.8z">
                   </path></g></g></svg>&nbsp;&nbsp;&nbsp;
-                  Cancel Upload
+                  Cancel Decryption
                 </button>                
               </a>
               <br><br>
@@ -165,96 +156,31 @@
               <form action="/checkupload" method="POST" enctype = "multipart/form-data">
                     <div class="row">
                       <div class="col">
-                        <label for="md5"><b>File Decryption Password</b></label>
-                        <input type="password" id="decryptpass" name="decryptpass" oninput="encryptPass();checkpass();" style="color: black" class="form-control rounded-0" placeholder="Password for AES decryption"/>
-                        <input type="checkbox" onclick="showPassword()">&nbsp;&nbsp;Show Password 
-                      </div>
-                    <!-- </div>
-                    <div class="row"> -->
-                      <div class="col">
                         <label for="newfile"><b>Selected File Name</b></label>
                         <div class="file-upload-wrapper">
-                          <input type="file" class="form-control rounded-0" id="newfile" name="newfile" oninput="checkpass();onFileSelect();checkFile();" onchange='checkFile();' aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
+                          <input type="file" class="form-control rounded-0" id="newfile" name="newfile" oninput="checkpass();" accept=".enc" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="color: black">
                         </div>
-                        <label for="newfile"><b>The file input is disabled when Decryption Password is blank<br>
-                        Click Encrypt File button to enable uploading</b></label>
+                        <label for="newfile"><b>Encrypt button is disabled if Decryption Password is blank<br>
+                        </b></label>
                       </div>
+                      <div class="col">
+                        <label for="md5"><b>File Decryption Password</b></label>
+                        <input type="password" id="decryptpass" name="decryptpass" oninput="checkpass();" style="color: black" class="form-control rounded-0" placeholder="Password for AES decryption"/>
+                        <input type="checkbox" onclick="showPassword()">&nbsp;&nbsp;Show Password 
+                      </div>
+                    </div>
+                    <br><br>
+                    <div class="row">
+                      <div class="col">
+                        <input name="btnEncrypt" id="btnEncrypt" onclick="decryptAES();" value="Encrypt File" class="btn btn-primary rounded-0">
+                        <input type="reset" onclick="disableFileInput();enablePassInput(); disableEncrypt();" value="Clear Selection" class="btn btn-danger rounded-0" ">
+                      </div> 
                     </div>
                     <br>
                     <hr>
-                    <p class="alert alert-dark">Green-colored field is auto-generated and require no input</p>
-                    <div class="row">
-                      <div class="col">
-                        <label for="md5"><b>Hash of Selected File (md5)</b></label>
-                        <input type="text" id="md5" name="md5" style="color: black; background-color: #cbf2d1;" class="form-control rounded-0" placeholder="File hash" readonly/>
-                      </div>
-                      <div class="col">
-                        <label for="md5"><b>File Size (KB)</b></label>
-                        <input type="text" id="filesize" name="filesize" style="color: black; background-color: #cbf2d1;" class="form-control rounded-0" placeholder="File size in KB" readonly/>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col">
-                        <label for="md5"><b>Time Elapsed (seconds)</b></label>
-                        <input type="text" id="timeelapsed" name="timeelapsed" style="color: black; background-color: #cbf2d1;" class="form-control rounded-0" placeholder="Time Elapsed for Hashing Process" readonly/> 
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col">
-                        <label for="md5"><b>Decryption Password Hash (sha256)</b></label>
-                        <input type="text" id="decryptpasshash" name="decryptpasshash" style="color: black; background-color: #cbf2d1;" class="form-control rounded-0" placeholder="Password Hash for AES decryption" readonly/> 
-                      </div>
-                    </div><br>
-                    <div class="col">
-                      <input name="btnEncrypt" id="btnEncrypt" onclick="disableFileInput();disablePassInput();encryptAES();enableUpload();disableEncrypt()" value="Encrypt File" class="btn btn-primary rounded-0">
-                      <input type ="submit" name="btnUpload" id="btnUpload" onclick="" value="Upload New File" class="btn btn-primary rounded-0"/>
-                      <input type="reset" onclick="disableFileInput();enablePassInput(); disableEncrypt(); disableUpload()" value="Clear Selection" class="btn btn-danger rounded-0" ">
-                    </div>  
                   <br>
                     <!-- ================ ALERT MESSAGES ================ -->
-                  <div class="row">
-                    <div class="col">
-                      {% if session['filemissing'] == True %}
-                      <p class="alert alert-danger">
-                        Error (blank field):<br>
-                        No file chosen or no encryption password entered.
-                      </p>
-                    {% endif %}
-                    {% if session['fileexist'] == True %}
-                    <p class="alert alert-danger">
-                      Error: Similar file has been found as shown in the table below
-                    </p>
-                      {% for x in checkresult: %}
-                        <table class="table table-dark">
-                          <tr>
-                            <td>
-                              <b>File Location</b>
-                            </td>
-                            <td>
-                              {{ x[0] }}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <b>md5</b>
-                            </td>
-                            <td>
-                              {{ x[1] }}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <b>Owner</b>
-                            </td>
-                            <td>
-                              {{ ownername }}
-                            </td>
-                          </tr>
-                        </table>  
-                      {% endfor %}  
-                    {% endif %}
-                    </div>
-                  </div>   
+                  
               </form><br>
               <br>
               <hr>
@@ -264,12 +190,10 @@
                 var newfile;
                 var password;
 
-                window.onload = disableFileInput(), disableUpload(), disableEncrypt();
+                window.onload = disableEncrypt();
 
                 function disableFileInput(){ $("#newfile").prop('readonly', true); }
                 function enableFileInput(){ $("#newfile").prop('readonly', true); }
-                function disableUpload(){ document.getElementById("btnUpload").disabled = true; }
-                function enableUpload(){ document.getElementById("btnUpload").disabled = false; }
                 function disablePassInput(){ $("#decryptpass").prop('readonly', true); }
                 function enablePassInput(){ $("#decryptpass").prop('readonly', false); }
                 function disableEncrypt(){ document.getElementById("btnEncrypt").disabled = true; }
@@ -277,6 +201,7 @@
                 function resetPassword(){ document.getElementById("decryptpass").value = ''; }
 
                 var button = document.getElementById("newfile");
+                button.onchange = checkencrypt();
 
                 function checkpass(){
                   pass = document.getElementById("decryptpass").value;
@@ -294,67 +219,9 @@
                   }
                     
                 }
-                function checkFile(){
-                  filename = document.getElementById("newfile").files[0].name;
-                  if (filename == '')
-                    disableUpload();
-                  else
-                    if (filename.includes(".enc"))
-                      enableUpload();
-                    else{
-                      disableUpload();
-                      enableEncrypt();
-                    }
-                }
-
-                function onFileSelect(){
-                  var timestart, timeend
-                  timestart = Date.now();
-                  console.log("Time Start: " + timestart);
-                  reader.addEventListener('load',function () {
-
-                    console.log("\nThis Result  : " + this.result)
-                    console.log("Reader Result: " + reader.result)
-                    var hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(this.result));
-                    var md5 = hash.toString(CryptoJS.enc.Hex)
-                    var fileInput = document.getElementById('newfile');   
-                    var filename = fileInput.files[0].name;
-                    var actualsize = fileInput.files[0].size;
-                    var filesize = (actualsize / 1024).toFixed(3);
-                    var output = "MD5 for " + filename + " = " + md5;
-                    console.log(output);
-                    document.getElementById("md5").value = md5;
-                    document.getElementById("filesize").value = filesize;
-                    timeend = Date.now();
-                    var timeDiff = timeend - timestart; //in ms
-                    // strip the ms
-                    timeDiff /= 1000
-                    // get seconds 
-                    var seconds = timeDiff;
-
-                    console.log("Time End: " + timeend);
-                    console.log("Time diff: " + seconds);
-                    // console.log(seconds + " seconds");
-                    document.getElementById("timeelapsed").value = seconds;
-                  });
-                  reader.readAsBinaryString(document.getElementById("newfile").files[0]);
-                }
 
                 
                 let aes = AesCrypt();
-                
-                function encryptPass() {
-                  key = document.getElementById("decryptpass").value;
-                  password = key;
-                  console.log("Key : " + key)
-                  if (key == ''){
-                    document.getElementById("decryptpasshash").value = '';
-                  }
-                  else {
-                    var hash = CryptoJS.SHA256(CryptoJS.enc.Latin1.parse(key));
-                    document.getElementById("decryptpasshash").value = hash;
-                  }
-                }
 
                 let saveByteArray = (function () {
                     return function (data, name) {
@@ -372,20 +239,6 @@
                     };
                   }());
 
-                reader.addEventListener('load',function () {
-                // Init aesCrypt library
-                  key = document.getElementById("decryptpass").value;
-                  console.log("Key : " + key)
-                  if (key == ''){
-                    document.getElementById("decryptpasshash").value = '';
-                  }
-                  else {
-                    var hash = CryptoJS.SHA256(CryptoJS.enc.Latin1.parse(key));
-                    document.getElementById("decryptpasshash").value = hash;
-                  }
-                    
-                } );
-
                 function showPassword() {
                       var x = document.getElementById("decryptpass");
                       if (x.type === "password") { 
@@ -395,38 +248,47 @@
                       }
                     }
                 
-                
-
-                function encryptAES(){
+              
+                function decryptAES(){
                   var file = document.getElementById('newfile').files[0];
                   var reader = new FileReader();
                   reader.onload = () => {
                       var key = document.getElementById("decryptpass").value;
-                      var wordArray = CryptoJS.lib.WordArray.create(reader.result);           // Convert: ArrayBuffer -> WordArray
-                      var encrypted = CryptoJS.AES.encrypt(wordArray, key).toString();        // Encryption: I: WordArray -> O: -> Base64 encoded string (OpenSSL-format)
-                      var fileEnc = new Blob([encrypted]);
-                      console.log("Encrypted: " + encrypted);                                   // Create blob from string
-                      console.log("Blob : " + fileEnc);
+                      console.log("Key: " + key)
+                      var decrypted = CryptoJS.AES.decrypt(reader.result, key);        // Encryption: I: WordArray -> O: -> Base64 encoded string (OpenSSL-format)
+                      var typedArray = convertWordArrayToUint8Array(decrypted);
 
-                      // var a = document.createElement("a");
-                      var url = window.URL.createObjectURL(fileEnc);
-                      var filename = file.name + ".enc";
+                      var fileDec = new Blob([typedArray]);
+                      console.log("Encrypted: " + decrypted);                                   // Create blob from string
+                      console.log("Blob : " + typedArray);
+
+                      var a = document.createElement("a");
+                      var url = window.URL.createObjectURL(fileDec);
+                      var filename = file.name.substr(0, file.name.length - 4);
                       console.log("Filename: " + filename);
                       console.log("Key: " + key);
-                      let datatransfer = new DataTransfer();  
-                      fileEnc.lastModifiedDate = new Date();
-                      var fileEncrypted = new File([fileEnc], filename, {
-                        type: fileEnc.type
-                      });
-                      console.log(fileEncrypted instanceof File)                           
-                      datatransfer.items.add(fileEncrypted);
-                      document.getElementById("newfile").files = datatransfer.files;
-                      // a.href = url;
-                      // a.download = filename;
-                      // a.click();
-                      // window.URL.revokeObjectURL(url);
+                      
+                     
+                      a.href = url;
+                      a.download = filename;
+                      a.click();
+                      window.URL.revokeObjectURL(url);
                   };
-                  reader.readAsArrayBuffer(file);
+                  reader.readAsText(file);
+                }
+
+                function convertWordArrayToUint8Array(wordArray) {
+                    var arrayOfWords = wordArray.hasOwnProperty("words") ? wordArray.words : [];
+                    var length = wordArray.hasOwnProperty("sigBytes") ? wordArray.sigBytes : arrayOfWords.length * 4;
+                    var uInt8Array = new Uint8Array(length), index=0, word, i;
+                    for (i=0; i<length; i++) {
+                        word = arrayOfWords[i];
+                        uInt8Array[index++] = word >> 24;
+                        uInt8Array[index++] = (word >> 16) & 0xff;
+                        uInt8Array[index++] = (word >> 8) & 0xff;
+                        uInt8Array[index++] = word & 0xff;
+                    }
+                    return uInt8Array;
                 }
               </script>
               

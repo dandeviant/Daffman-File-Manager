@@ -514,6 +514,9 @@ def md():
     #redirect to file manager
     return redirect('/browser')
 
+@app.route('/decryptFile')
+def decryptFile():
+    return render_template('decrypt.html')
 
 # download file from server
 @app.route('/download', methods=['POST','GET'])
@@ -574,126 +577,19 @@ def download():
         print("Password Match      : True")
         session['downloadpass'] = True
         print("Downloaded File : " + filename)
-        print("====================== DECRYPT FILE ======================")
-        outputfile = file.replace('.aes', '')
-        print("Input file   : " + file)
-        print("Output file  : " + outputfile)
-        print("Password     : " + inputpass)
-        pyAesCrypt.decryptFile(file, outputfile, inputpass)
-        downloadfile = filename.replace('.aes', '')
-        print("Downloading %s%s" % (forbidpath, downloadfile))
-        return send_file(forbidpath + downloadfile, as_attachment=True)
-        # os.remove(forbidpath + downloadfile)
-    #     return redirect('/browser')
+        # print("====================== DECRYPT FILE ======================")
+        # outputfile = file.replace('.aes', '')
+        # print("Input file   : " + file)
+        # print("Output file  : " + outputfile)
+        # print("Password     : " + inputpass)
+        # pyAesCrypt.decryptFile(file, outputfile, inputpass)
+        # downloadfile = filename.replace('.aes', '')
+        # print("Downloading %s%s" % (forbidpath, downloadfile))
+        return send_file(forbidpath + filename, as_attachment=True)
     else:
         print("Password Match      : False")
         session['downloadpass'] = False
         return index(session['downloadpass'])
-
-    
-# upload files from filesystem
-# @app.route('/upload', methods = ['GET', 'POST'])
-# def upload_file():
-#     print("\n============================== UPLOAD FILE ==============================")
-
-#     global filemissing
-#     global fileexist
-#     global filesuccess
-#     global fileuploaded
-#     global folderexist
-#     global foldermissing
-#     global foldersuccess
-
-#     folderexist = False
-#     foldermissing = False
-#     foldersuccess = False
-
-#     session['editpermit'] = True
-
-#     current_dir = os.getcwd()
-#     compare = rootfolder + "/" + session['username']
-#     print("Compare : " + compare)
-#     usercd = session['username']
-#     print("Dir : " + current_dir)
-#     print("Usercd : " + usercd)
-        
-#     if request.method == 'POST':
-#         f = request.files['file']
-#         if f.filename == '':
-#             filemissing = True
-#             filesuccess = False
-#         else:
-#             filemissing = False
-#             filesuccess = True
-#             f.save(secure_filename(f.filename))
-#             print("Save successful")
-#             print("File saved : " + f.filename)
-#             if ' ' in f.filename:
-#                 print("Whitespace detected")
-#                 f.filename = f.filename.replace(" ", '_')
-#                 print("Whitespace replaced with underscore")
-#                 print("New name : " + f.filename)
-#             dir = os.getcwd()
-#             file = "%s/%s" % (dir,f.filename)
-#             filestat = os.stat(f.filename)
-
-#             # print(f'File Size in MegaBytes is {file_stats.st_size / (1024 * 1024)}')
-
-            
-#             # hash = hashlib.md5(open(f.filename,'rb').read()).hexdigest()
-#             hash = request.form['md5']
-#             filesize = round(filestat.st_size / (1024), 1)
-#             roundedsize = str(filesize)
-#             print("\n\nUploaded File: " + file)
-#             print("File Size = " + roundedsize + "MB")
-#             print("Uploaded Hash: "+ hash)
-
-#             # Get user id for db update
-#             query = "select user_id from user where user_name = '%s'; " % (session['username'])
-#             print("Query: " + query)
-#             dbcursor.execute(query)
-#             result = dbcursor.fetchone()
-#             print("Result: " + str(result))
-#             user_id = result[0]
-#             password = session['password']
-#             print('User ID: ' + str(result[0]))
-#             print('User Password: ' + password)
-
-#             query = "select * from hash where filename='%s' and md5='%s'; " % (file, hash)
-#             print("Query: " + query)
-#             dbcursor.execute(query)
-#             result = dbcursor.fetchall()
-#             rows = dbcursor.rowcount
-
-#             if rows == 0:
-
-#                 # AES encryption process
-#                 inputfile = file
-#                 outputfile = file + ".aes"
-#                 encodedpass = password.encode('utf-8')
-#                 hashedpass = hashlib.sha256(encodedpass)
-#                 print("Input file : " + inputfile)
-#                 print("Output file: " + outputfile)
-#                 print("File Password Unhashed: " + password)
-#                 print("File Password Hashed: " + str(hashedpass.hexdigest()))
-                
-#                 pyAesCrypt.encryptFile(inputfile, outputfile, password)
-                
-#                 query = "insert into hash(filename, md5, filesize, user_id) values ('%s', '%s', '%s', %d)" % (outputfile, hash, filesize, user_id)
-#                 dbcursor.execute(query)
-#                 db.commit()
-#                 os.remove(file)
-#                 print("File uploaded")
-#                 fileexist = False
-#                 filesuccess = True
-#                 fileuploaded = f.filename+'.aes'
-
-#             else:
-#                 print("File already exists")
-#                 fileexist = True
-#                 filesuccess = False
-#                 fileuploaded = ''
-#     return redirect('/browser')
 
 @app.route('/startupload', methods=['GET'])
 def startupload():
@@ -727,9 +623,13 @@ def newupload():
 @app.route('/checkupload', methods=['POST'])
 def checkupload():
     print("============================== VERIFY UPLOAD ==============================")
+    print("sdasdasdasa 123")
     newfile = request.files['newfile']
+    print("sdasdasdasa 12343")
     print("New filename = " + newfile.filename)
+    
     filepassword = request.form['decryptpass']
+    print("sdasdasdasa")
     if newfile.filename == '' or filepassword == '':
         session['filemissing'] = True
         session['fileexist'] = False
@@ -950,12 +850,12 @@ def delete_dir():
     print("resultcheck : " + str(session['editpermit']))
 
 
-    dir = request.args.get('dir')
+    dir = forbidpath + request.args.get('dir')
     content = os.listdir(dir)
     if len(content) == 0:
         os.rmdir(dir)
     else:
-        shutil.rmtree(dir, ignore_errors=True)
+        print("Directory not empty")
     #redirect to file manager
     return redirect('/browser')
 
@@ -1210,5 +1110,5 @@ def changepass():
 
 # run HTTP server
 if(__name__ == '__main__'):
-    app.run(debug=True, threaded=True)
+    app.run(debug=True, port=80)
     # app.run('192.168.0.18')

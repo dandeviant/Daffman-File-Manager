@@ -354,16 +354,20 @@
             {% if current_dir != rootfolder %}
                         <h3><u>Files</u></h3><br>
                         {% if session['editpermit'] == True %}
-                          <a href="/startupload">
                             <div class="input-group">
                               <div class="input-group-prepend col-xs-4">
-                                <button class="btn btn-primary rounded-0">
-                                  Upload New File
-                                </button>
-                              </div>  
+                                <form action="/startupload">
+                                  <input type="submit" value="Upload New File" class="btn btn-primary rounded-0">
+                                </form><br>
+                              </div>&nbsp; 
+                              <div class="input-group-prepend col-xs-4">
+                                <form action="/decryptFile">
+                                  <input type="submit" value="Decrypt File" action="/decrypt" class="btn btn-secondary rounded-0">
+                                </form>
+                              </div>
                             </div>
                             <br>
-                          </a>
+                          
                         {% endif %}
                         {% if fileexist == True %}
                           <p class="alert alert-danger rounded-0">File Already Exists<br>
@@ -429,8 +433,8 @@
                                                 <input type="password" id="password" name="password" placeholder="Encryption Password" class="form-control rounded-0" style="color: black;">
                                               </div>
                                               <div class="modal-footer">
-                                                  <button type="submit" class="btn btn-success">
-                                                    Decrypt and Download File
+                                                  <button type="submit" class="btn btn-success" onclick="submitOnclick()">
+                                                    Download File
                                                   </button>
                                                   <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">[X] Close</span>
@@ -478,11 +482,21 @@
               {
                   var filePass = $(this).data('id');
                   $(".modal-body #downloadfile").val(filePass);
-                  
-                  // As pointed out in comments, 
-                  // it is unnecessary to have to manually call the modal.
-                  // $('#addBookDialog').modal('show');
               });
+
+              function submitOnclick(){ window.location.href = 'decrypt.html'; }
+              
+                            
+              // function decryptAES(){
+              //   console.log("URL: " + url)
+                
+              //   fetchRes = fetch(url)
+              //   fetchRes.then(res =>
+              //   res.json()).then(d => {
+              //       console.log(d)
+              //   })
+              // }
+
             </script>
             
 <!-- ========================================================================================================== -->
