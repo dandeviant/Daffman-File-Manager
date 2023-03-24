@@ -40,17 +40,13 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 
 ---
 
-### Python Modules (installed thru pip3):
+### Python Modules (installed thru pip3, just run the install script wit python3):
 
 1. Python Flask framework
 2. Flask Markdown
 3. werkzeug.utils (secure_filename)
-4. hashlib
-5. mysql-connector-python (import mysql.connector)
-6. pyAesCrypt
-    - pyAesCrypt is a AES Crypt module integrated with Python.<br>
-    - It uses AES-256-CBC encryption mode<br>
-    - It can also be used directly from the terminal<br>
+4. mysql-connector-python (import mysql.connector)
+
 
 ---
 
@@ -65,13 +61,5 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 ## Explanation on certain matters (FAQ)
 
 1. Results of (hashlib.sha256(text.encode()) ) will be different from (echo 'text' | sha256sum) because the echo command add a newline to string while hashlib does not, thus resulting to different hash value
-
-### System Preview Image
-
-File Browser Page - Folder Section<br>
-![browser-preview](https://user-images.githubusercontent.com/68473358/209222789-4dc5b62a-fab2-41e2-9a2f-f3595fc62485.png)
-
-File Browser Page - File Section<br>
-![browser-preview2](https://user-images.githubusercontent.com/68473358/209222849-b7df5633-e66b-4147-8257-9832d63d6e67.png)
 
 
