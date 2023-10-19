@@ -27,6 +27,7 @@ This system is purely browser-based, so for client devices, the system is ready 
         - user_id   : 1
         - user_name : admin
         - password  : 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 ("admin" in sha256)
+            - echo -n "admin" | sha256sum     
         - full_name : System Administrator
         - Query: INSERT INTO user (user_id, user_name, password, fullname) VALUES (1, "admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", "System Administrator");
 - Clear all hash stored in hash table in database 
