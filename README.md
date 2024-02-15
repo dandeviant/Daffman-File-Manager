@@ -68,7 +68,7 @@ Gonna look into gunicorn to deploy this app locally from my Raspberry Pi server
 
 ### System Preview Image
 
-File Browser Page - Folder Section<br>
+### File Browser Page - Folder Section<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/7fa32cd2-a815-4087-8823-4fb316158aa8)
 
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/a738d840-174b-4d9f-b451-f15f83977de9)
@@ -76,28 +76,28 @@ File Browser Page - Folder Section<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/5e542ce9-f59a-4ce9-9e1c-87eea50f44d9)
 
 
-File Download Popup<br>
+### File Download Popup<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/5b2f9eae-4257-4e42-892a-dc2892be33bb)
 
 
-File Browser Page - File Section<br>
+### File Browser Page - File Section<br>
 ![browser-preview2](https://user-images.githubusercontent.com/68473358/209222849-b7df5633-e66b-4147-8257-9832d63d6e67.png)
 <br>
 
-File Upload Page<br>
+### File Upload Page<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/4b63163f-1ffe-4af0-a9ac-c6af8b548072)
 <br>
 
-File Decryption Page<br>
+### File Decryption Page<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/fcd05b74-2a3f-479a-ba41-3ded46d983bb)
 <br>
 
-User Profile Page<br>
+### User Profile Page<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/cd732225-4386-4533-87a8-4db1b1c8b772)
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/48b45c01-f9e7-4a32-a10a-daa742cc67de)
 <br>
 
-Admin Page<br>
+### Admin Page<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/726c54da-2c88-4404-b959-cbf80e56d1c0)
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/e59dcc1f-f16f-4b95-806c-2e3920d9086e)
 
