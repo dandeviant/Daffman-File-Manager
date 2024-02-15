@@ -81,17 +81,17 @@ File Download Popup
 File Browser Page - File Section<br>
 ![browser-preview2](https://user-images.githubusercontent.com/68473358/209222849-b7df5633-e66b-4147-8257-9832d63d6e67.png)
 
-File Upload Page
+File Upload Page<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/4b63163f-1ffe-4af0-a9ac-c6af8b548072)
 
-File Decryption Page
+File Decryption Page<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/fcd05b74-2a3f-479a-ba41-3ded46d983bb)
 
-User Profile Page
+User Profile Page<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/cd732225-4386-4533-87a8-4db1b1c8b772)
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/48b45c01-f9e7-4a32-a10a-daa742cc67de)
 
-Admin Page
+Admin Page<br>
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/726c54da-2c88-4404-b959-cbf80e56d1c0)
 ![image](https://github.com/dandeviant/Daffman-NAS-System/assets/68473358/e59dcc1f-f16f-4b95-806c-2e3920d9086e)
 
